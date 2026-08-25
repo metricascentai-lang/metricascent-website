@@ -543,12 +543,12 @@
 
 <script>
   var STATS = [
-    { icon: 'dollar-sign', circleBg: '#183551', statColor: '#183551', shadow: 'rgba(24,53,81,0.28)', stat: '$200', unit: '', desc: 'Average cost per lead' },
-    { icon: 'clock', circleBg: '#C9A23F', statColor: '#C9A23F', shadow: 'rgba(201,162,63,0.32)', stat: '47', unit: 'Hours', desc: 'Average response time' },
-    { icon: 'globe', circleBg: '#183551', statColor: '#183551', shadow: 'rgba(24,53,81,0.28)', stat: '61%', unit: '', desc: 'of homeowners research online before they call' },
-    { icon: 'file-text', circleBg: '#C9A23F', statColor: '#C9A23F', shadow: 'rgba(201,162,63,0.32)', stat: '40%', unit: '', desc: 'of qualified leads are lost during the quoting stage' },
-    { icon: 'users', circleBg: '#183551', statColor: '#183551', shadow: 'rgba(24,53,81,0.28)', stat: '40–60%', unit: '', desc: 'First-party leads close rate' },
-    { icon: 'credit-card', circleBg: '#C9A23F', statColor: '#C9A23F', shadow: 'rgba(201,162,63,0.32)', stat: '50%', unit: '', desc: 'More likely to proceed when financing is available' }
+    { icon: 'dollar-sign', circleBg: '#183551', statColor: '#183551', shadow: 'rgba(24,53,81,0.28)', stat: '$200.34', unit: '', desc: 'Median cost per window & door search lead' },
+    { icon: 'phone-missed', circleBg: '#C9A23F', statColor: '#C9A23F', shadow: 'rgba(201,162,63,0.32)', stat: '52%', unit: '', desc: 'of callers reach a person when they phone in' },
+    { icon: 'phone', circleBg: '#183551', statColor: '#183551', shadow: 'rgba(24,53,81,0.28)', stat: '64%', unit: '', desc: 'of contractors say phone is their main customer channel' },
+    { icon: 'calendar-x', circleBg: '#C9A23F', statColor: '#C9A23F', shadow: 'rgba(201,162,63,0.32)', stat: '55%', unit: '', desc: "don't ask leads to buy or book the job" },
+    { icon: 'trophy', circleBg: '#183551', statColor: '#183551', shadow: 'rgba(24,53,81,0.28)', stat: '78%', unit: '', desc: 'buy from the company that responds first' },
+    { icon: 'repeat', circleBg: '#C9A23F', statColor: '#C9A23F', shadow: 'rgba(201,162,63,0.32)', stat: '6–8', unit: 'Touches', desc: 'Average follow-ups needed before customer decision' }
   ];
 
   var FAQS = [
@@ -579,8 +579,16 @@
   function renderMarquee() {
     var track = document.getElementById('ma-marquee-track');
     if (!track) return;
-    var doubled = STATS.concat(STATS);
-    track.innerHTML = doubled.map(statHtml).join('');
+    // The CSS animation translates the track by -50%, so one loop equals half its
+    // width. That half must be at least a full viewport wide or a blank gap scrolls
+    // through. Repeat the set enough times to cover the widest plausible screen.
+    track.innerHTML = STATS.map(statHtml).join('');
+    var setWidth = track.scrollWidth;
+    var target = Math.max(window.innerWidth, window.screen ? window.screen.width : 0);
+    var setsPerLoop = setWidth > 0 ? Math.max(1, Math.ceil(target / setWidth)) : 1;
+    var out = '';
+    for (var i = 0; i < setsPerLoop * 2; i++) out += STATS.map(statHtml).join('');
+    track.innerHTML = out;
     refreshIcons();
   }
 
