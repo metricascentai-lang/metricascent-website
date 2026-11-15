@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+interface Props { title?: string; text?: string; }
+const {
+  title = 'See your system before you pay for it.',
+  text = 'Tell us how your business runs. We’ll show you what it could look like, as a clickable mock-up with sample data.',
+} = Astro.props;
+---
+<section class="section">
+  <div class="wrap">
+    <div class="cta-band" data-reveal>
+      <div>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-navy" href="/contact/">Book a 20-minute call <Icon name="arrow-right" /></a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+---
+// A product screenshot inside a browser or phone frame.
+import { Image } from 'astro:assets';
+import type { Screen } from '../data/systems';
+
+interface Props { screen: Screen; eager?: boolean; sizes?: string; }
+const { screen, eager = false, sizes } = Astro.props;
+const isPhone = screen.kind === 'phone';
+---
+{isPhone ? (
+  <div class="phone">
+    <Image src={screen.src} alt={screen.alt} widths={[240, 360, 520]} sizes={sizes ?? '(max-width: 720px) 45vw, 260px'} loading={eager ? 'eager' : 'lazy'} />
+  </div>
+) : (
+  <div class:list={['frame', { dark: screen.dark }]}>
+    <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>{screen.url}</span></div>
+    <Image src={screen.src} alt={screen.alt} widths={[640, 960, 1280, 1920]} sizes={sizes ?? '(max-width: 900px) 92vw, 640px'} loading={eager ? 'eager' : 'lazy'} />
+  </div>
+)}

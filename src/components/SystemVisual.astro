@@ -1,0 +1,26 @@
+---
+// The lead visual for a system: its first desktop screen with an optional phone overlapping,
+// or the purpose-built Lead Desk illustration.
+import Shot from './Shot.astro';
+import LeadDeskMock from './LeadDeskMock.astro';
+import type { System } from '../data/systems';
+
+interface Props { system: System; eager?: boolean; }
+const { system, eager = false } = Astro.props;
+const desktop = system.screens.find((s) => s.kind === 'desktop');
+const phone = system.screens.find((s) => s.kind === 'phone');
+---
+{system.visual === 'lead-desk' ? (
+  <LeadDeskMock />
+) : (
+  <div class:list={['visual', { 'has-phone': !!phone }]}>
+    {desktop && <div class="desk"><Shot screen={desktop} eager={eager} /></div>}
+    {phone && <div class="handset"><Shot screen={phone} eager={eager} /></div>}
+  </div>
+)}
+
+<style>
+  .visual { position: relative; }
+  .visual.has-phone { padding-right: 7%; padding-bottom: 6%; }
+  .handset { position: absolute; right: 0; bottom: 0; width: 23%; min-width: 96px; }
+</style>

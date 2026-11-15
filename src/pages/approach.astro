@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const steps = [
+  { title: 'Discover', text: 'We sit with how the work actually moves today: who does what, where it waits, and where money or time leaks. We read your real documents, not a requirements template.', out: 'A plain-language map of your process.' },
+  { title: 'Mock-up', text: 'Before any commitment to build, you get a clickable version of your system with sample data. You open it, press the buttons and tell us what is wrong.', out: 'A demo you can click through and share.' },
+  { title: 'Build', text: 'We build one complete job end to end, then the next, so something useful works early. Automated tests and access rules go in from the first day.', out: 'Working software, one job at a time.' },
+  { title: 'Launch', text: 'Go-live is rehearsed on a test copy first, using your real master data, so the switch itself is uneventful.', out: 'Your team on the live system.' },
+  { title: 'Improve', text: 'A business changes, and its system should change with it. We keep adding and adjusting as you learn what you need.', out: 'A system that keeps fitting.' },
+];
+
+const principles = [
+  { icon: 'user-check', title: 'Software prepares. A person decides.', text: 'The system reads documents, drafts messages, checks rules and flags problems. It does not send, approve, release or pay. A named person does that, every time.' },
+  { icon: 'database', title: 'Rules live in the database.', text: 'A rule that only exists on a screen can be bypassed. We enforce business rules at the lowest level, where no code path can route around them.' },
+  { icon: 'lock', title: 'Access is locked by role.', text: 'People see what their job needs and nothing else. Sensitive systems use two-factor sign-in, and consequential actions are recorded with who, what and when.' },
+  { icon: 'eye', title: 'Evidence over confidence.', text: 'When the system suggests something, it shows why: the source document, the quote, the number it used. You never have to take its word.' },
+  { icon: 'code', title: 'You own it.', text: 'The code and the data are yours. The system is built for your business alone.' },
+  { icon: 'shield', title: 'We say where things stand.', text: 'A demo is called a demo. Sample data is labelled sample data. You will always know what is finished and what is not.' },
+];
+
+const faqs = [
+  { q: 'Do you sell a product, or build custom?', a: 'Custom. Every system on our work page was built for one business and how it actually operates. We reuse what we have learned, not a template.' },
+  { q: 'Will the AI act on its own?', a: 'No. Our systems prepare the work and wait for a person. Nothing is sent, approved or paid automatically.' },
+  { q: 'Do we have to replace the tools we already use?', a: 'Not necessarily. A system can sit alongside what already works, such as your accounting software, and take over only the parts that are spreadsheets, inboxes and memory today.' },
+  { q: 'What do we see before we commit?', a: 'A clickable mock-up of your system with sample data. You judge it by using it, not by reading a proposal.' },
+  { q: 'How do we start?', a: 'With a 20-minute call. Tell us how your business runs and where it hurts. If we can help, the next step is the mock-up.' },
+];
+---
+<Base
+  title="Our approach: how we build custom AI systems"
+  description="How MetricAscent builds custom AI operations systems: discover, mock-up, build, launch, improve. Software prepares and a person decides."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">Our approach</p>
+      <h1>You see it before you commit to it.</h1>
+      <p class="lede">We start with how your business really runs, show you a clickable version of the system, and only then build. The software prepares the work. Your people make the decisions.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">The process</p>
+        <h2>Five steps, in this order.</h2>
+      </div>
+      <ol class="process">
+        {steps.map((s, i) => (
+          <li data-reveal>
+            <span class="n">{i + 1}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+              <p class="out"><Icon name="check" /> {s.out}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section-navy">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Principles</p>
+        <h2>How every system we build behaves.</h2>
+      </div>
+      <ul class="principles">
+        {principles.map((p) => (
+          <li data-reveal>
+            <span class="p-icon"><Icon name={p.icon} /></span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap faq-wrap">
+      <div data-reveal>
+        <p class="eyebrow">Questions</p>
+        <h2>Straight answers.</h2>
+      </div>
+      <div class="faqs" data-reveal>
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}<span class="plus" aria-hidden="true"></span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .process { display: grid; gap: 0; max-width: 880px; }
+  .process li { display: grid; grid-template-columns: 56px 1fr; gap: 26px; padding-bottom: 40px; position: relative; }
+  .process li:not(:last-child)::before { content: ''; position: absolute; left: 27px; top: 56px; bottom: 0; width: 2px; background: repeating-linear-gradient(180deg, #cfd7e1 0 7px, transparent 7px 14px); }
+  .n { width: 56px; height: 56px; border-radius: 50%; background: var(--navy-700); color: var(--gold-light); display: grid; place-items: center; font-family: var(--font-head); font-weight: 720; font-size: 20px; }
+  .process h3 { font-size: 1.5rem; margin-top: 10px; }
+  .process p { margin-top: 10px; color: var(--slate); max-width: 62ch; }
+  .process .out { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--gold-soft); color: #6b520f; font-size: 14.5px; font-weight: 500; }
+  .out :global(svg) { width: 15px; height: 15px; }
+
+  .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .principles li { background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); padding: 28px; display: grid; gap: 12px; align-content: start; }
+  .p-icon { width: 44px; height: 44px; border-radius: 11px; background: rgba(225, 189, 99, 0.14); color: var(--gold-light); display: grid; place-items: center; }
+  .p-icon :global(svg) { width: 21px; height: 21px; }
+  .principles p { color: #b7c6d6; font-size: 15.5px; }
+
+  .faq-wrap { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(28px, 6vw, 88px); align-items: start; }
+  .faq-wrap h2 { margin-top: 16px; }
+  .faqs { display: grid; gap: 12px; }
+  details { background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+  summary { list-style: none; cursor: pointer; padding: 20px 22px; font-family: var(--font-head); font-weight: 620; font-size: 1.06rem; color: var(--navy-700); display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+  summary::-webkit-details-marker { display: none; }
+  .plus { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--navy-700); position: relative; }
+  .plus::before, .plus::after { content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; background: #fff; transform: translate(-50%, -50%); transition: transform 0.2s ease; }
+  .plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+  details[open] .plus::after { transform: translate(-50%, -50%) rotate(0deg); }
+  details p { padding: 0 22px 22px; color: var(--slate); max-width: 68ch; }
+
+  @media (max-width: 900px) {
+    .principles { grid-template-columns: 1fr 1fr; }
+    .faq-wrap { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .principles { grid-template-columns: 1fr; }
+    .process li { grid-template-columns: 44px 1fr; gap: 16px; }
+    .n { width: 44px; height: 44px; font-size: 17px; }
+    .process li:not(:last-child)::before { left: 21px; top: 44px; }
+    .process h3 { margin-top: 6px; }
+  }
+</style>

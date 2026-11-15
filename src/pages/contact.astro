@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const next = [
+  { title: 'A 20-minute call', text: 'You tell us how your business runs and where it hurts. We ask questions. No slides.' },
+  { title: 'A clickable mock-up', text: 'If we can help, we build a mock-up of your system with sample data for you to click through.' },
+  { title: 'Your decision', text: 'You decide whether to build, with the mock-up in front of you. No pressure either way.' },
+];
+---
+<Base
+  title="Contact MetricAscent: book a 20-minute call"
+  description="Book a 20-minute call with MetricAscent. Tell us how your business runs and we will show you what a custom system could look like."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h1>Tell us how your business runs.</h1>
+      <p class="lede">A 20-minute call is enough to know whether a custom system would help. If it would, we will show you one before you spend anything on a build.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap layout">
+      <div class="book card" data-reveal>
+        <span class="icon-tile"><Icon name="calendar" /></span>
+        <h2>Book a 20-minute call</h2>
+        <p>Pick a time that suits you. The call is free.</p>
+        <a class="btn btn-gold" href={site.bookingUrl} target="_blank" rel="noopener">Choose a time <Icon name="arrow-up-right" /></a>
+        <p class="note">Opens our booking page on cal.com in a new tab.</p>
+      </div>
+
+      <div class="direct" data-reveal>
+        <h2>Or reach us directly</h2>
+        <ul>
+          <li>
+            <span class="icon-tile light"><Icon name="mail" /></span>
+            <div><span class="label">Email</span><a href={`mailto:${site.email}`}>{site.email}</a></div>
+          </li>
+          <li>
+            <span class="icon-tile light"><Icon name="phone" /></span>
+            <div><span class="label">Phone</span><a href={site.phoneHref}>{site.phoneDisplay}</a></div>
+          </li>
+          <li>
+            <span class="icon-tile light"><Icon name="linkedin" /></span>
+            <div><span class="label">LinkedIn</span><a href={site.linkedin} target="_blank" rel="noopener">MetricAscent</a></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What happens next</p>
+        <h2>Three steps, and you are in control of each.</h2>
+      </div>
+      <ol class="next">
+        {next.map((n, i) => (
+          <li class="card" data-reveal>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{n.title}</h3>
+            <p>{n.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .layout { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+  .book { display: grid; gap: 16px; justify-items: start; padding: clamp(28px, 4vw, 44px); border-color: #ecdcae; background: linear-gradient(180deg, #fffdf6, #fff); }
+  .book h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .book p:not(.note) { color: var(--slate); font-size: 1.08rem; }
+  .direct h2 { font-size: 1.5rem; }
+  .direct ul { display: grid; margin-top: 22px; }
+  .direct li { display: grid; grid-template-columns: 48px 1fr; gap: 18px; align-items: center; padding-block: 18px; border-bottom: 1px solid var(--line); }
+  .icon-tile.light { background: var(--bg-soft); color: var(--navy-700); border: 1px solid var(--line); }
+  .label { display: block; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-light); }
+  .direct a { font-family: var(--font-head); font-weight: 620; font-size: 1.12rem; color: var(--navy-700); text-decoration: none; border-bottom: 2px solid transparent; }
+  .direct a:hover { border-bottom-color: var(--gold); }
+  .next { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .next li { display: grid; gap: 10px; align-content: start; }
+  .num { font-family: var(--font-mono); font-size: 13px; color: #806414; letter-spacing: 0.1em; }
+  .next p { color: var(--slate); font-size: 15.5px; }
+  @media (max-width: 860px) { .layout, .next { grid-template-columns: 1fr; } }
+</style>

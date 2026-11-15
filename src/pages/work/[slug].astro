@@ -1,0 +1,191 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Shot from '../../components/Shot.astro';
+import SystemVisual from '../../components/SystemVisual.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { systems, statusLabel, type System } from '../../data/systems';
+
+export function getStaticPaths() {
+  return systems.map((system) => ({ params: { slug: system.slug }, props: { system } }));
+}
+interface Props { system: System; }
+const { system } = Astro.props;
+const index = systems.findIndex((s) => s.slug === system.slug);
+const next = systems[(index + 1) % systems.length];
+const gallery = system.screens.filter((s) => s.kind === 'desktop').slice(1);
+---
+<Base
+  title={`${system.name}: ${system.kind.toLowerCase()}`}
+  description={`${system.tagline} ${statusLabel[system.status]}. Built by MetricAscent.`}
+>
+  <section class="page-hero case-hero">
+    <div class="wrap">
+      <a class="back" href="/work/"><Icon name="arrow-right" /> All work</a>
+      <p class="meta"><span class={`status status-${system.status}`}>{statusLabel[system.status]}</span><span class="kind">{system.kind}</span></p>
+      <h1>{system.name}</h1>
+      <p class="lede">{system.tagline}</p>
+      <dl class="brief">
+        <div><dt>Built for</dt><dd>{system.builtFor}</dd></div>
+        <div><dt>Status</dt><dd>{system.statusNote}</dd></div>
+      </dl>
+      {system.demo && (
+        <a class="btn btn-gold" href={system.demo.href} target="_blank" rel="noopener">{system.demo.label} <Icon name="arrow-up-right" /></a>
+      )}
+    </div>
+    <div class="wrap">
+      <div class="case-visual"><SystemVisual system={system} eager /></div>
+    </div>
+  </section>
+
+  <section class="facts">
+    <div class="wrap">
+      <ul class="fact-grid">
+        {system.facts.map((f) => <li><strong>{f.n}</strong><span>{f.l}</span></li>)}
+      </ul>
+      {system.honesty && <p class="honesty"><Icon name="eye" /><span>{system.honesty}</span></p>}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div data-reveal>
+        <p class="eyebrow">The problem</p>
+        <h2>What was going wrong</h2>
+      </div>
+      <p class="lede" data-reveal>{system.problem}</p>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What we built</p>
+        <h2>{system.status === 'production' ? 'What the system does' : 'What the system is designed to do'}</h2>
+      </div>
+      <ol class="built">
+        {system.built.map((b, i) => (
+          <li class="card" data-reveal>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {gallery.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Screens</p>
+          <h2>A closer look</h2>
+          <p>Sample data throughout.</p>
+        </div>
+        <div class="gallery">
+          {gallery.map((screen) => (
+            <figure data-reveal>
+              <Shot screen={screen} sizes="(max-width: 900px) 92vw, 560px" />
+              <figcaption>{screen.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section-navy">
+    <div class="wrap split guard">
+      <div data-reveal>
+        <p class="eyebrow">Guardrails</p>
+        <h2>Software prepares.<br />A person decides.</h2>
+        <p class="guard-sub">The rules this system will not break.</p>
+      </div>
+      <ul class="checks guard-list" data-reveal>
+        {system.guardrails.map((g) => <li><Icon name="shield" /><span>{g}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section stack-next">
+    <div class="wrap split">
+      <div data-reveal>
+        <p class="eyebrow">Built with</p>
+        <ul class="stack">
+          {system.stack.map((t) => <li>{t}</li>)}
+        </ul>
+      </div>
+      <a class="next" href={`/work/${next.slug}/`} data-reveal>
+        <span class="note">Next system</span>
+        <strong>{next.name}</strong>
+        <span class="next-kind">{next.kind} <Icon name="arrow-right" /></span>
+      </a>
+    </div>
+  </section>
+
+  <CtaBand title={`Need something like ${system.name}?`} text="Tell us how your business runs. We’ll mock up your system with sample data so you can click through it before any build begins." />
+</Base>
+
+<style>
+  .case-hero { padding-bottom: 0; display: flow-root; overflow: visible; }
+  .back { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #9fb2c6; text-decoration: none; margin-bottom: 26px; }
+  .back :global(svg) { width: 15px; height: 15px; transform: rotate(180deg); }
+  .back:hover { color: #fff; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #9fb2c6; }
+  .case-hero h1 { max-width: none; }
+  .brief { display: flex; flex-wrap: wrap; gap: 14px 48px; margin: 30px 0 0; }
+  .brief dt { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-light); }
+  .brief dd { margin: 5px 0 0; color: #fff; font-size: 1.05rem; }
+  .case-hero .btn { margin-top: 30px; }
+  .case-visual { max-width: 980px; margin: clamp(40px, 6vw, 64px) auto -96px; position: relative; z-index: 2; }
+
+  .facts { padding-top: 150px; padding-bottom: clamp(36px, 5vw, 56px); border-bottom: 1px solid var(--line); }
+  .fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .fact-grid li { padding: 6px 28px; border-left: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
+  .fact-grid li:first-child { border-left: 0; padding-left: 0; }
+  .fact-grid strong { font-family: var(--font-head); font-size: clamp(1.5rem, 2.8vw, 2.1rem); font-weight: 720; letter-spacing: -0.03em; color: var(--navy-700); line-height: 1.15; }
+  .fact-grid span { color: var(--slate); font-size: 15px; }
+  .honesty { margin-top: 30px; display: grid; grid-template-columns: 22px 1fr; gap: 14px; padding: 18px 20px; border-radius: 12px; background: var(--blue-soft); color: #1f3f6e; font-size: 15.5px; max-width: 860px; }
+  .honesty :global(svg) { width: 20px; height: 20px; margin-top: 3px; }
+
+  .split { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(28px, 6vw, 88px); align-items: start; }
+  .split h2 { margin-top: 16px; }
+
+  .built { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .built li { display: grid; gap: 10px; align-content: start; }
+  .num { font-family: var(--font-mono); font-size: 13px; color: #806414; letter-spacing: 0.1em; }
+  .built p { color: var(--slate); font-size: 15.5px; }
+
+  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  figure { margin: 0; display: grid; gap: 16px; }
+  figcaption { color: var(--slate); font-size: 15px; }
+
+  .guard-sub { margin-top: 16px; color: #b7c6d6; font-size: 1.1rem; }
+  .guard-list { gap: 0; }
+  .guard-list li { grid-template-columns: 26px 1fr; gap: 16px; padding-block: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); font-size: 1.08rem; color: #e6edf5; }
+  .guard-list li:first-child { padding-top: 0; }
+  .guard-list :global(svg) { width: 22px; height: 22px; color: var(--gold-light); }
+
+  .stack-next { padding-bottom: 0; }
+  .stack { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .stack li { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-soft); font-family: var(--font-mono); font-size: 13px; color: var(--navy-700); }
+  .next { display: grid; gap: 6px; padding: 26px 28px; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; }
+  .next:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .next strong { font-family: var(--font-head); font-size: 1.6rem; letter-spacing: -0.03em; color: var(--navy-700); }
+  .next-kind { display: inline-flex; align-items: center; gap: 8px; color: var(--slate); }
+  .next-kind :global(svg) { width: 16px; height: 16px; color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .split, .gallery { grid-template-columns: 1fr; }
+    .built { grid-template-columns: 1fr 1fr; }
+    .fact-grid { grid-template-columns: 1fr 1fr; row-gap: 26px; }
+    .fact-grid li:nth-child(odd) { border-left: 0; padding-left: 0; }
+  }
+  @media (max-width: 620px) {
+    .built { grid-template-columns: 1fr; }
+    .case-visual { margin-bottom: -56px; }
+    .facts { padding-top: 96px; }
+  }
+</style>

@@ -1,0 +1,66 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { systems } from '../data/systems';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap grid">
+    <div class="about">
+      <p class="wordmark">Metric<span>Ascent</span></p>
+      <p class="blurb">Custom AI operations systems for owner-led businesses. Built around how you already work.</p>
+      <div class="social">
+        <a href={site.linkedin} target="_blank" rel="noopener" aria-label="MetricAscent on LinkedIn"><Icon name="linkedin" /></a>
+        <a href={site.instagram} target="_blank" rel="noopener" aria-label="MetricAscent on Instagram"><Icon name="instagram" /></a>
+      </div>
+    </div>
+    <nav aria-label="Systems">
+      <h2>Systems</h2>
+      <ul>
+        {systems.map((s) => <li><a href={`/work/${s.slug}/`}>{s.name}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Company">
+      <h2>Company</h2>
+      <ul>
+        <li><a href="/work/">Work</a></li>
+        <li><a href="/approach/">Approach</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2>Talk to us</h2>
+      <ul class="contact">
+        <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><Icon name="phone" /><a href={site.phoneHref}>{site.phoneDisplay}</a></li>
+        <li><Icon name="calendar" /><a href="/contact/">Book a 20-minute call</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>&copy; {year} MetricAscent. All rights reserved.</p>
+    <p>Every product screen on this site shows sample data.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--navy-900); color: #a9b9ca; padding-top: clamp(56px, 7vw, 84px); font-size: 15.5px; }
+  .grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: 40px; padding-bottom: 52px; }
+  .wordmark { font-family: var(--font-head); font-size: 26px; font-weight: 750; letter-spacing: -0.03em; color: #fff; }
+  .wordmark span { color: var(--gold-light); }
+  .blurb { margin-top: 14px; max-width: 34ch; }
+  .social { display: flex; gap: 10px; margin-top: 22px; }
+  .social a { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.18); display: grid; place-items: center; color: #dbe5ef; transition: border-color 0.18s ease, color 0.18s ease; }
+  .social a:hover { border-color: var(--gold-light); color: var(--gold-light); }
+  .social :global(svg) { width: 18px; height: 18px; }
+  h2 { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 18px; }
+  ul { display: grid; gap: 11px; }
+  a { text-decoration: none; }
+  li a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+  .contact li { display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: center; }
+  .contact :global(svg) { width: 17px; height: 17px; color: var(--gold-light); }
+  .legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 22px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 13.5px; color: #8296ac; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .grid { grid-template-columns: 1fr; gap: 32px; } }
+</style>

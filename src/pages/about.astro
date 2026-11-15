@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { systems, statusLabel } from '../data/systems';
+
+const beliefs = [
+  { title: 'Operations first, software second', text: 'A system is only as good as the understanding of the work behind it. We start from the job, the documents and the people, and write software to fit.' },
+  { title: 'One business at a time', text: 'Each system is built for a single business and how it actually operates. We reuse what we have learned, never a template.' },
+  { title: 'Proof you can click', text: 'We would rather show you a working screen than describe one. That is why every engagement begins with a mock-up.' },
+];
+---
+<Base
+  title="About MetricAscent"
+  description="MetricAscent is a studio that builds custom AI operations systems for owner-led businesses in India and the United States, led by an operator with 15+ years of experience."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">About</p>
+      <h1>Built by people who have run the operation.</h1>
+      <p class="lede">MetricAscent is a studio that builds custom AI operations systems for owner-led businesses in India and the United States.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap story">
+      <div data-reveal>
+        <p class="eyebrow">Why we exist</p>
+        <h2>Most business software is written by people who have never done the job.</h2>
+      </div>
+      <div class="story-body" data-reveal>
+        <p>Our founder spent more than 15 years running operations before building software for them, and knows first-hand what it costs when the work lives in spreadsheets, inboxes and one person’s memory.</p>
+        <p>That is the experience we build from. Owner-led businesses do not need another generic tool that forces them to change how they work. They need a system shaped around their own process, built by people who understand why the process exists.</p>
+        <p>So that is all we do. We build one system for one business at a time, and we stay honest about what is finished and what is not.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What we believe</p>
+        <h2>Three things that shape the work.</h2>
+      </div>
+      <ul class="beliefs">
+        {beliefs.map((b, i) => (
+          <li class="card" data-reveal>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What we have built</p>
+        <h2>Four systems so far.</h2>
+      </div>
+      <ul class="built-list">
+        {systems.map((s) => (
+          <li data-reveal>
+            <a href={`/work/${s.slug}/`}>
+              <span class="name">{s.name}</span>
+              <span class="kind">{s.kind}</span>
+              <span class={`status status-${s.status}`}>{statusLabel[s.status]}</span>
+              <Icon name="arrow-right" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .story { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(28px, 6vw, 88px); align-items: start; }
+  .story h2 { margin-top: 16px; }
+  .story-body { display: grid; gap: 20px; font-size: 1.1rem; color: var(--slate); }
+  .beliefs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .beliefs li { display: grid; gap: 10px; align-content: start; }
+  .num { font-family: var(--font-mono); font-size: 13px; color: #806414; letter-spacing: 0.1em; }
+  .beliefs p { color: var(--slate); font-size: 15.5px; }
+  .built-list { display: grid; border-top: 1px solid var(--line); }
+  .built-list a { display: grid; grid-template-columns: 1.1fr 1.2fr auto 22px; gap: 20px; align-items: center; padding: 22px 6px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.18s ease, padding 0.18s ease; }
+  .built-list a:hover { background: var(--bg-soft); padding-inline: 16px; }
+  .name { font-family: var(--font-head); font-weight: 680; font-size: 1.35rem; letter-spacing: -0.02em; color: var(--navy-700); }
+  .kind { color: var(--slate); }
+  .built-list :global(svg) { width: 20px; height: 20px; color: var(--gold); }
+  @media (max-width: 860px) {
+    .story, .beliefs { grid-template-columns: 1fr; }
+    .built-list a { grid-template-columns: 1fr auto; row-gap: 6px; }
+    .built-list .kind { grid-column: 1; grid-row: 2; }
+    .built-list .status { grid-column: 2; grid-row: 1; }
+    .built-list :global(svg) { display: none; }
+  }
+</style>

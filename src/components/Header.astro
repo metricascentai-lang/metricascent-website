@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.webp';
+import Icon from './Icon.astro';
+import { nav, site } from '../data/site';
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path.startsWith(href);
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="MetricAscent home">
+      <Image src={logo} alt="MetricAscent: Smarter Systems, Higher Gains" width={200} loading="eager" />
+    </a>
+    <nav class="desktop-nav" aria-label="Main">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+    <a class="btn btn-navy header-cta" href="/contact/">Book a call</a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="sr-only">Menu</span>
+      <span class="open"><Icon name="menu" /></span>
+      <span class="close"><Icon name="x" /></span>
+    </button>
+  </div>
+  <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile" hidden>
+    <div class="wrap">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+      <a class="btn btn-navy" href="/contact/">Book a call</a>
+      <a class="mobile-mail" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const burger = document.querySelector<HTMLButtonElement>('.burger');
+  const menu = document.getElementById('mobile-menu');
+  burger?.addEventListener('click', () => {
+    const open = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!open));
+    if (menu) menu.hidden = open;
+  });
+</script>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.94); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; gap: 28px; min-height: 76px; }
+  .brand { display: block; flex: none; }
+  .brand :global(img) { width: clamp(150px, 16vw, 196px); height: auto; }
+  .desktop-nav { display: flex; gap: 34px; margin-left: auto; }
+  .desktop-nav a { font-family: var(--font-head); font-size: 15px; font-weight: 560; color: var(--navy-700); text-decoration: none; padding-block: 8px; border-bottom: 2px solid transparent; transition: border-color 0.18s ease; }
+  .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { border-bottom-color: var(--gold); }
+  .header-cta { min-height: 44px; padding: 9px 18px; }
+  .burger { display: none; margin-left: auto; width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--navy-700); cursor: pointer; place-items: center; }
+  .burger :global(svg) { width: 22px; height: 22px; }
+  .burger .close { display: none; }
+  .burger[aria-expanded='true'] .open { display: none; }
+  .burger[aria-expanded='true'] .close { display: block; }
+  .mobile-menu { border-top: 1px solid var(--line); background: #fff; padding-block: 12px 24px; }
+  .mobile-menu .wrap { display: grid; gap: 4px; }
+  .mobile-menu a:not(.btn) { font-family: var(--font-head); font-size: 17px; font-weight: 600; color: var(--navy-700); text-decoration: none; padding: 14px 2px; border-bottom: 1px solid var(--line); }
+  .mobile-menu .btn { margin-top: 16px; }
+  .mobile-menu .mobile-mail { border-bottom: 0 !important; font-family: var(--font-body) !important; font-weight: 400 !important; font-size: 15px !important; color: var(--slate) !important; }
+  @media (max-width: 820px) {
+    .desktop-nav, .header-cta { display: none; }
+    .burger { display: grid; }
+    .bar { min-height: 66px; }
+  }
+  @media (min-width: 821px) { .mobile-menu { display: none; } }
+</style>

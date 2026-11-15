@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import SystemVisual from '../../components/SystemVisual.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { systems, statusLabel } from '../../data/systems';
+---
+<Base
+  title="Our work: custom AI systems we have built"
+  description="Four custom systems built by MetricAscent: an operations system in production, a client app about to launch, a plant control room demo and a lead engine in build."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">Our work</p>
+      <h1>Real systems, labelled honestly.</h1>
+      <p class="lede">One is in production, one is about to launch, and two are earlier. Each page says exactly where the system stands. Every screen shows sample data.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid">
+      {systems.map((s) => (
+        <a class="tile" href={`/work/${s.slug}/`} data-reveal>
+          <div class="tile-visual"><SystemVisual system={s} /></div>
+          <div class="tile-copy">
+            <p class="meta"><span class={`status status-${s.status}`}>{statusLabel[s.status]}</span><span class="kind">{s.kind}</span></p>
+            <h2>{s.name}</h2>
+            <p class="tagline">{s.tagline}</p>
+            <p class="for">Built for: {s.builtFor.charAt(0).toLowerCase() + s.builtFor.slice(1)}</p>
+            <span class="text-link">Read the case study <Icon name="arrow-right" /></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand title="Want yours on this page?" text="Tell us how your business runs. We’ll mock up your system with sample data so you can click through it first." />
+</Base>
+
+<style>
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .tile { display: grid; grid-template-rows: auto 1fr; text-decoration: none; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+  .tile:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 22px 48px -22px rgba(12, 30, 51, 0.35); }
+  .tile-visual { background: linear-gradient(160deg, #eaf0f6, #f6f8fb); padding: clamp(22px, 4vw, 40px) clamp(22px, 4vw, 40px) 0; aspect-ratio: 16 / 10.6; overflow: hidden; display: flex; align-items: flex-start; }
+  .tile-visual > :global(*) { width: 100%; }
+  .tile-visual :global(.frame), .tile-visual :global(.desk) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .tile-copy { display: grid; gap: 14px; padding: clamp(24px, 3vw, 34px); align-content: start; justify-items: start; border-top: 1px solid var(--line); position: relative; background: #fff; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate-light); }
+  h2 { font-size: clamp(1.5rem, 2.6vw, 1.95rem); }
+  .tagline { color: var(--slate); }
+  .for { font-size: 15px; color: var(--slate-light); }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>

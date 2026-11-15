@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Page not found" description="The page you were looking for is not here.">
+  <section class="page-hero missing">
+    <div class="wrap">
+      <p class="eyebrow">404</p>
+      <h1>That page is not here.</h1>
+      <p class="lede">It may have moved when we rebuilt the site. These will get you back on track.</p>
+      <div class="actions">
+        <a class="btn btn-gold" href="/">Go to the homepage <Icon name="arrow-right" /></a>
+        <a class="btn btn-ghost" href="/work/">See our work</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .missing { min-height: 62vh; display: grid; align-items: center; }
+  .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+</style>
