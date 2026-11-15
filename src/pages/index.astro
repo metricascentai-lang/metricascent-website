@@ -1,36 +1,51 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import Shot from '../components/Shot.astro';
-import SystemVisual from '../components/SystemVisual.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { systems, statusLabel, getSystem } from '../data/systems';
+import LiveConsole from '../components/home/LiveConsole.astro';
+import WorkStack from '../components/home/WorkStack.astro';
+import VerifyTerminal from '../components/home/VerifyTerminal.astro';
 
-const plant = getSystem('plant-os');
-const asta = getSystem('asta-os');
-const heroMain = plant.screens[0];
-const heroPhone = plant.screens[2];
-const heroBack = asta.screens[0];
-
-const proof = [
-  { n: 'Oct 2026', l: 'first system went live' },
-  { n: '2,800+', l: 'automated tests' },
-  { n: 'Two-factor', l: 'sign-in on every account' },
-  { n: '$9,000+', l: 'in operating cost avoided' },
+// Each figure is checkable: the test count comes from the ASTA OS repository,
+// the other two are the owner's own stated figures for that system and its builder.
+const figures = [
+  { value: 2808, prefix: '', suffix: '', label: 'automated tests guard our first production system' },
+  { value: 15, prefix: '', suffix: '+', label: 'years of running operations before writing software' },
+  { value: 9000, prefix: '$', suffix: '+', label: 'in operating cost avoided by ASTA OS' },
+  { value: 0, prefix: '', suffix: '', label: 'messages, approvals or payments made without a person' },
 ];
 
-const build = [
-  { icon: 'workflow', title: 'Operations systems', text: 'Enquiry to quotation to purchase order to profit, in one place instead of five.', slug: 'asta-os' },
-  { icon: 'smartphone', title: 'Client apps and staff portals', text: 'Customers see their project. Your team runs it. Everyone sees only what they should.', slug: 'aasta-lifespace' },
-  { icon: 'target', title: 'Lead engines', text: 'Find the right buyers, prove the fit, and have the first message drafted for you.', slug: 'lead-engine' },
-  { icon: 'factory', title: 'Plant and factory systems', text: 'Production, quality checks, dispatch and compliance on a single screen.', slug: 'plant-os' },
+const capabilities = [
+  'Enquiry to quotation', 'Landed-cost pricing', 'Order profit and loss', 'Homeowner app', 'Staff portal',
+  'Batch hold and release', 'Buyer evidence', 'Audit trail', 'Access by role', 'Sign-in by phone',
 ];
 
-const principles = [
-  { icon: 'user-check', title: 'A person decides', text: 'Nothing is sent, approved or paid without a human. The system prepares the work; your people make the call.' },
+const statement = [
+  { text: 'Your process lives in spreadsheets, inboxes and one person’s memory.', key: false },
+  { text: 'Off\u2011the\u2011shelf software asks you to change how you work.', key: false },
+  { text: 'We build the system around the work.', key: true },
+];
+
+const systemDoes = [
+  'Reads the enquiry, the PDF, the lab reading',
+  'Matches vendors, buyers and projects',
+  'Computes cost, duty and margin',
+  'Drafts the quotation and the first email',
+  'Flags what is unusual',
+  'Keeps the log of who did what, and when',
+];
+const personOnly = ['Approves a price', 'Sends a message', 'Releases a batch', 'Confirms a receipt or payment', 'Overrides a credit limit', 'Changes a rule'];
+
+const guards = [
   { icon: 'database', title: 'Rules live in the database', text: 'Business rules are enforced where no screen or shortcut can route around them.' },
-  { icon: 'lock', title: 'Locked by role', text: 'Each person sees what their job needs. Sensitive actions are logged with who, what and when.' },
-  { icon: 'code', title: 'You own it', text: 'The code and the data are yours. The system is built for your business alone.' },
+  { icon: 'lock', title: 'Locked by role', text: 'Each person sees what their job needs, and nothing more.' },
+  { icon: 'eye', title: 'Every action leaves a record', text: 'Sensitive actions are logged with who, what and when. The log cannot be edited.' },
+];
+
+const shipFacts = [
+  { n: '2,808', l: 'automated tests' },
+  { n: '54', l: 'database migrations' },
+  { n: '2-factor', l: 'sign-in on every account' },
 ];
 
 const steps = [
@@ -45,126 +60,136 @@ const steps = [
   title="MetricAscent | Custom AI systems your business runs on"
   description="MetricAscent builds custom AI operations systems for owner-led businesses: enquiries, quotes, orders, projects and outreach in one system built around how you already work."
 >
-  <section class="hero on-navy">
-    <div class="wrap hero-copy">
-      <p class="eyebrow">Custom AI operations systems</p>
-      <h1>We build the AI system your business <span>runs on.</span></h1>
-      <p class="lede">Custom operations software for owner-led companies. Enquiries, quotes, orders, projects and outreach in one system, built around how you already work.</p>
-      <div class="actions">
-        <a class="btn btn-gold" href="/contact/">See your system mocked up <Icon name="arrow-right" /></a>
-        <a class="btn btn-ghost" href="/work/">View our work</a>
-      </div>
-      <p class="note">Built by an operator with 15+ years running real businesses.</p>
+  <section class="hero" data-hero>
+    <div class="hero-bg" aria-hidden="true">
+      <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i>
+      <i class="mesh"></i><i class="grain"></i>
     </div>
-    <div class="wrap">
-      <div class="stage">
-        <div class="back"><Shot screen={heroBack} sizes="480px" /></div>
-        <div class="main"><Shot screen={heroMain} eager sizes="(max-width: 720px) 92vw, 820px" /></div>
-        <div class="handset"><Shot screen={heroPhone} eager sizes="(max-width: 720px) 26vw, 170px" /></div>
-      </div>
-    </div>
-  </section>
 
-  <section class="proof">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <a class="live-pill" href="/work/asta-os/">
+          <span class="dot" aria-hidden="true"></span>
+          <span>ASTA OS has been live in production since October 2026</span>
+          <Icon name="arrow-right" />
+        </a>
+        <h1>
+          <span class="line"><span>We build the</span></span>
+          <span class="line"><span>AI system your</span></span>
+          <span class="line"><span>business <em class="serif gold-text">runs on.</em></span></span>
+        </h1>
+        <p class="lede">Custom operations software for owner-led companies. Enquiries, quotes, orders, projects and outreach in one system, built around how you already work.</p>
+        <div class="actions">
+          <a class="btn btn-gold" href="/contact/">See your system mocked up <Icon name="arrow-right" /></a>
+          <a class="btn btn-ghost" href="#work">View our work</a>
+        </div>
+        <p class="by"><span></span>Built by an operator with 15+ years running real businesses.</p>
+      </div>
+      <div class="console-wrap">
+        <LiveConsole />
+      </div>
+    </div>
+
     <div class="wrap">
-      <ul class="proof-grid">
-        {proof.map((p) => (
-          <li><strong>{p.n}</strong><span>{p.l}</span></li>
+      <ul class="figures" data-figures>
+        {figures.map((f) => (
+          <li>
+            <strong data-count={f.value} data-prefix={f.prefix} data-suffix={f.suffix}>{f.prefix}{f.value.toLocaleString('en-US')}{f.suffix}</strong>
+            <span>{f.label}</span>
+          </li>
         ))}
       </ul>
-      <p class="note proof-note">Figures from ASTA OS, our first system in production. Screens above are real builds showing sample data.</p>
     </div>
-  </section>
 
-  <section class="section">
-    <div class="wrap problem">
-      <div data-reveal>
-        <p class="eyebrow">The problem</p>
-        <h2>Off-the-shelf software fits someone else’s business.</h2>
-      </div>
-      <div class="problem-body" data-reveal>
-        <p class="lede">Your process lives in spreadsheets, inboxes and one person’s memory. Generic tools make you change how you work.</p>
-        <p class="lede strong">We build the system around the work.</p>
+    <div class="marquee" aria-hidden="true">
+      <div class="track">
+        {[0, 1].map(() => capabilities.map((c) => <span>{c}<i></i></span>))}
       </div>
     </div>
   </section>
 
-  <section class="section section-soft">
+  <section class="statement">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">What we build</p>
-        <h2>Four kinds of system. Each one backed by a real build.</h2>
-      </div>
-      <div class="build-grid">
-        {build.map((b) => (
-          <a class="card build-card" href={`/work/${b.slug}/`} data-reveal>
-            <span class="icon-tile"><Icon name={b.icon} /></span>
-            <h3>{b.title}</h3>
-            <p>{b.text}</p>
-            <span class="see">See {getSystem(b.slug).name} <Icon name="arrow-right" /></span>
-          </a>
+      <p class="eyebrow">The problem</p>
+      <p class="say" data-say>
+        {statement.map((s) => (
+          <span class:list={['sent', { key: s.key }]}>{s.text.split(' ').map((w) => <span class="w">{w + ' '}</span>)}</span>
         ))}
-      </div>
+      </p>
     </div>
   </section>
 
-  <section class="section" id="work">
+  <WorkStack />
+
+  <section class="ledger-sec">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">Our work</p>
-        <h2>Systems we have built, and exactly where each one stands.</h2>
-        <p>One is in production, one is about to launch, two are earlier. We label them honestly, and every screen shows sample data.</p>
+      <div class="ledger-head">
+        <div data-reveal>
+          <p class="eyebrow">How our systems behave</p>
+          <h2>Software prepares.<br /><span class="serif gold-text">A person decides.</span></h2>
+        </div>
+        <div class="ledger-intro" data-reveal>
+          <p>Owners are right to worry about AI acting on its own. Ours does not. It does the reading, matching and drafting, then stops and waits for you.</p>
+          <a class="text-link" href="/approach/">Our approach <Icon name="arrow-right" /></a>
+        </div>
       </div>
-      <div class="work-list">
-        {systems.map((s, i) => (
-          <article class:list={['work-row', { flip: i % 2 === 1 }]} data-reveal>
-            <div class="work-copy">
-              <p class="work-meta"><span class={`status status-${s.status}`}>{statusLabel[s.status]}</span><span class="kind">{s.kind}</span></p>
-              <h3>{s.name}</h3>
-              <p class="tagline">{s.tagline}</p>
-              <ul class="checks">
-                {s.highlights.map((h) => <li><Icon name="check" /><span>{h}</span></li>)}
-              </ul>
-              <a class="text-link" href={`/work/${s.slug}/`}>Read the case study <Icon name="arrow-right" /></a>
-            </div>
-            <div class="work-visual"><SystemVisual system={s} /></div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
 
-  <section class="section section-navy">
-    <div class="wrap principles">
-      <div class="principles-head" data-reveal>
-        <p class="eyebrow">How our systems behave</p>
-        <h2>Software prepares.<br /><span>A person decides.</span></h2>
-        <p>Owners are right to worry about AI acting on its own. Ours does not. It reads, drafts, checks and flags, then waits for you.</p>
-        <a class="text-link" href="/approach/">Our approach <Icon name="arrow-right" /></a>
+      <div class="ledger" data-reveal>
+        <div class="col col-sys">
+          <p class="col-h"><i></i> The system</p>
+          <ul>
+            {systemDoes.map((t, i) => <li style={`--n:${i}`}><Icon name="check" /><span>{t}</span></li>)}
+          </ul>
+        </div>
+        <div class="gate" aria-hidden="true"><span>Stops here</span></div>
+        <div class="col col-you">
+          <p class="col-h"><i></i> Only a person</p>
+          <ul>
+            {personOnly.map((t, i) => <li style={`--n:${i + 3}`}><Icon name="user-check" /><span>{t}</span></li>)}
+          </ul>
+        </div>
       </div>
-      <ul class="principle-grid">
-        {principles.map((p) => (
+
+      <ul class="guards">
+        {guards.map((g) => (
           <li data-reveal>
-            <span class="p-icon"><Icon name={p.icon} /></span>
-            <h3>{p.title}</h3>
-            <p>{p.text}</p>
+            <span class="g-icon"><Icon name={g.icon} /></span>
+            <h3>{g.title}</h3>
+            <p>{g.text}</p>
           </li>
         ))}
       </ul>
     </div>
   </section>
 
-  <section class="section section-soft">
+  <section class="ship">
+    <div class="wrap ship-grid">
+      <div class="ship-copy" data-reveal>
+        <p class="eyebrow">How we ship</p>
+        <h2>Nothing goes live until <span class="serif">every check passes.</span></h2>
+        <p class="lede">ASTA OS cannot be released unless its types, lint, tests and production build all pass, and the database proves its own rules. We build every system to that standard.</p>
+        <ul class="ship-facts">
+          {shipFacts.map((f) => <li><strong>{f.n}</strong><span>{f.l}</span></li>)}
+        </ul>
+      </div>
+      <div class="ship-term" data-reveal>
+        <VerifyTerminal />
+        <p class="note">A shortened view of the ASTA OS release check. Figures as of November 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="process">
     <div class="wrap">
-      <div class="section-head center" data-reveal>
+      <div class="section-head" data-reveal>
         <p class="eyebrow">How we work</p>
-        <h2>You see it before you commit to it.</h2>
+        <h2>You see it <span class="serif">before you commit to it.</span></h2>
         <p>Every project starts with a clickable version of your system, using sample data.</p>
       </div>
-      <ol class="steps">
+      <ol class="steps" data-steps>
         {steps.map((s, i) => (
-          <li data-reveal>
-            <span class="step-n">{i + 1}</span>
+          <li>
+            <span class="node"><b>{String(i + 1).padStart(2, '0')}</b></span>
             <h3>{s.title}</h3>
             <p>{s.text}</p>
           </li>
@@ -176,111 +201,259 @@ const steps = [
   <CtaBand />
 </Base>
 
+<script>
+  const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+
+  // Hero: a soft light follows the pointer.
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero && motionOK && window.matchMedia('(hover: hover)').matches) {
+    hero.addEventListener('pointermove', (e) => {
+      const r = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      hero.style.setProperty('--my', `${e.clientY - r.top}px`);
+    }, { passive: true });
+  }
+
+  // Figures count up once when they come into view.
+  const figures = document.querySelector<HTMLElement>('[data-figures]');
+  if (figures && motionOK && 'IntersectionObserver' in window) {
+    const nums = Array.from(figures.querySelectorAll<HTMLElement>('[data-count]'));
+    const fmt = (el: HTMLElement, v: number) => `${el.dataset.prefix ?? ''}${Math.round(v).toLocaleString('en-US')}${el.dataset.suffix ?? ''}`;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      nums.forEach((el, i) => {
+        const target = Number(el.dataset.count);
+        if (!target) return;
+        const start = performance.now() + i * 120;
+        const dur = 1500;
+        el.textContent = fmt(el, 0);
+        const tick = (now: number) => {
+          const p = clamp((now - start) / dur);
+          el.textContent = fmt(el, target * (1 - Math.pow(1 - p, 4)));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.5 });
+    io.observe(figures);
+  }
+
+  // Scroll-linked pieces: the statement lights up word by word, the process line draws itself.
+  const say = document.querySelector<HTMLElement>('[data-say]');
+  const words = say ? Array.from(say.querySelectorAll<HTMLElement>('.w')) : [];
+  const stepsEl = document.querySelector<HTMLElement>('[data-steps]');
+  const stepItems = stepsEl ? Array.from(stepsEl.children) as HTMLElement[] : [];
+  if (motionOK) {
+    say?.classList.add('armed');
+    stepsEl?.classList.add('armed');
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const vh = window.innerHeight;
+      if (say) {
+        const r = say.getBoundingClientRect();
+        const p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.28));
+        const lit = Math.round(p * words.length);
+        words.forEach((w, i) => w.classList.toggle('lit', i < lit));
+      }
+      if (stepsEl) {
+        const r = stepsEl.getBoundingClientRect();
+        const p = clamp((vh * 0.78 - r.top) / (vh * 0.42));
+        stepsEl.style.setProperty('--p', p.toFixed(3));
+        stepItems.forEach((li, i) => li.classList.toggle('on', p >= (i / (stepItems.length - 1)) * 0.96));
+      }
+    };
+    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
+    update();
+  }
+</script>
+
 <style>
-  /* Hero */
-  .hero { position: relative; display: flow-root; background: radial-gradient(1100px 520px at 50% -8%, #1d4369 0%, transparent 62%), linear-gradient(180deg, var(--navy-950) 0%, var(--navy-800) 72%); color: #c8d5e3; padding-top: clamp(56px, 8vw, 104px); }
-  .hero::before {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 56px 56px; mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 20%, transparent 75%);
-  }
-  .hero .wrap { position: relative; }
-  .hero-copy { text-align: center; }
-  .hero h1 { color: #fff; max-width: 17ch; margin: 20px auto 0; }
-  .hero h1 span { color: var(--gold-light); }
-  .hero .lede { color: #b9c8d8; max-width: 60ch; margin: 24px auto 0; }
-  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 34px; }
-  .hero .note { margin-top: 22px; }
+  /* ---------- Hero ---------- */
+  .hero { position: relative; isolation: isolate; overflow: clip; background: var(--ink-950); color: #b3c3d4; padding-top: clamp(104px, 15vh, 172px); }
+  .hero::after { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(560px circle at var(--mx, 50%) var(--my, 22%), rgba(124, 196, 255, 0.1), transparent 62%); }
+  .hero-bg { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+  .hero-bg i { position: absolute; display: block; }
+  .orb { border-radius: 50%; filter: blur(96px); }
+  .o1 { width: 640px; height: 640px; left: -180px; top: -260px; background: #1f66b4; opacity: 0.5; }
+  .o2 { width: 540px; height: 540px; right: -160px; top: 40px; background: #c9a23f; opacity: 0.24; }
+  .o3 { width: 900px; height: 520px; left: 50%; top: 520px; margin-left: -450px; background: #1a4a7c; opacity: 0.55; }
+  .mesh { inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 75% 55% at 50% 12%, #000 10%, transparent 72%); }
+  .grain { inset: 0; opacity: 0.22; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E"); }
 
-  .stage { position: relative; max-width: 1080px; margin: clamp(44px, 6vw, 72px) auto -120px; z-index: 2; }
-  .stage .main { position: relative; z-index: 2; width: 76%; margin-left: 15%; }
-  .stage .back { position: absolute; z-index: 1; left: 0; top: 17%; width: 46%; opacity: 0.96; }
-  .stage .handset { position: absolute; z-index: 3; right: 1%; bottom: -5%; width: 15.5%; }
+  .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 548px); gap: clamp(32px, 4.5vw, 72px); align-items: center; max-width: calc(1260px + 2 * var(--gutter)); }
+  .hero-copy { min-width: 0; }
+  .live-pill { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; padding: 7px 14px 7px 12px; border-radius: 999px; text-decoration: none; font-size: 13.5px; line-height: 1.35; color: #d5e0ec; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.13); transition: background 0.25s ease, border-color 0.25s ease; }
+  .live-pill:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.26); }
+  .live-pill :global(svg) { width: 14px; height: 14px; flex: none; color: var(--gold-light); transition: transform 0.25s ease; }
+  .live-pill:hover :global(svg) { transform: translateX(3px); }
+  .dot { position: relative; width: 8px; height: 8px; flex: none; border-radius: 50%; background: #4ade80; }
+  .dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #4ade80; }
+  .hero h1 { color: #fff; margin-top: 26px; font-size: clamp(2.5rem, min(5.15vw, 9.6vh), 4.75rem); line-height: 1.02; }
+  .line { display: block; overflow: hidden; padding-bottom: 0.16em; margin-bottom: -0.16em; }
+  .line > span { display: block; white-space: nowrap; }
+  .hero h1 em { font-size: 1.12em; padding-right: 0.1em; line-height: 0.9; }
+  .hero .lede { color: #a9bacc; max-width: 46ch; margin-top: 24px; font-size: clamp(1.05rem, 1.35vw, 1.18rem); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .actions .btn { border-radius: 12px; }
+  .by { display: flex; align-items: center; gap: 12px; margin-top: 26px; font-size: 14px; color: #8498ae; }
+  .by span { width: 28px; height: 1px; background: var(--gold); flex: none; }
+  .console-wrap { position: relative; min-width: 0; }
+
   @media (prefers-reduced-motion: no-preference) {
-    .stage .handset { animation: float 7s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .o1 { animation: drift-a 19s ease-in-out infinite alternate; }
+    .o2 { animation: drift-b 23s ease-in-out infinite alternate; }
+    .o3 { animation: drift-a 27s ease-in-out infinite alternate-reverse; }
+    .dot::after { animation: ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+    .live-pill { animation: fade-up 0.8s var(--ease) both; }
+    .line > span { animation: line-up 1.05s var(--ease) both; }
+    .line:nth-child(2) > span { animation-delay: 0.1s; }
+    .hero .lede { animation: fade-up 0.9s var(--ease) 0.3s both; }
+    .line:nth-child(3) > span { animation-delay: 0.2s; }
+    .actions { animation: fade-up 0.9s var(--ease) 0.42s both; }
+    .by { animation: fade-up 0.9s var(--ease) 0.54s both; }
+    .console-wrap { animation: console-in 1.3s var(--ease) 0.35s both; }
+    @keyframes drift-a { to { transform: translate3d(90px, 60px, 0) scale(1.12); } }
+    @keyframes drift-b { to { transform: translate3d(-110px, 80px, 0) scale(0.9); } }
+    @keyframes ping { 0% { transform: scale(1); opacity: 0.7; } 80%, 100% { transform: scale(3.2); opacity: 0; } }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(16px); } }
+    @keyframes line-up { from { transform: translateY(108%); } }
+    @keyframes console-in { from { opacity: 0; transform: translateY(46px) scale(0.975); } }
   }
 
-  /* Proof strip */
-  .proof { padding-top: 172px; padding-bottom: clamp(36px, 5vw, 56px); border-bottom: 1px solid var(--line); }
-  .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-  .proof-grid li { padding: 6px 28px; border-left: 1px solid var(--line); display: grid; gap: 4px; }
-  .proof-grid li:first-child { border-left: 0; padding-left: 0; }
-  .proof-grid strong { font-family: var(--font-head); font-size: clamp(1.5rem, 2.8vw, 2.1rem); font-weight: 720; letter-spacing: -0.03em; color: var(--navy-700); line-height: 1.15; }
-  .proof-grid span { color: var(--slate); font-size: 15px; }
-  .proof-note { margin-top: 26px; }
+  /* ---------- Figures and marquee ---------- */
+  .figures { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(64px, 9vw, 112px); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .figures li { padding: 30px 28px 0 0; display: grid; gap: 10px; align-content: start; }
+  .figures li + li { padding-left: 28px; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+  .figures strong { font-family: var(--font-head); font-size: clamp(2.4rem, 4.6vw, 4rem); font-weight: 600; letter-spacing: -0.05em; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+  .figures li:last-child strong { color: var(--gold-light); }
+  .figures span { font-size: 15px; line-height: 1.5; color: #93a6ba; max-width: 24ch; }
 
-  /* Problem */
-  .problem { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 6vw, 88px); align-items: end; }
-  .problem h2 { margin-top: 16px; }
-  .problem-body { display: grid; gap: 16px; }
-  .lede.strong { color: var(--navy-700); font-family: var(--font-head); font-weight: 650; }
+  .marquee { margin-top: clamp(56px, 8vw, 96px); padding-block: 26px 62px; border-top: 1px solid rgba(255, 255, 255, 0.08); overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .track { display: flex; width: max-content; }
+  .track span { display: inline-flex; align-items: center; font-family: var(--font-serif); font-style: italic; font-size: clamp(1.5rem, 2.6vw, 2.15rem); line-height: 1.2; color: rgba(255, 255, 255, 0.5); white-space: nowrap; }
+  .track i { width: 7px; height: 7px; margin-inline: clamp(22px, 3vw, 40px); border-radius: 50%; background: var(--gold); }
+  @media (prefers-reduced-motion: no-preference) {
+    .track { animation: slide 46s linear infinite; }
+    @keyframes slide { to { transform: translateX(-50%); } }
+  }
 
-  /* What we build */
-  .build-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .build-card { display: grid; gap: 14px; align-content: start; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
-  .build-card:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 18px 40px -18px rgba(12, 30, 51, 0.3); }
-  .build-card p { color: var(--slate); font-size: 15.5px; }
-  .see { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; font-family: var(--font-head); font-weight: 620; font-size: 14.5px; color: var(--navy-700); }
-  .see :global(svg) { width: 15px; height: 15px; color: var(--gold); transition: transform 0.18s ease; }
-  .build-card:hover .see :global(svg) { transform: translateX(4px); }
+  /* ---------- Statement ---------- */
+  .statement { position: relative; z-index: 1; margin-top: -36px; border-radius: 36px 36px 0 0; background: var(--paper); padding-block: clamp(80px, 12vw, 168px) clamp(40px, 6vw, 80px); }
+  .say { margin-top: 28px; max-width: 24ch; font-family: var(--font-head); font-size: clamp(1.85rem, 4.7vw, 4rem); font-weight: 600; line-height: 1.12; letter-spacing: -0.04em; color: var(--navy-700); text-wrap: balance; }
+  .sent { display: block; }
+  .sent + .sent { margin-top: 0.42em; }
+  .sent.key { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1.14em; letter-spacing: -0.02em; line-height: 1.05; color: #8a6c14; }
+  .say.armed .w { opacity: 0.13; transition: opacity 0.45s ease; }
+  .say.armed .w.lit { opacity: 1; }
 
-  /* Work rows */
-  .work-list { display: grid; gap: clamp(64px, 9vw, 120px); }
-  .work-row { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
-  .work-row.flip .work-copy { order: 2; }
-  .work-row.flip { grid-template-columns: 1.18fr 0.82fr; }
-  .work-copy { display: grid; gap: 18px; justify-items: start; }
-  .work-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-  .kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate-light); }
-  .work-copy h3 { font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 720; letter-spacing: -0.03em; }
-  .tagline { color: var(--slate); font-size: 1.1rem; }
-  .work-copy .checks { margin-block: 4px 6px; }
+  /* ---------- Ledger ---------- */
+  .ledger-sec { position: relative; isolation: isolate; overflow: hidden; background: var(--ink-950); color: #a9bacc; padding-block: clamp(80px, 11vw, 152px); }
+  .ledger-sec::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(760px 460px at 12% 0%, rgba(124, 196, 255, 0.13), transparent 62%), radial-gradient(700px 460px at 92% 62%, rgba(201, 162, 63, 0.16), transparent 62%); }
+  .ledger-sec .eyebrow { color: var(--gold-light); }
+  .ledger-head { display: grid; grid-template-columns: 1.5fr 0.8fr; gap: clamp(24px, 5vw, 72px); align-items: end; }
+  .ledger-head h2 { color: #fff; margin-top: 18px; font-size: clamp(2.3rem, 5vw, 4.2rem); line-height: 1; }
+  .ledger-head h2 .serif { font-size: 1.1em; padding-right: 0.08em; }
+  .ledger-intro { display: grid; gap: 20px; justify-items: start; }
+  .ledger-intro p { font-size: 1.12rem; }
+  .ledger-intro .text-link { color: #fff; }
 
-  /* Principles */
-  .principles { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 88px); align-items: start; }
-  .principles-head { display: grid; gap: 20px; justify-items: start; position: sticky; top: 112px; }
-  .principles-head h2 { font-size: clamp(2rem, 4.2vw, 3.1rem); }
-  .principles-head h2 span { color: var(--gold-light); }
-  .principles-head p:not(.eyebrow) { color: #b7c6d6; font-size: 1.1rem; }
-  .principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .principle-grid li { background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius); padding: 26px; display: grid; gap: 12px; align-content: start; }
-  .p-icon { width: 44px; height: 44px; border-radius: 11px; background: rgba(225, 189, 99, 0.14); color: var(--gold-light); display: grid; place-items: center; }
-  .p-icon :global(svg) { width: 21px; height: 21px; }
-  .principle-grid p { color: #b7c6d6; font-size: 15.5px; }
+  .ledger { display: grid; grid-template-columns: 1.18fr auto 1fr; margin-top: clamp(40px, 6vw, 72px); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)); overflow: hidden; }
+  .col { padding: clamp(24px, 3.4vw, 44px); min-width: 0; }
+  .col-you { background: linear-gradient(180deg, rgba(225, 189, 99, 0.1), rgba(225, 189, 99, 0.03)); }
+  .col-h { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; padding-bottom: 18px; }
+  .col-h i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 14px currentColor; }
+  .col-sys .col-h { color: var(--sys); }
+  .col-you .col-h { color: var(--gold-light); }
+  .col li { display: grid; grid-template-columns: 22px 1fr; gap: 14px; align-items: center; padding-block: 15px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: var(--font-head); font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 500; letter-spacing: -0.015em; color: #eaf1f8; }
+  .col li :global(svg) { width: 19px; height: 19px; }
+  .col-sys li :global(svg) { color: var(--sys); }
+  .col-you li :global(svg) { color: var(--gold-light); }
+  .gate { position: relative; width: 1px; background: linear-gradient(180deg, transparent, var(--gold-light) 18%, var(--gold-light) 82%, transparent); }
+  .gate span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); white-space: nowrap; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #14202f; background: var(--gold-light); padding: 4px 10px; border-radius: 999px; }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .ledger li { opacity: 0; transform: translateX(-10px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); transition-delay: calc(0.25s + var(--n) * 0.09s); }
+    :global(.js) .ledger.in li { opacity: 1; transform: none; }
+    :global(.js) .ledger .gate { transform: scaleY(0); transform-origin: top; transition: transform 1.1s var(--ease) 0.3s; }
+    :global(.js) .ledger.in .gate { transform: none; }
+  }
 
-  /* Steps */
-  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; counter-reset: step; position: relative; }
-  .steps::before { content: ''; position: absolute; left: 4%; right: 4%; top: 22px; height: 2px; background: repeating-linear-gradient(90deg, #cfd7e1 0 8px, transparent 8px 16px); }
-  .steps li { position: relative; display: grid; gap: 10px; align-content: start; }
-  .step-n { width: 46px; height: 46px; border-radius: 50%; background: var(--navy-700); color: var(--gold-light); display: grid; place-items: center; font-family: var(--font-head); font-weight: 700; font-size: 17px; box-shadow: 0 0 0 7px var(--bg-soft); }
-  .steps h3 { margin-top: 8px; }
-  .steps p { color: var(--slate); font-size: 15.5px; }
+  .guards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 44px); margin-top: clamp(40px, 5vw, 64px); }
+  .guards li { display: grid; gap: 10px; align-content: start; }
+  .g-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--gold-light); margin-bottom: 6px; }
+  .g-icon :global(svg) { width: 20px; height: 20px; }
+  .guards h3 { color: #fff; font-size: 1.15rem; }
+  .guards p { font-size: 15.5px; }
 
+  /* ---------- How we ship ---------- */
+  .ship { background: var(--paper); padding-block: clamp(80px, 11vw, 152px); }
+  .ship-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
+  .ship-copy h2 { margin-top: 18px; }
+  .ship-copy h2 .serif, .process h2 .serif { color: #8a6c14; font-size: 1.08em; }
+  .ship-copy .lede { margin-top: 22px; }
+  .ship-facts { display: flex; flex-wrap: wrap; gap: 14px 36px; margin-top: 34px; padding-top: 28px; border-top: 1px solid #e3ddcf; }
+  .ship-facts li { display: grid; gap: 2px; }
+  .ship-facts strong { font-family: var(--font-head); font-size: 1.7rem; font-weight: 640; letter-spacing: -0.04em; color: var(--navy-700); line-height: 1.1; }
+  .ship-facts span { font-size: 14px; color: var(--slate); }
+  .ship-term { min-width: 0; }
+  .ship-term .note { margin-top: 16px; }
+
+  /* ---------- Process ---------- */
+  .process { padding-block: clamp(80px, 11vw, 152px) clamp(24px, 4vw, 48px); }
+  .steps { --p: 1; position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+  .steps::before, .steps::after { content: ''; position: absolute; left: 24px; right: calc((100% - 96px) / 5 - 24px); top: 23px; height: 2px; border-radius: 2px; }
+  .steps::before { background: #e3e8ee; }
+  .steps::after { background: linear-gradient(90deg, var(--navy-700), var(--gold)); transform-origin: left; transform: scaleX(var(--p)); }
+  .steps li { position: relative; z-index: 1; display: grid; gap: 10px; align-content: start; }
+  .node { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--navy-700); color: var(--gold-light); box-shadow: 0 0 0 8px #fff; font-family: var(--font-mono); font-size: 13px; transition: background 0.4s ease, color 0.4s ease, transform 0.5s var(--ease), box-shadow 0.4s ease; }
+  .node b { font-weight: 500; }
+  .steps h3 { margin-top: 14px; font-size: 1.35rem; }
+  .steps p { color: var(--slate); font-size: 15.5px; max-width: 26ch; }
+  .steps.armed li:not(.on) .node { background: #fff; color: #9aa7b6; box-shadow: 0 0 0 8px #fff, inset 0 0 0 2px #dfe5ec; }
+  .steps.armed li.on .node { transform: scale(1.06); box-shadow: 0 0 0 8px #fff, 0 12px 24px -10px rgba(24, 53, 81, 0.6); }
+  .steps.armed li h3, .steps.armed li p { transition: opacity 0.5s ease; }
+  .steps.armed li:not(.on) h3, .steps.armed li:not(.on) p { opacity: 0.35; }
+
+  /* ---------- Responsive ---------- */
   @media (max-width: 1020px) {
-    .build-grid { grid-template-columns: 1fr 1fr; }
-    .steps { grid-template-columns: 1fr 1fr 1fr; row-gap: 36px; }
-    .steps::before { display: none; }
+    .figures { grid-template-columns: 1fr 1fr; }
+    .figures li { padding: 26px 20px 26px 0; }
+    .figures li + li { padding-left: 0; border-left: 0; }
+    .figures li:nth-child(even) { padding-left: 24px; border-left: 1px solid rgba(255, 255, 255, 0.1); }
+    .figures li:nth-child(n + 3) { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    .steps { grid-template-columns: 1fr; gap: 0; }
+    .steps::before, .steps::after { left: 23px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
+    .steps::after { transform-origin: top; transform: scaleY(var(--p)); background: linear-gradient(180deg, var(--navy-700), var(--gold)); }
+    .steps li { grid-template-columns: 48px 1fr; column-gap: 20px; padding-bottom: 34px; }
+    .steps li:last-child { padding-bottom: 0; }
+    .steps h3 { margin-top: 10px; }
+    .steps p { grid-column: 2; max-width: none; }
+  }
+  @media (max-width: 999px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-copy { text-align: center; }
+    .hero h1 { font-size: clamp(2.4rem, 8.6vw, 4.6rem); }
+    .hero .lede { margin-inline: auto; }
+    .actions, .by { justify-content: center; }
+    .console-wrap { width: 100%; max-width: 600px; margin-inline: auto; }
   }
   @media (max-width: 860px) {
-    .problem, .principles, .work-row, .work-row.flip { grid-template-columns: 1fr; }
-    .work-row.flip .work-copy { order: 0; }
-    .principles-head { position: static; }
-    .proof-grid { grid-template-columns: 1fr 1fr; row-gap: 26px; }
-    .proof-grid li:nth-child(odd) { border-left: 0; padding-left: 0; }
-  }
-  @media (max-width: 720px) {
-    .stage { margin-bottom: -64px; }
-    .stage .back { display: none; }
-    .stage .main { width: 100%; margin-left: 0; }
-    .stage .handset { width: 25%; right: -1%; bottom: -9%; }
-    .proof { padding-top: 112px; }
-    .actions .btn { width: 100%; }
+    .ledger-head, .ship-grid { grid-template-columns: 1fr; }
+    .ledger { grid-template-columns: 1fr; }
+    .gate { width: auto; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-light) 18%, var(--gold-light) 82%, transparent); }
+    .gate span { transform: translate(-50%, -50%); }
+    .guards { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
-    .build-grid, .principle-grid, .steps { grid-template-columns: 1fr; }
-    .steps li { grid-template-columns: 46px 1fr; column-gap: 16px; }
-    .steps li h3 { margin-top: 0; align-self: center; }
-    .steps li p { grid-column: 2; }
+    .actions .btn { width: 100%; }
+    .live-pill { font-size: 12.5px; text-align: left; }
+    .line > span { white-space: normal; }
+    .by span { display: none; }
+    .statement { border-radius: 26px 26px 0 0; margin-top: -26px; }
+    .marquee { padding-bottom: 50px; }
   }
 </style>

@@ -22,6 +22,7 @@ Requires Node 22 or newer.
 | `src/data/site.ts` | Contact details, booking link and main navigation |
 | `src/pages/` | One file per page. `work/[slug].astro` renders every case study from `systems.ts` |
 | `src/components/` | Header, footer, product frames, the Lead Desk illustration |
+| `src/components/home/` | Homepage pieces: `LiveConsole` (animated hero), `WorkStack` (stacking case cards), `VerifyTerminal` (release check) |
 | `src/styles/global.css` | Design tokens (colours, type, spacing) and shared classes |
 | `src/assets/shots/` | Product screenshots. Astro converts them to responsive WebP at build time |
 | `public/` | Files copied as-is: `CNAME`, favicons, `robots.txt` |
@@ -32,6 +33,8 @@ Requires Node 22 or newer.
   The Lead Engine uses a coded illustration with fictional companies for this reason.
 - **Say where each system stands.** Every system carries a status: In production, Launching,
   In build or Demo build. Update `status` and `statusNote` in `systems.ts` when that changes.
+- **Motion is optional.** Every animation has a finished static state for visitors with reduced
+  motion or no JavaScript, and the hero loop has a pause button.
 - **Numbers must be checkable.** Facts on the ASTA OS page come from its repository
   (test count from `vitest list`, migration count from `supabase/migrations`).
 

@@ -1,0 +1,444 @@
+---
+/**
+ * The hero centrepiece. It plays the studio's working rule on a loop:
+ * work comes in, the system prepares it, and a person makes the decision.
+ * Every value here is sample data. Without JavaScript, or when the visitor
+ * prefers reduced motion, the first scenario is shown in its finished state.
+ */
+import Icon from '../Icon.astro';
+
+interface Scenario {
+  tab: string;
+  icon: string;
+  inTitle: string;
+  inMeta: string;
+  chips: string[];
+  steps: { text: string; value: string }[];
+  decTitle: string;
+  rows: { k: string; v: string }[];
+  action: string;
+  done: string;
+  log: string;
+}
+
+const scenarios: Scenario[] = [
+  {
+    tab: 'ASTA OS',
+    icon: 'mail',
+    inTitle: 'Customer enquiry',
+    inMeta: 'Email with a PDF attached',
+    chips: ['ENQ-0412'],
+    steps: [
+      { text: 'Read the product lines from the PDF', value: '12 lines' },
+      { text: 'Matched vendors to every line', value: '3 vendors' },
+      { text: 'Computed landed cost from the HS code', value: '6 cost heads' },
+      { text: 'Drafted the quotation', value: 'QT-0412' },
+    ],
+    decTitle: 'Quotation QT-0412',
+    rows: [
+      { k: 'Lines', v: '12' },
+      { k: 'Priced on', v: 'Landed cost' },
+      { k: 'Margin', v: '18.4%' },
+    ],
+    action: 'Approve quotation',
+    done: 'Approved',
+    log: 'Approved by the sales head · written to the audit trail',
+  },
+  {
+    tab: 'Plant OS',
+    icon: 'factory',
+    inTitle: 'Retest result logged',
+    inMeta: 'Quality lab, morning shift',
+    chips: ['Batch L1-04'],
+    steps: [
+      { text: 'Compared the reading with the limit', value: 'Within limit' },
+      { text: 'Checked the test calendar', value: 'Up to date' },
+      { text: 'Found the truck blocked by this batch', value: '1 truck' },
+      { text: 'Prepared the release for sign-off', value: 'Ready' },
+    ],
+    decTitle: 'Release batch L1-04',
+    rows: [
+      { k: 'Retest', v: 'Within limit' },
+      { k: 'Trucks held', v: '1' },
+      { k: 'Status', v: 'On hold' },
+    ],
+    action: 'Release batch',
+    done: 'Released',
+    log: 'Released by the plant owner · truck unblocked',
+  },
+  {
+    tab: 'Lead Engine',
+    icon: 'search',
+    inTitle: 'New buyer search',
+    inMeta: 'Cosmetic actives, France',
+    chips: ['Weekly run'],
+    steps: [
+      { text: 'Found companies that could buy it', value: '48 found' },
+      { text: 'Read their own pages for evidence', value: '9 kept' },
+      { text: 'Verified the buyer’s email address', value: 'Verified' },
+      { text: 'Drafted a first email for each buyer', value: '9 drafts' },
+    ],
+    decTitle: 'First email, buyer 1 of 9',
+    rows: [
+      { k: 'Fit score', v: '86 / 100' },
+      { k: 'Evidence', v: 'Source quoted' },
+      { k: 'Contact', v: 'Verified' },
+    ],
+    action: 'Approve draft',
+    done: 'Approved',
+    log: 'Nothing sent by the system · you send from your own mailbox',
+  },
+  {
+    tab: 'Aasta Lifespace',
+    icon: 'smartphone',
+    inTitle: 'Site update posted',
+    inMeta: 'From the site engineer’s phone',
+    chips: ['Stage 7 of 15'],
+    steps: [
+      { text: 'Filed it under the project and stage', value: 'Stage 7' },
+      { text: 'Limited it to the assigned team', value: 'By role' },
+      { text: 'Kept it hidden from the homeowner', value: 'Staff only' },
+      { text: 'Queued it for the project manager', value: 'Ready' },
+    ],
+    decTitle: 'Share update with the homeowner',
+    rows: [
+      { k: 'Stage', v: '7 of 15' },
+      { k: 'Seen by', v: 'Assigned staff' },
+      { k: 'Homeowner', v: 'Not shared' },
+    ],
+    action: 'Share with homeowner',
+    done: 'Shared',
+    log: 'Shared by the project team · visible to this homeowner only',
+  },
+];
+---
+<div class="console" data-console aria-label="Example with sample data: a system prepares the work, then waits for a person to decide">
+  <div class="c-bar">
+    <div class="c-tabs" role="group" aria-label="Choose a system">
+      {scenarios.map((s, i) => (
+        <button type="button" data-tab aria-pressed={i === 0 ? 'true' : 'false'}>
+          <span>{s.tab}</span>
+          <i class="prog" aria-hidden="true"></i>
+        </button>
+      ))}
+    </div>
+    <button type="button" class="c-pause" data-pause aria-pressed="false" aria-label="Pause the animation">
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg>
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" /></svg>
+    </button>
+  </div>
+
+  <div class="c-body">
+    <div class="rail" aria-hidden="true"><i></i></div>
+    {scenarios.map((s, i) => (
+      <div class:list={['scn', { active: i === 0 }]} data-scn>
+        <section class="lane lane-in">
+          <i class="node" aria-hidden="true"></i>
+          <p class="lane-h">Comes in</p>
+          <div class="in-card">
+            <span class="in-icon"><Icon name={s.icon} /></span>
+            <div class="in-text">
+              <p class="in-title">{s.inTitle}</p>
+              <p class="in-meta">{s.inMeta}</p>
+            </div>
+            <p class="chips">{s.chips.map((c) => <span>{c}</span>)}</p>
+          </div>
+        </section>
+
+        <section class="lane lane-sys">
+          <i class="node" aria-hidden="true"></i>
+          <p class="lane-h">The system prepares</p>
+          <ol class="steps">
+            {s.steps.map((st) => (
+              <li data-step>
+                <i class="g" aria-hidden="true"><Icon name="check" /></i>
+                <span class="t">{st.text}</span>
+                <span class="v">{st.value}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section class="lane lane-you">
+          <i class="node" aria-hidden="true"></i>
+          <p class="lane-h">A person decides</p>
+          <div class="dec-slot">
+            <p class="wait" aria-hidden="true">Waiting for a person</p>
+            <div class="dec">
+              <div class="dec-top">
+                <p class="dec-title">{s.decTitle}</p>
+                <span class="dec-tag">Needs you</span>
+              </div>
+              <dl>
+                {s.rows.map((r) => (
+                  <div><dt>{r.k}</dt><dd>{r.v}</dd></div>
+                ))}
+              </dl>
+              <span class="go">
+                <span class="l-do">{s.action}</span>
+                <span class="l-done" aria-hidden="true"><Icon name="check" /> {s.done}</span>
+              </span>
+              <p class="log" aria-hidden="true">{s.log}</p>
+              <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 7.2-6.1 1.9-2 6.2z" /></svg>
+            </div>
+          </div>
+        </section>
+      </div>
+    ))}
+  </div>
+
+  <p class="c-foot"><span>The system prepares. <b>A person decides.</b></span><span class="c-tag">Sample data</span></p>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-console]');
+  if (root) {
+    const scns = Array.from(root.querySelectorAll<HTMLElement>('[data-scn]'));
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+    const pauseBtn = root.querySelector<HTMLButtonElement>('[data-pause]');
+    const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const STEP = 620;
+    let index = 0;
+    let timers: number[] = [];
+    let inView = false;
+    let paused = false;
+
+    const clear = () => { timers.forEach((t) => window.clearTimeout(t)); timers = []; };
+    const rail = (v: number) => root.style.setProperty('--rail', String(v));
+    const select = (i: number) => {
+      index = i;
+      scns.forEach((s, n) => {
+        s.classList.toggle('active', n === i);
+        s.classList.remove('p-in', 'p-dec', 'p-aim', 'p-press', 'p-ok');
+        s.querySelectorAll('[data-step]').forEach((li) => li.classList.remove('on', 'done'));
+      });
+      tabs.forEach((t, n) => {
+        t.setAttribute('aria-pressed', String(n === i));
+        t.classList.remove('run');
+      });
+    };
+
+    const play = (i: number) => {
+      clear();
+      select(i);
+      if (!motionOK) return;
+      const s = scns[i];
+      const steps = Array.from(s.querySelectorAll<HTMLElement>('[data-step]'));
+      let t = 0;
+      const at = (delay: number, fn: () => void) => { t += delay; timers.push(window.setTimeout(fn, t)); };
+      rail(0);
+      // restart the tab's progress bar
+      void tabs[i].offsetWidth;
+      tabs[i].classList.add('run');
+
+      at(180, () => { s.classList.add('p-in'); rail(0.3); });
+      steps.forEach((li, n) => {
+        at(n === 0 ? 820 : STEP, () => {
+          steps[n - 1]?.classList.replace('on', 'done');
+          li.classList.add('on');
+          rail(0.42 + (n / steps.length) * 0.4);
+        });
+      });
+      at(STEP, () => { steps[steps.length - 1].classList.replace('on', 'done'); rail(1); });
+      at(340, () => s.classList.add('p-dec'));
+      at(1150, () => s.classList.add('p-aim'));
+      at(980, () => s.classList.add('p-press'));
+      at(190, () => { s.classList.remove('p-press'); s.classList.add('p-ok'); });
+      at(2700, () => play((i + 1) % scns.length));
+      root.style.setProperty('--dur', `${t}ms`);
+    };
+
+    const sync = () => {
+      if (!motionOK) return;
+      if (inView && !paused && !document.hidden) { root.classList.add('live'); play(index); }
+      else { clear(); tabs.forEach((t) => t.classList.remove('run')); }
+    };
+
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => {
+      if (motionOK && !paused) play(i);
+      else { clear(); select(i); root.classList.remove('live'); }
+    }));
+
+    pauseBtn?.addEventListener('click', () => {
+      paused = !paused;
+      pauseBtn.setAttribute('aria-pressed', String(paused));
+      pauseBtn.setAttribute('aria-label', paused ? 'Play the animation' : 'Pause the animation');
+      if (paused) { clear(); select(index); root.classList.remove('live'); }
+      else sync();
+    });
+
+    if (motionOK && 'IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        inView = entries[0].isIntersecting;
+        sync();
+      }, { threshold: 0.15 }).observe(root);
+      document.addEventListener('visibilitychange', sync);
+    } else if (pauseBtn) {
+      pauseBtn.hidden = true;
+    }
+  }
+</script>
+
+<style>
+  .console {
+    --rail: 1; --dur: 8600ms;
+    position: relative; isolation: isolate; border-radius: 22px; text-align: left; color: #dfe8f2;
+    background: linear-gradient(180deg, rgba(18, 34, 56, 0.88), rgba(8, 17, 30, 0.92));
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 60px 120px -40px rgba(0, 0, 0, 0.85), 0 0 90px -30px rgba(124, 196, 255, 0.35);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  }
+  /* a slow light travelling round the edge */
+  .console::before {
+    content: ''; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; padding: 1px;
+    background: conic-gradient(from var(--spin, 0deg), transparent 0 62%, rgba(124, 196, 255, 0.7) 74%, rgba(225, 189, 99, 0.95) 84%, transparent 94%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+  @property --spin { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  @media (prefers-reduced-motion: no-preference) {
+    .console::before { animation: spin 9s linear infinite; }
+    @keyframes spin { to { --spin: 360deg; } }
+  }
+
+  /* Bar */
+  .c-bar { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 7px 8px 7px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .c-tabs { display: flex; gap: 2px; margin-right: auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  .c-tabs::-webkit-scrollbar { display: none; }
+  .c-tabs button {
+    position: relative; flex: none; min-height: 38px; padding: 8px 12px 10px; border: 0; border-radius: 9px; background: transparent; cursor: pointer;
+    font-family: var(--font-head); font-size: 13.5px; font-weight: 560; color: #8fa2b7; transition: color 0.2s ease, background 0.2s ease;
+  }
+  .c-tabs button:hover { color: #fff; }
+  .c-tabs button[aria-pressed='true'] { color: #fff; background: rgba(255, 255, 255, 0.07); }
+  .prog { position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.12); overflow: hidden; opacity: 0; }
+  .c-tabs button[aria-pressed='true'] .prog { opacity: 1; }
+  .prog::after { content: ''; position: absolute; inset: 0; background: var(--gold-light); transform-origin: left; transform: scaleX(0); }
+  .c-tabs button.run .prog::after { animation: prog var(--dur) linear forwards; }
+  @keyframes prog { to { transform: scaleX(1); } }
+  .c-pause { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.12); background: transparent; color: #c5d2e0; cursor: pointer; }
+  .c-pause:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+  .c-pause[hidden], :global(html:not(.js)) .c-pause { display: none; }
+  .c-pause svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .c-pause .i-play { display: none; fill: currentColor; stroke-width: 1.5; }
+  .c-pause[aria-pressed='true'] .i-pause { display: none; }
+  .c-pause[aria-pressed='true'] .i-play { display: block; }
+
+  /* Body: every scenario shares one grid cell so the panel never changes height */
+  .c-body { position: relative; display: grid; padding: 6px 20px 18px 0; }
+  .scn { grid-area: 1 / 1; display: grid; align-content: start; visibility: hidden; opacity: 0; }
+  .scn.active { visibility: visible; opacity: 1; }
+  .lane { position: relative; padding: 14px 0 0 52px; min-width: 0; }
+  .lane-h { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.17em; text-transform: uppercase; color: #9fb0c3; padding-bottom: 9px; line-height: 1.5; }
+  .lane-sys .lane-h { color: var(--sys); }
+  .lane-you .lane-h { color: var(--gold-light); }
+  .node { position: absolute; left: 21px; top: 16px; width: 11px; height: 11px; border-radius: 50%; background: #0b1626; border: 2px solid #9fb0c3; z-index: 2; }
+  .lane-sys .node { border-color: var(--sys); box-shadow: 0 0 12px rgba(124, 196, 255, 0.7); }
+  .lane-you .node { border-color: var(--gold-light); box-shadow: 0 0 12px rgba(225, 189, 99, 0.75); }
+
+  /* the line that joins the three stages */
+  .rail { position: absolute; left: 25.5px; top: 28px; bottom: 60px; width: 2px; background: rgba(255, 255, 255, 0.1); z-index: 1; mask-image: linear-gradient(180deg, #000 80%, transparent); }
+  .rail i { position: absolute; inset: 0; transform-origin: top; transform: scaleY(var(--rail)); background: linear-gradient(180deg, #9fb0c3 0%, var(--sys) 26%, var(--sys) 56%, var(--gold-light) 68%); transition: transform 0.7s var(--ease); }
+
+  /* Comes in */
+  .in-card { display: grid; grid-template-columns: 38px 1fr auto; gap: 12px; align-items: center; padding: 11px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(255, 255, 255, 0.09); }
+  .in-icon { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: rgba(255, 255, 255, 0.08); color: #fff; }
+  .in-icon :global(svg) { width: 18px; height: 18px; }
+  .in-text { min-width: 0; }
+  .in-title { font-family: var(--font-head); font-weight: 620; font-size: 14.5px; color: #fff; line-height: 1.3; }
+  .in-meta { font-size: 12.5px; color: #93a6ba; line-height: 1.4; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; }
+  .chips span { font-family: var(--font-mono); font-size: 11px; color: #c5d2e0; padding: 3px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.07); white-space: nowrap; }
+
+  /* The system prepares */
+  .steps { display: grid; gap: 1px; }
+  .steps li { display: grid; grid-template-columns: 20px 1fr auto; gap: 11px; align-items: center; padding: 6px 10px 6px 8px; margin-left: -8px; border-radius: 9px; }
+  .g { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: rgba(124, 196, 255, 0.16); color: var(--sys); }
+  .g :global(svg) { width: 12px; height: 12px; stroke-width: 3; }
+  .t { font-size: 14px; line-height: 1.35; color: #e6edf5; }
+  .v { font-family: var(--font-mono); font-size: 11px; color: var(--sys); white-space: nowrap; }
+
+  /* A person decides */
+  .dec-slot { display: grid; }
+  .dec-slot > * { grid-area: 1 / 1; }
+  .wait { display: grid; place-items: center; border: 1px dashed rgba(225, 189, 99, 0.3); border-radius: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(225, 189, 99, 0.6); }
+  .dec { position: relative; display: grid; gap: 11px; padding: 14px 14px 12px; border-radius: 14px; background: linear-gradient(180deg, #1d2b3f, #121e2f); border: 1px solid rgba(225, 189, 99, 0.45); box-shadow: 0 0 0 4px rgba(225, 189, 99, 0.07), 0 24px 50px -24px rgba(0, 0, 0, 0.9); }
+  .dec-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .dec-tag { flex: none; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #14202f; background: var(--gold-light); padding: 3px 8px; border-radius: 6px; }
+  .dec-title { font-family: var(--font-head); font-weight: 640; font-size: 15.5px; color: #fff; line-height: 1.3; letter-spacing: -0.01em; }
+  dl { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid rgba(255, 255, 255, 0.09); }
+  dl div { padding: 8px 10px 8px 0; min-width: 0; }
+  dl div + div { padding-left: 12px; border-left: 1px solid rgba(255, 255, 255, 0.09); }
+  dt { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8498ae; line-height: 1.5; }
+  dd { margin: 0; color: #fff; font-weight: 500; font-size: 14px; line-height: 1.4; }
+  .go { position: relative; display: grid; place-items: center; min-height: 40px; border-radius: 10px; background: linear-gradient(180deg, #e9c874, #c9a23f); color: #14202f; font-family: var(--font-head); font-weight: 650; font-size: 14.5px; box-shadow: 0 10px 22px -10px rgba(225, 189, 99, 0.8); transition: transform 0.16s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+  .go > * { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 8px; }
+  .go :global(svg) { width: 16px; height: 16px; stroke-width: 3; }
+  .l-done { opacity: 0; }
+  .log { font-family: var(--font-mono); font-size: 10.5px; line-height: 1.5; color: #9fb2c6; opacity: 0; min-height: 1.5em; text-align: center; }
+  .cursor { display: none; position: absolute; right: 24%; bottom: 30px; width: 26px; height: 26px; fill: #fff; stroke: #0b1522; stroke-width: 1.4; stroke-linejoin: round; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.6)); z-index: 3; pointer-events: none; }
+
+  .c-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px 10px 20px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 13px; color: #8fa2b7; }
+  .c-foot b { font-weight: 500; color: var(--gold-light); white-space: nowrap; }
+  .c-tag { flex: none; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #8fa2b7; padding: 4px 9px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; }
+
+  /* Animated states, switched on only when the script decides motion is welcome */
+  .live .scn { transition: opacity 0.45s ease; }
+  .live .in-card { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  .live .p-in .in-card { opacity: 1; transform: none; transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+  .live .steps li { opacity: 0.3; transition: opacity 0.35s ease, background 0.35s ease; }
+  .live .steps li .g :global(svg) { opacity: 0; transform: scale(0.4); transition: opacity 0.25s ease, transform 0.35s var(--ease); }
+  .live .steps li .g { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.2); }
+  .live .steps li .v { opacity: 0; transform: translateX(6px); transition: opacity 0.3s ease, transform 0.3s ease; }
+  .live .steps li.on { opacity: 1; background: rgba(124, 196, 255, 0.07); }
+  .live .steps li.on .g { box-shadow: none; border: 1.5px solid rgba(124, 196, 255, 0.25); border-top-color: var(--sys); animation: turn 0.7s linear infinite; }
+  .live .steps li.done { opacity: 1; }
+  .live .steps li.done .g { background: rgba(124, 196, 255, 0.16); box-shadow: none; }
+  .live .steps li.done .g :global(svg) { opacity: 1; transform: none; }
+  .live .steps li.done .v { opacity: 1; transform: none; }
+  @keyframes turn { to { transform: rotate(360deg); } }
+  .live .dec { opacity: 0; transform: translateY(16px) scale(0.97); }
+  .live .p-dec .dec { opacity: 1; transform: none; transition: opacity 0.55s var(--ease), transform 0.7s var(--ease); }
+  .live .p-dec .wait { opacity: 0; transition: opacity 0.3s ease; }
+  .live .dec dl div { opacity: 0; transform: translateY(6px); }
+  .live .p-dec .dec dl div { opacity: 1; transform: none; transition: opacity 0.4s ease, transform 0.4s ease; }
+  .live .p-dec .dec dl div:nth-child(1) { transition-delay: 0.22s; }
+  .live .p-dec .dec dl div:nth-child(2) { transition-delay: 0.34s; }
+  .live .p-dec .dec dl div:nth-child(3) { transition-delay: 0.46s; }
+  .live .cursor { display: block; opacity: 0; transform: translate(-190px, -150px); }
+  .live .p-aim .cursor { opacity: 1; transform: none; transition: transform 0.95s var(--ease), opacity 0.3s ease; }
+  .live .p-press .cursor { transform: scale(0.86); transition: transform 0.12s ease; }
+  .live .p-press .go { transform: scale(0.965); }
+  .live .p-ok .go { background: rgba(225, 189, 99, 0.12); color: var(--gold-light); box-shadow: inset 0 0 0 1px rgba(225, 189, 99, 0.5); }
+  .live .p-ok .l-do { opacity: 0; }
+  .live .p-ok .l-done { opacity: 1; transition: opacity 0.3s ease 0.05s; }
+  .live .p-ok .log { opacity: 1; transition: opacity 0.5s ease 0.2s; }
+  .live .p-ok .cursor { opacity: 0; transform: translate(34px, 30px); transition: transform 0.9s ease 0.5s, opacity 0.4s ease 0.7s; }
+  .live .p-ok .dec { box-shadow: 0 0 0 4px rgba(225, 189, 99, 0.16), 0 0 46px -6px rgba(225, 189, 99, 0.45), 0 24px 50px -24px rgba(0, 0, 0, 0.9); transition: box-shadow 0.6s ease; }
+  .live .lane-sys .node, .live .lane-you .node { border-color: #51647b; box-shadow: none; transition: border-color 0.4s ease, box-shadow 0.4s ease; }
+  .live .p-in .lane-sys .node { border-color: var(--sys); box-shadow: 0 0 12px rgba(124, 196, 255, 0.7); transition-delay: 0.5s; }
+  .live .p-dec .lane-you .node { border-color: var(--gold-light); box-shadow: 0 0 14px rgba(225, 189, 99, 0.85); }
+
+  /* short laptop screens: keep the whole panel on the first screen */
+  @media (max-height: 760px) and (min-width: 1000px) {
+    .lane { padding-top: 10px; }
+    .steps li { padding-block: 4px; }
+    .in-card { padding-block: 8px; }
+    .dec { gap: 9px; padding-block: 12px 10px; }
+  }
+  @media (max-width: 520px) {
+    .c-body { padding-right: 14px; }
+    .lane { padding-left: 40px; }
+    .node { left: 14px; }
+    .rail { left: 19px; }
+    .v { display: none; }
+    .steps li { grid-template-columns: 20px 1fr; }
+    .log { min-height: 3em; }
+    dl { grid-template-columns: 1fr; border-bottom: 0; }
+    dl div { display: flex; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.09); }
+    dl div + div { padding-left: 0; border-left: 0; }
+    .c-foot { font-size: 12px; padding-left: 14px; }
+    .c-tabs button { padding-inline: 10px; font-size: 13px; }
+  }
+</style>

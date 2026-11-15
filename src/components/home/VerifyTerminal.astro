@@ -1,0 +1,93 @@
+---
+/**
+ * A terminal that replays the release check our first production system must pass.
+ * The commands exist in the ASTA OS repository (npm run verify, npm run db:verify);
+ * the output is a shortened, representative version. With no JavaScript or with
+ * reduced motion the finished output is shown as plain text.
+ */
+interface Line { cmd?: string; ok?: string; note?: string; end?: string; }
+const lines: Line[] = [
+  { cmd: 'npm run verify' },
+  { ok: 'types', note: 'no errors' },
+  { ok: 'lint', note: 'clean' },
+  { ok: 'tests', note: '2,808 passed' },
+  { ok: 'build', note: 'production build complete' },
+  { cmd: 'npm run db:verify' },
+  { ok: 'audit trail', note: 'append-only, edits and deletes refused' },
+  { ok: 'receipt and payment', note: 'need a named person' },
+  { ok: 'quotation', note: 'inherits its pricing approval' },
+  { end: 'All checks passed. Ready to release.' },
+];
+---
+<div class="term" data-term>
+  <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>asta-os — release check</span></div>
+  <div class="term-body" role="img" aria-label="Terminal output of the ASTA OS release check: types, lint, 2,808 tests and the production build pass, then the database rules are verified. All checks passed.">
+    {lines.map((l) => (
+      l.cmd ? <p class="ln cmd" data-ln data-type={l.cmd}><span class="ps">$</span><span class="typed">{l.cmd}</span></p>
+      : l.ok ? <p class="ln ok" data-ln><span class="tick">✓</span><span class="k">{l.ok}</span><span class="n">{l.note}</span></p>
+      : <p class="ln end" data-ln>{l.end}</p>
+    ))}
+    <span class="caret" aria-hidden="true"></span>
+  </div>
+</div>
+
+<script>
+  const term = document.querySelector<HTMLElement>('[data-term]');
+  const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (term && motionOK && 'IntersectionObserver' in window) {
+    const lines = Array.from(term.querySelectorAll<HTMLElement>('[data-ln]'));
+    term.classList.add('armed');
+    const wait = (ms: number) => new Promise((r) => window.setTimeout(r, ms));
+    const run = async () => {
+      for (const ln of lines) {
+        const text = ln.dataset.type;
+        if (text) {
+          const typed = ln.querySelector<HTMLElement>('.typed')!;
+          typed.textContent = '';
+          ln.classList.add('show', 'typing');
+          for (const ch of text) { typed.textContent += ch; await wait(34 + Math.random() * 40); }
+          await wait(380);
+          ln.classList.remove('typing');
+        } else {
+          ln.classList.add('show');
+          await wait(ln.classList.contains('end') ? 0 : 300);
+        }
+      }
+      term.classList.add('finished');
+    };
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) { io.disconnect(); run(); }
+    }, { threshold: 0.45 });
+    io.observe(term);
+  }
+</script>
+
+<style>
+  .term { border-radius: 18px; overflow: hidden; background: #060d18; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 50px 100px -40px rgba(4, 9, 18, 0.7), 0 0 0 1px rgba(4, 9, 18, 0.6); }
+  .term-bar { display: flex; align-items: center; gap: 7px; height: 42px; padding-inline: 16px; background: #0c1626; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+  .term-bar i { width: 10px; height: 10px; border-radius: 50%; background: #25344a; }
+  .term-bar span { margin-left: 12px; font-family: var(--font-mono); font-size: 12px; color: #7b8da3; }
+  .term-body { position: relative; padding: 24px clamp(18px, 3vw, 30px) 28px; font-family: var(--font-mono); font-size: clamp(12.5px, 1.25vw, 14.5px); line-height: 1.5; color: #c9d5e2; min-height: 21.5em; }
+  .ln { display: flex; gap: 12px; padding-block: 3px; }
+  .cmd { color: #fff; }
+  .cmd:not(:first-child) { margin-top: 16px; }
+  .ps { color: var(--gold-light); }
+  .tick { color: #4ade80; }
+  .k { flex: none; min-width: 11.5em; color: #e6edf5; }
+  .n { color: #8194aa; }
+  .end { margin-top: 18px; padding: 10px 14px; border-radius: 9px; background: rgba(74, 222, 128, 0.09); color: #86efac; border: 1px solid rgba(74, 222, 128, 0.22); }
+  .caret { display: none; }
+
+  .armed .ln { visibility: hidden; }
+  .armed .ln.show { visibility: visible; }
+  .armed .ln.ok.show, .armed .ln.end.show { animation: rise 0.35s var(--ease) both; }
+  .armed .ln.typing .typed::after { content: ''; display: inline-block; width: 0.55em; height: 1.05em; margin-left: 2px; vertical-align: -0.15em; background: var(--gold-light); animation: blink 0.9s steps(1) infinite; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (max-width: 560px) {
+    .ln.ok { flex-wrap: wrap; row-gap: 0; }
+    .k { min-width: 0; }
+    .n { flex-basis: 100%; padding-left: 1.9em; }
+    .term-body { min-height: 0; }
+  }
+</style>
