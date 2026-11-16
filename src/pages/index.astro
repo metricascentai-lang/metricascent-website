@@ -332,6 +332,25 @@ const steps = [
     @keyframes console-in { from { opacity: 0; transform: translateY(46px) scale(0.975); } }
   }
 
+  /* ---------- Fit the first screen ----------
+     On short desktop screens the console scales down in steps and the copy tightens,
+     so the headline, both buttons and the whole console are visible without scrolling. */
+  @media (min-width: 1000px) and (max-height: 759px) {
+    .hero { padding-top: 108px; }
+    .hero h1 { margin-top: 18px; font-size: clamp(2.3rem, min(5.9vw, 9.6vh), 5.5rem); }
+    .hero .lede { margin-top: 16px; font-size: 1.05rem; }
+    .actions { margin-top: 22px; }
+    .by { margin-top: 18px; }
+  }
+  @media (min-width: 1000px) and (max-height: 759px) { .console-wrap { zoom: 0.96; } }
+  @media (min-width: 1000px) and (max-height: 719px) { .console-wrap { zoom: 0.91; } }
+  @media (min-width: 1000px) and (max-height: 689px) { .console-wrap { zoom: 0.86; } }
+  @media (min-width: 1000px) and (max-height: 659px) { .console-wrap { zoom: 0.81; } }
+  @media (min-width: 1000px) and (max-height: 629px) { .console-wrap { zoom: 0.76; } }
+  @media (min-width: 1000px) and (max-height: 599px) { .console-wrap { zoom: 0.71; } }
+  @media (min-width: 1000px) and (max-height: 569px) { .console-wrap { zoom: 0.66; } }
+  @media (min-width: 1000px) and (max-height: 539px) { .console-wrap { zoom: 0.61; } }
+
   /* ---------- Figures and marquee ---------- */
   .figures { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(64px, 9vw, 112px); border-top: 1px solid rgba(24, 53, 81, 0.12); }
   .figures li { padding: 30px 28px 0 0; display: grid; gap: 10px; align-content: start; }
