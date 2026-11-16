@@ -74,19 +74,21 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .book { display: grid; gap: 14px; justify-items: start; border-color: rgba(225, 189, 99, 0.4); box-shadow: 0 0 0 4px rgba(225, 189, 99, 0.06), 0 40px 80px -40px rgba(0, 0, 0, 0.7); }
   .book-big { font-family: var(--font-display); font-size: clamp(4rem, 8vw, 6.4rem); font-weight: 420; line-height: 0.86; letter-spacing: -0.045em; color: #fff; font-variant-numeric: lining-nums; }
   .book-big span { font-style: italic; font-size: 0.34em; letter-spacing: -0.01em; color: var(--gold-light); }
-  .book-text { color: #c5d2e0; font-size: 1.06rem; }
+  .book-text { color: #c5d2e0; }
   .book .btn { margin-top: 6px; border-radius: 12px; }
   .book-note { font-size: 13px; color: #8fa2b7; }
 
   .direct-sec { padding-block: clamp(56px, 8vw, 104px); }
   .direct { display: grid; margin-top: 26px; border-top: 1px solid var(--line); }
-  .direct a { display: grid; grid-template-columns: 130px minmax(0, 1fr) 52px; gap: 20px; align-items: center; padding: clamp(20px, 2.8vw, 34px) clamp(0px, 1.4vw, 18px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); transition: background 0.3s ease; }
-  .direct a:hover { background: var(--paper); }
-  .d-text { font-family: var(--font-display); font-weight: 460; font-size: clamp(1.5rem, 3.6vw, 2.9rem); letter-spacing: -0.028em; line-height: 1.05; overflow-wrap: anywhere; font-variant-numeric: lining-nums; transition: transform 0.5s var(--ease); }
+  .direct a { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 6px; align-items: center; padding-block: clamp(20px, 2.8vw, 32px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); }
+  .direct .label { grid-column: 1 / 3; }
+  .direct .d-text { grid-column: 3 / 12; }
+  .direct .arrow { grid-column: 12; justify-self: end; }
+  .d-text { font-family: var(--font-display); font-weight: 460; font-size: var(--d-md); letter-spacing: -0.028em; line-height: 1.05; overflow-wrap: anywhere; font-variant-numeric: lining-nums; transition: transform 0.5s var(--ease); }
   .direct a:hover .d-text { transform: translateX(10px); }
 
   @media (max-width: 640px) {
-    .direct a { grid-template-columns: 1fr; gap: 6px; }
+    .direct .label, .direct .d-text { grid-column: 1 / -1; }
     .direct .arrow { display: none; }
   }
 </style>

@@ -99,11 +99,13 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 </Base>
 
 <style>
-  .story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: start; }
+  .story { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 32px; align-items: start; }
+  .story-side { grid-column: 1 / 6; }
+  .story-body { grid-column: 7 / -1; }
   .story-side { position: sticky; top: 128px; }
   .story-side h2 { margin-top: 18px; }
-  .story-body { display: grid; gap: 22px; font-size: 1.1rem; color: var(--slate); }
-  .story-body .lead { font-family: var(--font-display); font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 440; line-height: 1.24; letter-spacing: -0.018em; color: var(--navy-700); }
+  .story-body { display: grid; gap: 22px; font-size: var(--t-lg); color: var(--slate); padding-top: 34px; }
+  .story-body .lead { font-family: var(--font-display); font-size: var(--d-sm); font-weight: 440; line-height: 1.24; letter-spacing: -0.018em; color: var(--navy-700); }
 
   .fig-sec { padding-block: clamp(56px, 7vw, 96px); }
   .fig-sec .bigfacts { --rule: rgba(255, 255, 255, 0.12); border-top: 0; }
@@ -113,18 +115,23 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .fig-sec .bigfacts span { color: #a9bacc; }
 
   .built-list { display: grid; border-top: 1px solid var(--line); }
-  .built-list a { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto 52px; gap: 24px; align-items: center; padding: clamp(20px, 2.6vw, 32px) clamp(0px, 1.4vw, 18px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); transition: background 0.3s ease; }
-  .built-list a:hover { background: var(--paper); }
-  .name { font-family: var(--font-display); font-weight: 470; font-size: clamp(1.9rem, 3.8vw, 3.1rem); letter-spacing: -0.03em; line-height: 1; transition: transform 0.5s var(--ease); }
+  .built-list a { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding-block: clamp(20px, 2.6vw, 30px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); }
+  .built-list .name { grid-column: 1 / 7; }
+  .built-list .kind { grid-column: 7 / 10; }
+  .built-list .status { grid-column: 10 / 12; justify-self: start; }
+  .built-list .arrow { grid-column: 12; justify-self: end; }
+  .name { font-family: var(--font-display); font-weight: 470; font-size: var(--d-md); letter-spacing: -0.028em; line-height: 1.05; transition: transform 0.5s var(--ease); }
   .built-list a:hover .name { transform: translateX(10px); }
   .kind { color: var(--slate); }
 
   @media (max-width: 860px) {
-    .story { grid-template-columns: 1fr; }
+    .story-side, .story-body { grid-column: 1 / -1; }
+    .story-body { padding-top: 0; }
     .story-side { position: static; }
-    .built-list a { grid-template-columns: 1fr auto; row-gap: 8px; }
+    .built-list a { grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; }
+    .built-list .name { grid-column: 1; grid-row: 1; }
     .built-list .kind { grid-column: 1; grid-row: 2; }
-    .built-list .status { grid-column: 2; grid-row: 1; }
+    .built-list .status { grid-column: 2; grid-row: 1; justify-self: end; }
     .built-list .arrow { display: none; }
     .fig-sec .bigfacts li { padding-top: 22px; }
     .fig-sec .bigfacts li:nth-child(-n + 2) { padding-top: 0; }

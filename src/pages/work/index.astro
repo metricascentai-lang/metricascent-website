@@ -75,20 +75,23 @@ const count = (s: Status) => systems.filter((x) => x.status === s).length;
   .list-sec { padding-top: clamp(40px, 6vw, 80px); }
   .index { display: grid; }
   .irow {
-    position: relative; display: grid; grid-template-columns: 56px minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 320px) 52px; gap: clamp(18px, 2.6vw, 40px); align-items: center;
-    padding: clamp(26px, 3.4vw, 44px) clamp(0px, 1.6vw, 22px); text-decoration: none; color: var(--navy-700); border-top: 1px solid #e3ddcf;
-    transition: background 0.35s ease, padding 0.45s var(--ease);
+    position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 18px; align-items: center;
+    padding-block: clamp(26px, 3.4vw, 44px); text-decoration: none; color: var(--navy-700); border-top: 1px solid #e3ddcf;
   }
   .index li:last-child .irow { border-bottom: 1px solid #e3ddcf; }
-  .irow:hover { background: #fff; }
+  .i-num { grid-column: 1 / 2; }
+  .i-main { grid-column: 2 / 7; }
+  .i-meta { grid-column: 7 / 10; }
+  .i-thumb { grid-column: 10 / -1; grid-row: 1; align-self: stretch; }
+  .irow .arrow { grid-column: 10 / -1; grid-row: 1; align-self: end; justify-self: end; margin: 0 12px 12px 0; z-index: 1; width: 44px; height: 44px; background: #fff; border-color: rgba(12, 30, 51, 0.14); box-shadow: 0 6px 16px -8px rgba(12, 30, 51, 0.4); }
   .i-num { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; color: #8a6c14; align-self: start; padding-top: 0.5rem; font-variant-numeric: lining-nums; }
   .i-main { display: grid; gap: 14px; min-width: 0; }
-  .i-name { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.4rem); font-weight: 470; letter-spacing: -0.032em; line-height: 0.98; transition: transform 0.5s var(--ease); }
+  .i-name { font-family: var(--font-display); font-size: var(--d-lg); font-weight: 470; letter-spacing: -0.032em; line-height: 1; transition: transform 0.5s var(--ease); }
   .irow:hover .i-name { transform: translateX(10px); }
-  .i-tag { font-size: 1.08rem; line-height: 1.5; color: var(--slate); max-width: 40ch; }
+  .i-tag { line-height: 1.5; color: var(--slate); max-width: 40ch; }
   .i-meta { display: grid; gap: 10px; justify-items: start; min-width: 0; }
-  .i-kind { font-family: var(--font-head); font-size: 11.5px; font-weight: 650; letter-spacing: 0.13em; text-transform: uppercase; color: var(--slate-light); }
-  .i-for { font-size: 14.5px; line-height: 1.45; color: var(--slate); }
+  .i-kind { font-family: var(--font-head); font-size: 11.5px; font-weight: 650; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-light); }
+  .i-for { font-size: var(--t-sm); line-height: 1.45; color: var(--slate); }
   .i-thumb { display: block; aspect-ratio: 16 / 10.4; border-radius: 14px; overflow: hidden; background: var(--t-bg, #e9eef4); border: 1px solid rgba(12, 30, 51, 0.1); }
   .i-thumb > :global(*) { width: 132%; margin: 9% 0 0 9%; transition: transform 0.7s var(--ease); transform-origin: 0 0; }
   .irow:hover .i-thumb > :global(*) { transform: scale(1.05); }
@@ -100,15 +103,19 @@ const count = (s: Status) => systems.filter((x) => x.status === s).length;
   .list-note { margin-top: 26px; }
 
   @media (max-width: 1060px) {
-    .irow { grid-template-columns: 48px minmax(0, 1fr) minmax(0, 300px); }
-    .i-meta { grid-column: 2; }
-    .i-thumb { grid-column: 3; grid-row: 1 / span 2; }
+    .irow { grid-template-columns: 48px minmax(0, 1fr) minmax(0, 300px); column-gap: 24px; }
+    .i-num { grid-column: 1; grid-row: 1; }
+    .i-main { grid-column: 2; grid-row: 1; }
+    .i-meta { grid-column: 2; grid-row: 2; }
+    .i-thumb { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
     .irow .arrow { display: none; }
   }
   @media (max-width: 720px) {
-    .irow { grid-template-columns: 40px 1fr; row-gap: 18px; padding-inline: 0; }
+    .irow { grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }
     .i-thumb { grid-column: 1 / -1; grid-row: 1; }
-    .i-meta { grid-column: 2; }
+    .i-num { grid-column: 1; grid-row: 2; }
+    .i-main { grid-column: 2; grid-row: 2; }
+    .i-meta { grid-column: 2; grid-row: 3; }
     .legend li { grid-template-columns: 1fr auto; }
     .l-text { grid-column: 1 / -1; grid-row: 2; }
   }
