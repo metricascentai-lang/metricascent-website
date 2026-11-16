@@ -20,10 +20,10 @@ const capabilities = [
   'Batch hold and release', 'Buyer evidence', 'Audit trail', 'Access by role', 'Sign-in by phone',
 ];
 
-const statement = [
-  { text: 'Your process lives in spreadsheets, inboxes and one person’s memory.', key: false },
-  { text: 'Off\u2011the\u2011shelf software asks you to change how you work.', key: false },
-  { text: 'We build the system around the work.', key: true },
+const scattered = [
+  { icon: 'table', text: 'spreadsheets,' },
+  { icon: 'inbox', text: 'inboxes' },
+  { icon: 'user', text: 'one person’s memory.' },
 ];
 
 const systemDoes = [
@@ -111,11 +111,27 @@ const steps = [
   <section class="statement">
     <div class="wrap">
       <p class="eyebrow">The problem</p>
-      <p class="say" data-say>
-        {statement.map((s) => (
-          <span class:list={['sent', { key: s.key }]}>{s.text.split(' ').map((w) => <span class="w">{w + ' '}</span>)}</span>
-        ))}
-      </p>
+      <h2 class="say" data-reveal>
+        <span class="lead">Your process lives in</span>
+        <span class="toks">
+          <span class="tok t1"><Icon name={scattered[0].icon} />{scattered[0].text}</span>
+          <span class="tok t2"><Icon name={scattered[1].icon} />{scattered[1].text}</span>
+          <span class="and">and</span>
+          <span class="tok t3"><Icon name={scattered[2].icon} />{scattered[2].text}</span>
+        </span>
+      </h2>
+
+      <div class="turn">
+        <div class="usual" data-reveal>
+          <p class="turn-h">What usually happens</p>
+          <p class="usual-t">Off&#8209;the&#8209;shelf software asks you to change how you work.</p>
+        </div>
+        <div class="ours" data-reveal>
+          <p class="turn-h">What we do</p>
+          <p class="ours-t">We build the system <em>around the work.</em></p>
+          <a class="text-link" href="/approach/">See how we work <Icon name="arrow-right" /></a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -240,24 +256,15 @@ const steps = [
     io.observe(figures);
   }
 
-  // Scroll-linked pieces: the statement lights up word by word, the process line draws itself.
-  const say = document.querySelector<HTMLElement>('[data-say]');
-  const words = say ? Array.from(say.querySelectorAll<HTMLElement>('.w')) : [];
+  // Scroll-linked: the process line draws itself.
   const stepsEl = document.querySelector<HTMLElement>('[data-steps]');
   const stepItems = stepsEl ? Array.from(stepsEl.children) as HTMLElement[] : [];
   if (motionOK) {
-    say?.classList.add('armed');
     stepsEl?.classList.add('armed');
     let ticking = false;
     const update = () => {
       ticking = false;
       const vh = window.innerHeight;
-      if (say) {
-        const r = say.getBoundingClientRect();
-        const p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.28));
-        const lit = Math.round(p * words.length);
-        words.forEach((w, i) => w.classList.toggle('lit', i < lit));
-      }
       if (stepsEl) {
         const r = stepsEl.getBoundingClientRect();
         const p = clamp((vh * 0.78 - r.top) / (vh * 0.42));
@@ -344,12 +351,41 @@ const steps = [
 
   /* ---------- Statement ---------- */
   .statement { position: relative; z-index: 1; margin-top: -36px; border-radius: 36px 36px 0 0; background: var(--paper); box-shadow: 0 -1px 0 rgba(24, 53, 81, 0.08), 0 -28px 56px -36px rgba(24, 53, 81, 0.22); padding-block: clamp(80px, 12vw, 168px) clamp(40px, 6vw, 80px); }
-  .say { margin-top: 28px; max-width: 24ch; font-family: var(--font-display); font-size: clamp(2rem, 5vw, 4.3rem); font-weight: 460; line-height: 1.06; letter-spacing: -0.028em; color: var(--navy-700); text-wrap: balance; }
-  .sent { display: block; }
-  .sent + .sent { margin-top: 0.42em; }
-  .sent.key { font-style: italic; color: #8a6c14; }
-  .say.armed .w { opacity: 0.13; transition: opacity 0.45s ease; }
-  .say.armed .w.lit { opacity: 1; }
+  .say { margin-top: 30px; font-family: var(--font-display); font-size: clamp(2.1rem, 5.4vw, 4.6rem); font-weight: 460; line-height: 1.04; letter-spacing: -0.03em; color: var(--navy-700); }
+  .lead { display: block; }
+  /* the three places the process lives today: loose slips, each at its own angle */
+  .toks { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3em 0.26em; margin-top: 0.3em; }
+  .tok { display: inline-flex; align-items: center; gap: 0.3em; padding: 0.1em 0.36em 0.16em 0.3em; border-radius: 0.3em; background: #fff; border: 1px solid #e3ddcf; box-shadow: 0 1px 0 #fff inset, 0 18px 34px -20px rgba(24, 53, 81, 0.45), 0 2px 6px rgba(24, 53, 81, 0.06); font-style: italic; font-weight: 420; white-space: nowrap; }
+  .tok :global(svg) { width: 0.52em; height: 0.52em; flex: none; color: #8a6c14; stroke-width: 1.6; }
+  .t1 { transform: rotate(-2.2deg); }
+  .t2 { transform: rotate(1.6deg) translateY(0.06em); }
+  .t3 { transform: rotate(-1.1deg); }
+  .and { font-size: 0.62em; font-style: italic; color: var(--slate-light); padding-inline: 0.1em; }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .say .tok { transition: transform 0.9s var(--ease), opacity 0.6s ease; }
+    :global(.js) .say:not(.in) .tok { opacity: 0; transform: translateY(0.5em) rotate(0deg); }
+    :global(.js) .say .t2 { transition-delay: 0.12s; }
+    :global(.js) .say .t3 { transition-delay: 0.24s; }
+  }
+
+  .turn { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); margin-top: clamp(48px, 7vw, 96px); border-top: 1px solid #ddd6c6; }
+  .usual, .ours { padding-top: clamp(24px, 3vw, 36px); display: grid; gap: 16px; align-content: start; justify-items: start; }
+  .usual { padding-right: clamp(24px, 4vw, 64px); }
+  .ours { position: relative; padding-left: clamp(24px, 4vw, 64px); border-left: 1px solid #ddd6c6; }
+  .ours::before { content: ''; position: absolute; left: -1px; top: -1px; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-light) 60%, transparent); }
+  .turn-h { font-family: var(--font-head); font-size: 11.5px; font-weight: 650; letter-spacing: 0.17em; text-transform: uppercase; color: var(--slate-light); }
+  .ours .turn-h { color: #806414; }
+  .usual-t { max-width: 22ch; font-family: var(--font-display); font-size: clamp(1.35rem, 2.3vw, 1.9rem); font-weight: 440; line-height: 1.2; letter-spacing: -0.018em; color: var(--slate); }
+  .ours-t { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 4.3rem); font-weight: 460; line-height: 1.02; letter-spacing: -0.03em; color: var(--navy-700); text-wrap: balance; }
+  .ours-t em { font-style: italic; font-weight: 420; color: #8a6c14; }
+  .ours .text-link { margin-top: 10px; }
+  @media (max-width: 760px) {
+    .turn { grid-template-columns: 1fr; }
+    .usual { padding-right: 0; padding-bottom: 28px; }
+    .ours { padding-left: 0; border-left: 0; border-top: 1px solid #ddd6c6; }
+    .ours::before { left: 0; }
+    .tok { white-space: normal; }
+  }
 
   /* ---------- Ledger ---------- */
   .ledger-sec { position: relative; isolation: isolate; overflow: hidden; background: var(--ink-950); color: #a9bacc; padding-block: clamp(80px, 11vw, 152px); }
