@@ -76,14 +76,14 @@ const count = (s: Status) => systems.filter((x) => x.status === s).length;
   .index { display: grid; }
   .irow {
     position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 18px; align-items: center;
-    padding-block: clamp(26px, 3.4vw, 44px); text-decoration: none; color: var(--navy-700); border-top: 1px solid #e3ddcf;
+    padding-block: clamp(20px, 2.6vw, 32px); text-decoration: none; color: var(--navy-700); border-top: 1px solid #e3ddcf;
   }
   .index li:last-child .irow { border-bottom: 1px solid #e3ddcf; }
   .i-num { grid-column: 1 / 2; }
   .i-main { grid-column: 2 / 7; }
   .i-meta { grid-column: 7 / 10; }
   .i-thumb { grid-column: 10 / -1; grid-row: 1; align-self: stretch; }
-  .irow .arrow { grid-column: 10 / -1; grid-row: 1; align-self: end; justify-self: end; margin: 0 12px 12px 0; z-index: 1; width: 44px; height: 44px; background: #fff; border-color: rgba(12, 30, 51, 0.14); box-shadow: 0 6px 16px -8px rgba(12, 30, 51, 0.4); }
+  .irow .arrow { grid-column: 10 / -1; grid-row: 1; align-self: end; justify-self: end; margin: 0 12px 12px 0; z-index: 1; width: 40px; height: 40px; background: #fff; border-color: rgba(12, 30, 51, 0.14); box-shadow: 0 6px 16px -8px rgba(12, 30, 51, 0.4); }
   .i-num { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; color: #8a6c14; align-self: start; padding-top: 0.5rem; font-variant-numeric: lining-nums; }
   .i-main { display: grid; gap: 14px; min-width: 0; }
   .i-name { font-family: var(--font-display); font-size: var(--d-lg); font-weight: 470; letter-spacing: -0.032em; line-height: 1; transition: transform 0.5s var(--ease); }
