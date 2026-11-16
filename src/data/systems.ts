@@ -6,7 +6,10 @@ import plantToday from '../assets/shots/plantos-today-dark.png';
 import plantMap from '../assets/shots/plantos-plant-map-dark.png';
 import plantPhone from '../assets/shots/plantos-phone-dark.png';
 import aastaDesk from '../assets/shots/aasta-login-desk.png';
-import aastaPhone from '../assets/shots/aasta-login-phone.png';
+import aastaHome from '../assets/shots/aasta-home-phone.png';
+import aastaProgress from '../assets/shots/aasta-progress-phone.png';
+import aastaApprovals from '../assets/shots/aasta-approvals-phone.png';
+import aastaPayments from '../assets/shots/aasta-payments-phone.png';
 
 export type Status = 'production' | 'launching' | 'build' | 'demo';
 
@@ -126,7 +129,10 @@ export const systems: System[] = [
     visual: 'screens',
     screens: [
       { src: aastaDesk, alt: 'Aasta Lifespace sign-in screen on desktop, with a rendering of a modern home', caption: 'One sign-in for homeowners and staff.', kind: 'desktop', url: 'aasta-lifespace / sign-in' },
-      { src: aastaPhone, alt: 'Aasta Lifespace sign-in screen on a phone', caption: 'The same app on a phone.', kind: 'phone', url: '' },
+      { src: aastaHome, alt: 'Aasta Lifespace homeowner home screen on a phone, showing a sample project at 57% overall progress and on schedule', caption: 'My Home: where the build stands today.', kind: 'phone', url: '' },
+      { src: aastaProgress, alt: 'Aasta Lifespace progress screen on a phone, showing 15 milestones for a sample project with 7 completed', caption: 'Progress: all 15 stages, with dates.', kind: 'phone', url: '' },
+      { src: aastaApprovals, alt: 'Aasta Lifespace approvals screen on a phone, listing sample selections waiting for the homeowner', caption: 'Approvals: choices waiting for the homeowner.', kind: 'phone', url: '' },
+      { src: aastaPayments, alt: 'Aasta Lifespace payments screen on a phone, showing sample contract value, amount paid and amount outstanding', caption: 'Payments: paid, outstanding and what is due next.', kind: 'phone', url: '' },
     ],
   },
   {

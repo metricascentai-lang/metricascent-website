@@ -64,4 +64,4 @@ setting, `main` would have no `index.html` at its root and the live site would b
 - Add the Pages deploy workflow (see above).
 - Replace `bookingUrl` in `src/data/site.ts` once a new cal.com event exists. The current link
   still points at the old "free revenue recovery audit" event.
-- Add in-app screenshots for Aasta Lifespace (only the sign-in screen is shown today).
+- Add staff-portal screenshots for Aasta Lifespace. The homeowner app screens are in; the staff side is not shown yet.
