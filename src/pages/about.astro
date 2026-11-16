@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { systems, statusLabel } from '../data/systems';
 
@@ -9,56 +10,75 @@ const beliefs = [
   { title: 'One business at a time', text: 'Each system is built for a single business and how it actually operates. We reuse what we have learned, never a template.' },
   { title: 'Proof you can click', text: 'We would rather show you a working screen than describe one. That is why every engagement begins with a mock-up.' },
 ];
+
+// Same checkable figures as the homepage.
+const figures = [
+  { n: '15+', l: 'years of running operations before writing software' },
+  { n: String(systems.length), l: 'systems designed, each for one business' },
+  { n: '2,808', l: 'automated tests guard our first production system' },
+  { n: '0', l: 'messages, approvals or payments made without a person' },
+];
+const num = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <Base
   title="About MetricAscent"
   description="MetricAscent is a studio that builds custom AI operations systems for owner-led businesses in India and the United States, led by an operator with 15+ years of experience."
 >
-  <section class="page-hero">
-    <div class="wrap">
-      <p class="eyebrow">About</p>
-      <h1>Built by people who have run the operation.</h1>
-      <p class="lede">MetricAscent is a studio that builds custom AI operations systems for owner-led businesses in India and the United States.</p>
-    </div>
-  </section>
+  <PageHero eyebrow="About">
+    <Fragment slot="title">Built by people who <em>have run the operation.</em></Fragment>
+    <Fragment slot="lede">MetricAscent is a studio that builds custom AI operations systems for owner-led businesses in India and the United States.</Fragment>
+  </PageHero>
 
-  <section class="section">
+  <section class="sec">
     <div class="wrap story">
-      <div data-reveal>
+      <div class="story-side" data-reveal>
         <p class="eyebrow">Why we exist</p>
-        <h2>Most business software is written by people who have never done the job.</h2>
+        <h2>Most business software is written by people who have <em>never done the job.</em></h2>
       </div>
       <div class="story-body" data-reveal>
-        <p>Our founder spent more than 15 years running operations before building software for them, and knows first-hand what it costs when the work lives in spreadsheets, inboxes and one person’s memory.</p>
+        <p class="lead">Our founder spent more than 15 years running operations before building software for them, and knows first-hand what it costs when the work lives in spreadsheets, inboxes and one person’s memory.</p>
         <p>That is the experience we build from. Owner-led businesses do not need another generic tool that forces them to change how they work. They need a system shaped around their own process, built by people who understand why the process exists.</p>
         <p>So that is all we do. We build one system for one business at a time, and we stay honest about what is finished and what is not.</p>
       </div>
     </div>
   </section>
 
-  <section class="section section-soft">
+  <section class="sec sec-dark fig-sec">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">What we believe</p>
-        <h2>Three things that shape the work.</h2>
-      </div>
-      <ul class="beliefs">
-        {beliefs.map((b, i) => (
-          <li class="card" data-reveal>
-            <span class="num">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{b.title}</h3>
-            <p>{b.text}</p>
-          </li>
-        ))}
+      <ul class="bigfacts" data-reveal>
+        {figures.map((f) => <li><strong>{f.n}</strong><span>{f.l}</span></li>)}
       </ul>
     </div>
   </section>
 
-  <section class="section">
+  <section class="sec sec-paper">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">What we have built</p>
-        <h2>Four systems so far.</h2>
+      <div class="sec-top" data-reveal>
+        <div>
+          <p class="eyebrow">What we believe</p>
+          <h2>Three things that <em>shape the work.</em></h2>
+        </div>
+      </div>
+      <ol class="rows">
+        {beliefs.map((b, i) => (
+          <li data-reveal>
+            <span class="n">{num(i)}</span>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-top" data-reveal>
+        <div>
+          <p class="eyebrow">What we have built</p>
+          <h2>Four systems <em>so far.</em></h2>
+        </div>
+        <p>Each one is labelled with exactly where it stands today.</p>
       </div>
       <ul class="built-list">
         {systems.map((s) => (
@@ -67,7 +87,7 @@ const beliefs = [
               <span class="name">{s.name}</span>
               <span class="kind">{s.kind}</span>
               <span class={`status status-${s.status}`}>{statusLabel[s.status]}</span>
-              <Icon name="arrow-right" />
+              <span class="arrow"><Icon name="arrow-up-right" /></span>
             </a>
           </li>
         ))}
@@ -79,24 +99,34 @@ const beliefs = [
 </Base>
 
 <style>
-  .story { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(28px, 6vw, 88px); align-items: start; }
-  .story h2 { margin-top: 16px; }
-  .story-body { display: grid; gap: 20px; font-size: 1.1rem; color: var(--slate); }
-  .beliefs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .beliefs li { display: grid; gap: 10px; align-content: start; }
-  .num { font-family: var(--font-mono); font-size: 13px; color: #806414; letter-spacing: 0.1em; }
-  .beliefs p { color: var(--slate); font-size: 15.5px; }
+  .story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: start; }
+  .story-side { position: sticky; top: 128px; }
+  .story-side h2 { margin-top: 18px; }
+  .story-body { display: grid; gap: 22px; font-size: 1.1rem; color: var(--slate); }
+  .story-body .lead { font-family: var(--font-display); font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 440; line-height: 1.24; letter-spacing: -0.018em; color: var(--navy-700); }
+
+  .fig-sec { padding-block: clamp(56px, 7vw, 96px); }
+  .fig-sec .bigfacts { --rule: rgba(255, 255, 255, 0.12); border-top: 0; }
+  .fig-sec .bigfacts li { padding-top: 0; }
+  .fig-sec .bigfacts strong { color: #fff; }
+  .fig-sec .bigfacts li:last-child strong { color: var(--gold-light); }
+  .fig-sec .bigfacts span { color: #a9bacc; }
+
   .built-list { display: grid; border-top: 1px solid var(--line); }
-  .built-list a { display: grid; grid-template-columns: 1.1fr 1.2fr auto 22px; gap: 20px; align-items: center; padding: 22px 6px; border-bottom: 1px solid var(--line); text-decoration: none; transition: background 0.18s ease, padding 0.18s ease; }
-  .built-list a:hover { background: var(--bg-soft); padding-inline: 16px; }
-  .name { font-family: var(--font-head); font-weight: 680; font-size: 1.35rem; letter-spacing: -0.02em; color: var(--navy-700); }
+  .built-list a { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto 52px; gap: 24px; align-items: center; padding: clamp(20px, 2.6vw, 32px) clamp(0px, 1.4vw, 18px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); transition: background 0.3s ease; }
+  .built-list a:hover { background: var(--paper); }
+  .name { font-family: var(--font-display); font-weight: 470; font-size: clamp(1.9rem, 3.8vw, 3.1rem); letter-spacing: -0.03em; line-height: 1; transition: transform 0.5s var(--ease); }
+  .built-list a:hover .name { transform: translateX(10px); }
   .kind { color: var(--slate); }
-  .built-list :global(svg) { width: 20px; height: 20px; color: var(--gold); }
+
   @media (max-width: 860px) {
-    .story, .beliefs { grid-template-columns: 1fr; }
-    .built-list a { grid-template-columns: 1fr auto; row-gap: 6px; }
+    .story { grid-template-columns: 1fr; }
+    .story-side { position: static; }
+    .built-list a { grid-template-columns: 1fr auto; row-gap: 8px; }
     .built-list .kind { grid-column: 1; grid-row: 2; }
     .built-list .status { grid-column: 2; grid-row: 1; }
-    .built-list :global(svg) { display: none; }
+    .built-list .arrow { display: none; }
+    .fig-sec .bigfacts li { padding-top: 22px; }
+    .fig-sec .bigfacts li:nth-child(-n + 2) { padding-top: 0; }
   }
 </style>

@@ -55,7 +55,7 @@ export const systems: System[] = [
     kind: 'Operations system',
     icon: 'workflow',
     status: 'production',
-    statusNote: 'Live since October 2026',
+    statusNote: 'Live in production',
     tagline: 'One commercial cycle, from customer enquiry to order profit, in a single system.',
     builtFor: 'A biochemicals trading company in Bengaluru',
     problem:
@@ -75,7 +75,7 @@ export const systems: System[] = [
       'Two-factor sign-in is mandatory for every account.',
     ],
     facts: [
-      { n: 'Oct 2026', l: 'went live in production' },
+      { n: 'Live', l: 'in production' },
       { n: '2,800+', l: 'automated tests' },
       { n: '15+', l: 'screens' },
       { n: '54', l: 'database migrations' },

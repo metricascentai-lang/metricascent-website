@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import Shot from '../../components/Shot.astro';
+import PageHero from '../../components/PageHero.astro';
 import SystemVisual from '../../components/SystemVisual.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { systems, statusLabel, type System } from '../../data/systems';
@@ -14,59 +15,60 @@ const { system } = Astro.props;
 const index = systems.findIndex((s) => s.slug === system.slug);
 const next = systems[(index + 1) % systems.length];
 const gallery = system.screens.filter((s) => s.kind === 'desktop').slice(1);
+const num = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <Base
   title={`${system.name}: ${system.kind.toLowerCase()}`}
   description={`${system.tagline} ${statusLabel[system.status]}. Built by MetricAscent.`}
 >
-  <section class="page-hero case-hero">
-    <div class="wrap">
-      <a class="back" href="/work/"><Icon name="arrow-right" /> All work</a>
-      <p class="meta"><span class={`status status-${system.status}`}>{statusLabel[system.status]}</span><span class="kind">{system.kind}</span></p>
-      <h1>{system.name}</h1>
-      <p class="lede">{system.tagline}</p>
-      <dl class="brief">
-        <div><dt>Built for</dt><dd>{system.builtFor}</dd></div>
-        <div><dt>Status</dt><dd>{system.statusNote}</dd></div>
-      </dl>
-      {system.demo && (
+  <PageHero class="case-hero">
+    <a slot="top" class="back" href="/work/"><Icon name="arrow-right" /> All work <span>{num(index)} / {String(systems.length).padStart(2, '0')}</span></a>
+    <Fragment slot="title">{system.name}</Fragment>
+    <Fragment slot="lede">{system.tagline}</Fragment>
+    {system.demo && (
+      <div class="phero-actions">
         <a class="btn btn-gold" href={system.demo.href} target="_blank" rel="noopener">{system.demo.label} <Icon name="arrow-up-right" /></a>
-      )}
-    </div>
-    <div class="wrap">
+      </div>
+    )}
+    <dl slot="aside" class="glass spec">
+      <div><dt class="label">Status</dt><dd><span class={`status status-${system.status}`}>{statusLabel[system.status]}</span><span class="spec-note">{system.statusNote}</span></dd></div>
+      <div><dt class="label">Type</dt><dd>{system.kind}</dd></div>
+      <div><dt class="label">Built for</dt><dd>{system.builtFor}</dd></div>
+      <div><dt class="label">Built with</dt><dd class="spec-stack">{system.stack.join(' · ')}</dd></div>
+    </dl>
+    <div slot="below" class="wrap">
       <div class="case-visual"><SystemVisual system={system} eager /></div>
     </div>
-  </section>
+  </PageHero>
 
   <section class="facts">
     <div class="wrap">
-      <ul class="fact-grid">
+      <ul class="bigfacts">
         {system.facts.map((f) => <li><strong>{f.n}</strong><span>{f.l}</span></li>)}
       </ul>
       {system.honesty && <p class="honesty"><Icon name="eye" /><span>{system.honesty}</span></p>}
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap split">
-      <div data-reveal>
-        <p class="eyebrow">The problem</p>
-        <h2>What was going wrong</h2>
-      </div>
-      <p class="lede" data-reveal>{system.problem}</p>
+  <section class="sec problem">
+    <div class="wrap problem-grid">
+      <p class="eyebrow" data-reveal>The problem</p>
+      <p class="pull" data-reveal>{system.problem}</p>
     </div>
   </section>
 
-  <section class="section section-soft">
+  <section class="sec sec-paper">
     <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">What we built</p>
-        <h2>{system.status === 'production' ? 'What the system does' : 'What the system is designed to do'}</h2>
+      <div class="sec-top" data-reveal>
+        <div>
+          <p class="eyebrow">What we built</p>
+          <h2>{system.status === 'production' ? <>What the system <em>does.</em></> : <>What the system is <em>designed to do.</em></>}</h2>
+        </div>
       </div>
-      <ol class="built">
+      <ol class="rows">
         {system.built.map((b, i) => (
-          <li class="card" data-reveal>
-            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          <li data-reveal>
+            <span class="n">{num(i)}</span>
             <h3>{b.title}</h3>
             <p>{b.text}</p>
           </li>
@@ -76,18 +78,20 @@ const gallery = system.screens.filter((s) => s.kind === 'desktop').slice(1);
   </section>
 
   {gallery.length > 0 && (
-    <section class="section">
+    <section class="sec">
       <div class="wrap">
-        <div class="section-head" data-reveal>
-          <p class="eyebrow">Screens</p>
-          <h2>A closer look</h2>
-          <p>Sample data throughout.</p>
+        <div class="sec-top" data-reveal>
+          <div>
+            <p class="eyebrow">Screens</p>
+            <h2>A closer <em>look.</em></h2>
+          </div>
+          <p>Real screens from the build. Sample data throughout.</p>
         </div>
         <div class="gallery">
-          {gallery.map((screen) => (
+          {gallery.map((screen, i) => (
             <figure data-reveal>
               <Shot screen={screen} sizes="(max-width: 900px) 92vw, 560px" />
-              <figcaption>{screen.caption}</figcaption>
+              <figcaption><span>{num(i)}</span>{screen.caption}</figcaption>
             </figure>
           ))}
         </div>
@@ -95,97 +99,102 @@ const gallery = system.screens.filter((s) => s.kind === 'desktop').slice(1);
     </section>
   )}
 
-  <section class="section section-navy">
-    <div class="wrap split guard">
-      <div data-reveal>
-        <p class="eyebrow">Guardrails</p>
-        <h2>Software prepares.<br />A person decides.</h2>
-        <p class="guard-sub">The rules this system will not break.</p>
+  <section class="sec sec-dark">
+    <div class="wrap">
+      <div class="sec-top" data-reveal>
+        <div>
+          <p class="eyebrow">Guardrails</p>
+          <h2>Software prepares. <em>A person decides.</em></h2>
+        </div>
+        <p>The rules this system will not break, whatever anyone clicks.</p>
       </div>
-      <ul class="checks guard-list" data-reveal>
-        {system.guardrails.map((g) => <li><Icon name="shield" /><span>{g}</span></li>)}
-      </ul>
+      <ol class="rows guard">
+        {system.guardrails.map((g, i) => (
+          <li data-reveal>
+            <span class="n">{num(i)}</span>
+            <h3>{g}</h3>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
-  <section class="section stack-next">
-    <div class="wrap split">
-      <div data-reveal>
-        <p class="eyebrow">Built with</p>
-        <ul class="stack">
-          {system.stack.map((t) => <li>{t}</li>)}
-        </ul>
+  <a class={`next tone-${next.slug}`} href={`/work/${next.slug}/`}>
+    <div class="wrap next-in">
+      <div class="next-copy">
+        <p class="label">Next system</p>
+        <p class="next-name">{next.name}</p>
+        <p class="next-tag">{next.tagline}</p>
       </div>
-      <a class="next" href={`/work/${next.slug}/`} data-reveal>
-        <span class="note">Next system</span>
-        <strong>{next.name}</strong>
-        <span class="next-kind">{next.kind} <Icon name="arrow-right" /></span>
-      </a>
+      <span class="next-thumb"><SystemVisual system={next} /></span>
+      <span class="arrow"><Icon name="arrow-up-right" /></span>
     </div>
-  </section>
+  </a>
 
   <CtaBand title={`Need something like ${system.name}?`} text="Tell us how your business runs. We’ll mock up your system with sample data so you can click through it before any build begins." />
 </Base>
 
 <style>
-  .case-hero { padding-bottom: 0; display: flow-root; overflow: visible; }
-  .back { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #9fb2c6; text-decoration: none; margin-bottom: 26px; }
-  .back :global(svg) { width: 15px; height: 15px; transform: rotate(180deg); }
+  :global(.case-hero) { padding-bottom: 0; overflow: visible; display: flow-root; }
+  :global(.case-hero h1) { max-width: none; font-size: clamp(3.2rem, 9vw, 8rem); letter-spacing: -0.04em; }
+  :global(.case-hero .lede) { font-size: clamp(1.15rem, 1.8vw, 1.4rem); max-width: 34ch; color: #c5d2e0; }
+  .back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 12px; font-weight: 650; letter-spacing: 0.15em; text-transform: uppercase; color: #9fb2c6; text-decoration: none; }
+  .back :global(svg) { width: 15px; height: 15px; transform: rotate(180deg); transition: transform 0.25s ease; }
   .back:hover { color: #fff; }
-  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-  .kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #9fb2c6; }
-  .case-hero h1 { max-width: none; }
-  .brief { display: flex; flex-wrap: wrap; gap: 14px 48px; margin: 30px 0 0; }
-  .brief dt { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-light); }
-  .brief dd { margin: 5px 0 0; color: #fff; font-size: 1.05rem; }
-  .case-hero .btn { margin-top: 30px; }
-  .case-visual { max-width: 980px; margin: clamp(40px, 6vw, 64px) auto -96px; position: relative; z-index: 2; }
+  .back:hover :global(svg) { transform: rotate(180deg) translateX(3px); }
+  .back span { margin-left: 10px; padding-left: 14px; border-left: 1px solid rgba(255, 255, 255, 0.2); color: var(--gold-light); font-variant-numeric: tabular-nums; }
 
-  .facts { padding-top: 150px; padding-bottom: clamp(36px, 5vw, 56px); border-bottom: 1px solid var(--line); }
-  .fact-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-  .fact-grid li { padding: 6px 28px; border-left: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
-  .fact-grid li:first-child { border-left: 0; padding-left: 0; }
-  .fact-grid strong { font-family: var(--font-head); font-size: clamp(1.5rem, 2.8vw, 2.1rem); font-weight: 720; letter-spacing: -0.03em; color: var(--navy-700); line-height: 1.15; }
-  .fact-grid span { color: var(--slate); font-size: 15px; }
-  .honesty { margin-top: 30px; display: grid; grid-template-columns: 22px 1fr; gap: 14px; padding: 18px 20px; border-radius: 12px; background: var(--blue-soft); color: #1f3f6e; font-size: 15.5px; max-width: 860px; }
+  .spec { margin: 0; display: grid; }
+  .spec div { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: baseline; padding-block: 14px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .spec div:first-child { border-top: 0; padding-top: 0; }
+  .spec div:last-child { padding-bottom: 0; }
+  .spec dd { margin: 0; color: #fff; font-size: 15.5px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .spec-note { color: #a9bacc; font-size: 14px; }
+  .spec-stack { color: #c5d2e0 !important; font-size: 14.5px !important; }
+
+  .case-visual { max-width: 1040px; margin: clamp(48px, 7vw, 88px) auto -110px; position: relative; z-index: 2; }
+
+  .facts { padding-top: 174px; padding-bottom: clamp(20px, 3vw, 40px); }
+  .honesty { margin-top: 36px; display: grid; grid-template-columns: 22px 1fr; gap: 14px; padding: 18px 22px; border-radius: 14px; background: var(--blue-soft); color: #1f3f6e; font-size: 15.5px; max-width: 860px; }
   .honesty :global(svg) { width: 20px; height: 20px; margin-top: 3px; }
 
-  .split { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(28px, 6vw, 88px); align-items: start; }
-  .split h2 { margin-top: 16px; }
+  .problem { padding-block: clamp(56px, 8vw, 112px); }
+  .problem-grid { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start; }
+  .problem-grid .eyebrow { margin-top: 1rem; }
+  .pull { font-family: var(--font-display); font-size: clamp(1.6rem, 3.2vw, 2.7rem); font-weight: 440; line-height: 1.16; letter-spacing: -0.022em; color: var(--navy-700); max-width: 26ch; text-wrap: pretty; }
 
-  .built { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .built li { display: grid; gap: 10px; align-content: start; }
-  .num { font-family: var(--font-mono); font-size: 13px; color: #806414; letter-spacing: 0.1em; }
-  .built p { color: var(--slate); font-size: 15.5px; }
+  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 3vw, 44px); }
+  figure { margin: 0; display: grid; gap: 18px; align-content: start; }
+  figcaption { display: grid; grid-template-columns: 36px 1fr; color: var(--slate); font-size: 15px; }
+  figcaption span { font-family: var(--font-display); font-style: italic; color: #8a6c14; }
 
-  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  figure { margin: 0; display: grid; gap: 16px; }
-  figcaption { color: var(--slate); font-size: 15px; }
+  .guard h3 { grid-column: 2 / -1; color: #eef3f8; font-weight: 440; font-size: clamp(1.3rem, 2.3vw, 1.85rem); line-height: 1.2; max-width: 34ch; }
 
-  .guard-sub { margin-top: 16px; color: #b7c6d6; font-size: 1.1rem; }
-  .guard-list { gap: 0; }
-  .guard-list li { grid-template-columns: 26px 1fr; gap: 16px; padding-block: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); font-size: 1.08rem; color: #e6edf5; }
-  .guard-list li:first-child { padding-top: 0; }
-  .guard-list :global(svg) { width: 22px; height: 22px; color: var(--gold-light); }
-
-  .stack-next { padding-bottom: 0; }
-  .stack { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
-  .stack li { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg-soft); font-family: var(--font-mono); font-size: 13px; color: var(--navy-700); }
-  .next { display: grid; gap: 6px; padding: 26px 28px; border: 1px solid var(--line); border-radius: var(--radius); text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; }
-  .next:hover { border-color: var(--gold); transform: translateY(-3px); }
-  .next strong { font-family: var(--font-head); font-size: 1.6rem; letter-spacing: -0.03em; color: var(--navy-700); }
-  .next-kind { display: inline-flex; align-items: center; gap: 8px; color: var(--slate); }
-  .next-kind :global(svg) { width: 16px; height: 16px; color: var(--gold); }
+  /* next system: a full-width link */
+  .next { display: block; text-decoration: none; background: var(--n-bg); color: var(--n-text); transition: filter 0.4s ease; }
+  .next:hover { filter: brightness(1.04); }
+  .tone-asta-os { --n-bg: #ffffff; --n-text: var(--navy-700); --n-soft: var(--slate); --n-line: #e3e8ee; }
+  .tone-aasta-lifespace { --n-bg: linear-gradient(140deg, #f4eee2, #ece3d2); --n-text: #2a2a22; --n-soft: #5f5946; --n-line: #dfd5bf; }
+  .tone-plant-os { --n-bg: linear-gradient(160deg, #0a1524, #060d18); --n-text: #fff; --n-soft: #a9bacc; --n-line: rgba(255, 255, 255, 0.12); }
+  .tone-lead-engine { --n-bg: linear-gradient(160deg, #14365a, #0d2440); --n-text: #fff; --n-soft: #b9c8d8; --n-line: rgba(255, 255, 255, 0.14); }
+  .next-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px) 52px; gap: clamp(24px, 4vw, 64px); align-items: center; padding-block: clamp(48px, 7vw, 96px); }
+  .next .label { color: var(--n-soft); }
+  .next-name { margin-top: 14px; font-family: var(--font-display); font-size: clamp(2.6rem, 6.4vw, 5.6rem); font-weight: 460; letter-spacing: -0.035em; line-height: 0.98; transition: transform 0.5s var(--ease); }
+  .next:hover .next-name { transform: translateX(12px); }
+  .next-tag { margin-top: 16px; color: var(--n-soft); font-size: 1.08rem; max-width: 44ch; }
+  .next-thumb { display: block; aspect-ratio: 16 / 10.4; border-radius: 14px; overflow: hidden; border: 1px solid var(--n-line); background: rgba(127, 127, 127, 0.08); }
+  .next-thumb > :global(*) { width: 132%; margin: 9% 0 0 9%; transform-origin: 0 0; transition: transform 0.7s var(--ease); }
+  .next:hover .next-thumb > :global(*) { transform: scale(1.05); }
 
   @media (max-width: 900px) {
-    .split, .gallery { grid-template-columns: 1fr; }
-    .built { grid-template-columns: 1fr 1fr; }
-    .fact-grid { grid-template-columns: 1fr 1fr; row-gap: 26px; }
-    .fact-grid li:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .gallery, .problem-grid { grid-template-columns: 1fr; }
+    .problem-grid .eyebrow { margin-top: 0; }
+    .next-in { grid-template-columns: 1fr 52px; }
+    .next-thumb { display: none; }
   }
   @media (max-width: 620px) {
-    .built { grid-template-columns: 1fr; }
-    .case-visual { margin-bottom: -56px; }
-    .facts { padding-top: 96px; }
+    .case-visual { margin-bottom: -60px; }
+    .facts { padding-top: 104px; }
+    .spec div { grid-template-columns: 1fr; gap: 4px; }
   }
 </style>

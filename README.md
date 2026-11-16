@@ -24,8 +24,16 @@ Requires Node 22 or newer.
 | `src/components/` | Header, footer, product frames, the Lead Desk illustration |
 | `src/components/home/` | Homepage pieces: `LiveConsole` (animated hero), `WorkStack` (stacking case cards), `VerifyTerminal` (release check) |
 | `src/styles/global.css` | Design tokens (colours, type, spacing) and shared classes |
+| `src/styles/pages.css` | Inner-page building blocks: dark page hero, numbered rows, large figures |
+| `src/components/PageHero.astro` | The dark hero used on every inner page (title, lede and side panel are slots) |
 | `src/assets/shots/` | Product screenshots. Astro converts them to responsive WebP at build time |
 | `public/` | Files copied as-is: `CNAME`, favicons, `robots.txt` |
+
+## Typography
+
+Display type is **Newsreader** (Production Type); text and interface type is **Libre Franklin**
+(a revival of Franklin Gothic). IBM Plex Mono is used only for code-like values in the hero
+console and the terminal. All three are self-hosted through Fontsource.
 
 ## Rules for content
 

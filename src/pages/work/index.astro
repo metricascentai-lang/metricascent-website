@@ -1,36 +1,64 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import PageHero from '../../components/PageHero.astro';
 import SystemVisual from '../../components/SystemVisual.astro';
 import CtaBand from '../../components/CtaBand.astro';
-import { systems, statusLabel } from '../../data/systems';
+import { systems, statusLabel, type Status } from '../../data/systems';
+
+// What each status label on this site means, in one line.
+const legend: { status: Status; text: string }[] = [
+  { status: 'production', text: 'Running a real business.' },
+  { status: 'launching', text: 'Built, in final testing before go-live.' },
+  { status: 'build', text: 'Being built with its first client.' },
+  { status: 'demo', text: 'A clickable demo, shown before any build.' },
+];
+const count = (s: Status) => systems.filter((x) => x.status === s).length;
 ---
 <Base
   title="Our work: custom AI systems we have built"
   description="Four custom systems built by MetricAscent: an operations system in production, a client app about to launch, a plant control room demo and a lead engine in build."
 >
-  <section class="page-hero">
-    <div class="wrap">
-      <p class="eyebrow">Our work</p>
-      <h1>Real systems, labelled honestly.</h1>
-      <p class="lede">One is in production, one is about to launch, and two are earlier. Each page says exactly where the system stands. Every screen shows sample data.</p>
+  <PageHero eyebrow="Our work">
+    <Fragment slot="title">Real systems, <em>labelled honestly.</em></Fragment>
+    <Fragment slot="lede">Each page says exactly where the system stands, what it does and the rules it cannot break. Every screen shows sample data.</Fragment>
+    <div slot="aside" class="glass legend">
+      <p class="label">How to read the labels</p>
+      <ul>
+        {legend.map((l) => (
+          <li>
+            <span class={`status status-${l.status}`}>{statusLabel[l.status]}</span>
+            <span class="l-text">{l.text}</span>
+            <span class="l-count">{count(l.status)}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-  </section>
+  </PageHero>
 
-  <section class="section">
-    <div class="wrap grid">
-      {systems.map((s) => (
-        <a class="tile" href={`/work/${s.slug}/`} data-reveal>
-          <div class="tile-visual"><SystemVisual system={s} /></div>
-          <div class="tile-copy">
-            <p class="meta"><span class={`status status-${s.status}`}>{statusLabel[s.status]}</span><span class="kind">{s.kind}</span></p>
-            <h2>{s.name}</h2>
-            <p class="tagline">{s.tagline}</p>
-            <p class="for">Built for: {s.builtFor.charAt(0).toLowerCase() + s.builtFor.slice(1)}</p>
-            <span class="text-link">Read the case study <Icon name="arrow-right" /></span>
-          </div>
-        </a>
-      ))}
+  <section class="sec sec-paper list-sec">
+    <div class="wrap">
+      <ol class="index">
+        {systems.map((s, i) => (
+          <li data-reveal>
+            <a class={`irow tone-${s.slug}`} href={`/work/${s.slug}/`}>
+              <span class="i-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="i-main">
+                <span class="i-name">{s.name}</span>
+                <span class="i-tag">{s.tagline}</span>
+              </span>
+              <span class="i-meta">
+                <span class={`status status-${s.status}`}>{statusLabel[s.status]}</span>
+                <span class="i-kind">{s.kind}</span>
+                <span class="i-for">Built for {s.builtFor.charAt(0).toLowerCase() + s.builtFor.slice(1)}</span>
+              </span>
+              <span class="i-thumb"><SystemVisual system={s} /></span>
+              <span class="arrow"><Icon name="arrow-up-right" /></span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="note list-note">Every product screen on this site shows sample data.</p>
     </div>
   </section>
 
@@ -38,17 +66,50 @@ import { systems, statusLabel } from '../../data/systems';
 </Base>
 
 <style>
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
-  .tile { display: grid; grid-template-rows: auto 1fr; text-decoration: none; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
-  .tile:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 22px 48px -22px rgba(12, 30, 51, 0.35); }
-  .tile-visual { background: linear-gradient(160deg, #eaf0f6, #f6f8fb); padding: clamp(22px, 4vw, 40px) clamp(22px, 4vw, 40px) 0; aspect-ratio: 16 / 10.6; overflow: hidden; display: flex; align-items: flex-start; }
-  .tile-visual > :global(*) { width: 100%; }
-  .tile-visual :global(.frame), .tile-visual :global(.desk) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-  .tile-copy { display: grid; gap: 14px; padding: clamp(24px, 3vw, 34px); align-content: start; justify-items: start; border-top: 1px solid var(--line); position: relative; background: #fff; }
-  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-  .kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate-light); }
-  h2 { font-size: clamp(1.5rem, 2.6vw, 1.95rem); }
-  .tagline { color: var(--slate); }
-  .for { font-size: 15px; color: var(--slate-light); }
-  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .legend ul { display: grid; margin-top: 14px; }
+  .legend li { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding-block: 13px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .legend .status { justify-self: start; }
+  .l-text { font-size: 14.5px; line-height: 1.4; color: #c5d2e0; }
+  .l-count { font-family: var(--font-display); font-size: 1.6rem; line-height: 1; color: #fff; font-variant-numeric: lining-nums; }
+
+  .list-sec { padding-top: clamp(40px, 6vw, 80px); }
+  .index { display: grid; }
+  .irow {
+    position: relative; display: grid; grid-template-columns: 56px minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 320px) 52px; gap: clamp(18px, 2.6vw, 40px); align-items: center;
+    padding: clamp(26px, 3.4vw, 44px) clamp(0px, 1.6vw, 22px); text-decoration: none; color: var(--navy-700); border-top: 1px solid #e3ddcf;
+    transition: background 0.35s ease, padding 0.45s var(--ease);
+  }
+  .index li:last-child .irow { border-bottom: 1px solid #e3ddcf; }
+  .irow:hover { background: #fff; }
+  .i-num { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; color: #8a6c14; align-self: start; padding-top: 0.5rem; font-variant-numeric: lining-nums; }
+  .i-main { display: grid; gap: 14px; min-width: 0; }
+  .i-name { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.4rem); font-weight: 470; letter-spacing: -0.032em; line-height: 0.98; transition: transform 0.5s var(--ease); }
+  .irow:hover .i-name { transform: translateX(10px); }
+  .i-tag { font-size: 1.08rem; line-height: 1.5; color: var(--slate); max-width: 40ch; }
+  .i-meta { display: grid; gap: 10px; justify-items: start; min-width: 0; }
+  .i-kind { font-family: var(--font-head); font-size: 11.5px; font-weight: 650; letter-spacing: 0.13em; text-transform: uppercase; color: var(--slate-light); }
+  .i-for { font-size: 14.5px; line-height: 1.45; color: var(--slate); }
+  .i-thumb { display: block; aspect-ratio: 16 / 10.4; border-radius: 14px; overflow: hidden; background: var(--t-bg, #e9eef4); border: 1px solid rgba(12, 30, 51, 0.1); }
+  .i-thumb > :global(*) { width: 132%; margin: 9% 0 0 9%; transition: transform 0.7s var(--ease); transform-origin: 0 0; }
+  .irow:hover .i-thumb > :global(*) { transform: scale(1.05); }
+  .tone-asta-os { --t-bg: linear-gradient(150deg, #e8eef5, #f4f6f9); }
+  .tone-aasta-lifespace { --t-bg: linear-gradient(150deg, #efe6d4, #f6f0e4); }
+  .tone-plant-os { --t-bg: linear-gradient(150deg, #0d1b2d, #060d18); }
+  .tone-lead-engine { --t-bg: linear-gradient(150deg, #173a5f, #0d2440); }
+  .irow .arrow { color: var(--navy-700); }
+  .list-note { margin-top: 26px; }
+
+  @media (max-width: 1060px) {
+    .irow { grid-template-columns: 48px minmax(0, 1fr) minmax(0, 300px); }
+    .i-meta { grid-column: 2; }
+    .i-thumb { grid-column: 3; grid-row: 1 / span 2; }
+    .irow .arrow { display: none; }
+  }
+  @media (max-width: 720px) {
+    .irow { grid-template-columns: 40px 1fr; row-gap: 18px; padding-inline: 0; }
+    .i-thumb { grid-column: 1 / -1; grid-row: 1; }
+    .i-meta { grid-column: 2; }
+    .legend li { grid-template-columns: 1fr auto; }
+    .l-text { grid-column: 1 / -1; grid-row: 2; }
+  }
 </style>
