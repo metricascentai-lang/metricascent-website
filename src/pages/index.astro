@@ -20,11 +20,6 @@ const capabilities = [
   'Batch hold and release', 'Buyer evidence', 'Audit trail', 'Access by role', 'Sign-in by phone',
 ];
 
-const scattered = [
-  { icon: 'table', text: 'spreadsheets,' },
-  { icon: 'inbox', text: 'inboxes' },
-  { icon: 'user', text: 'one person’s memory.' },
-];
 
 const systemDoes = [
   'Reads the enquiry, the PDF, the lab reading',
@@ -112,13 +107,10 @@ const steps = [
     <div class="wrap">
       <p class="eyebrow">The problem</p>
       <h2 class="say" data-reveal>
-        <span class="lead">Your process lives in</span>
-        <span class="toks">
-          <span class="tok t1"><Icon name={scattered[0].icon} />{scattered[0].text}</span>
-          <span class="tok t2"><Icon name={scattered[1].icon} />{scattered[1].text}</span>
-          <span class="and">and</span>
-          <span class="tok t3"><Icon name={scattered[2].icon} />{scattered[2].text}</span>
-        </span>
+        Your process lives in{' '}
+        <span class="noun"><i class="pic"><Icon name="table" /></i>spreadsheets,</span>{' '}
+        <span class="noun"><i class="pic"><Icon name="inbox" /></i>inboxes</span>{' '}and{' '}
+        <span class="noun long"><span class="nb"><i class="pic"><Icon name="user" /></i>one</span> person&rsquo;s memory.</span>
       </h2>
 
       <div class="turn">
@@ -370,22 +362,11 @@ const steps = [
 
   /* ---------- Statement ---------- */
   .statement { position: relative; z-index: 1; margin-top: -36px; border-radius: 36px 36px 0 0; background: var(--paper); box-shadow: 0 -1px 0 rgba(24, 53, 81, 0.08), 0 -28px 56px -36px rgba(24, 53, 81, 0.22); padding-block: clamp(80px, 12vw, 168px) clamp(40px, 6vw, 80px); }
-  .say { margin-top: 30px; font-family: var(--font-display); font-size: clamp(2.1rem, 5.4vw, 4.6rem); font-weight: 460; line-height: 1.04; letter-spacing: -0.03em; color: var(--navy-700); }
-  .lead { display: block; }
-  /* the three places the process lives today: loose slips, each at its own angle */
-  .toks { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3em 0.26em; margin-top: 0.3em; }
-  .tok { display: inline-flex; align-items: center; gap: 0.3em; padding: 0.1em 0.36em 0.16em 0.3em; border-radius: 0.3em; background: #fff; border: 1px solid #e3ddcf; box-shadow: 0 1px 0 #fff inset, 0 18px 34px -20px rgba(24, 53, 81, 0.45), 0 2px 6px rgba(24, 53, 81, 0.06); font-style: italic; font-weight: 420; white-space: nowrap; }
-  .tok :global(svg) { width: 0.52em; height: 0.52em; flex: none; color: #8a6c14; stroke-width: 1.6; }
-  .t1 { transform: rotate(-2.2deg); }
-  .t2 { transform: rotate(1.6deg) translateY(0.06em); }
-  .t3 { transform: rotate(-1.1deg); }
-  .and { font-size: 0.62em; font-style: italic; color: var(--slate-light); padding-inline: 0.1em; }
-  @media (prefers-reduced-motion: no-preference) {
-    :global(.js) .say .tok { transition: transform 0.9s var(--ease), opacity 0.6s ease; }
-    :global(.js) .say:not(.in) .tok { opacity: 0; transform: translateY(0.5em) rotate(0deg); }
-    :global(.js) .say .t2 { transition-delay: 0.12s; }
-    :global(.js) .say .t3 { transition-delay: 0.24s; }
-  }
+  .say { margin-top: 28px; max-width: 21ch; font-family: var(--font-display); font-size: clamp(2.2rem, 5.2vw, 4.5rem); font-weight: 460; line-height: 1.1; letter-spacing: -0.03em; color: var(--navy-700); }
+  /* the three places the process lives today: each set in italic behind a small pictogram */
+  .noun { font-style: italic; font-weight: 420; white-space: nowrap; }
+  .pic { display: inline-grid; place-items: center; width: 0.7em; height: 0.7em; margin-right: 0.16em; border-radius: 0.2em; background: #fff; color: #8a6c14; border: 1px solid #e0d8c4; vertical-align: 0.02em; box-shadow: 0 0.16em 0.36em -0.2em rgba(24, 53, 81, 0.5); }
+  .pic :global(svg) { width: 0.4em; height: 0.4em; stroke-width: 1.8; }
 
   .turn { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); margin-top: clamp(48px, 7vw, 96px); border-top: 1px solid #ddd6c6; }
   .usual, .ours { padding-top: clamp(24px, 3vw, 36px); display: grid; gap: 16px; align-content: start; justify-items: start; }
@@ -403,7 +384,9 @@ const steps = [
     .usual { padding-right: 0; padding-bottom: 28px; }
     .ours { padding-left: 0; border-left: 0; border-top: 1px solid #ddd6c6; }
     .ours::before { left: 0; }
-    .tok { white-space: normal; }
+    .say { max-width: none; }
+    .noun.long { white-space: normal; }
+    .nb { white-space: nowrap; }
   }
 
   /* ---------- Ledger ---------- */
