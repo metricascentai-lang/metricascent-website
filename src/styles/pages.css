@@ -1,22 +1,22 @@
 /* Shared pieces for the inner pages: the dark page hero and the editorial building blocks. */
 
 /* ---------- Page hero ---------- */
-.phero { position: relative; isolation: isolate; overflow: clip; background: var(--ink-950); color: #b3c3d4; padding-block: clamp(128px, 17vh, 196px) clamp(56px, 8vw, 104px); }
+.phero { position: relative; isolation: isolate; overflow: clip; background: #fff; color: var(--slate); border-bottom: 1px solid var(--line); padding-block: clamp(128px, 17vh, 196px) clamp(56px, 8vw, 104px); }
 .phero-bg { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 .phero-bg i { position: absolute; display: block; }
 .phero-bg .orb { border-radius: 50%; filter: blur(96px); }
-.phero-bg .o1 { width: 620px; height: 620px; left: -200px; top: -300px; background: #1f66b4; opacity: 0.5; }
-.phero-bg .o2 { width: 520px; height: 520px; right: -180px; top: -60px; background: #c9a23f; opacity: 0.22; }
-.phero-bg .o3 { width: 860px; height: 420px; left: 34%; bottom: -320px; background: #1a4a7c; opacity: 0.5; }
-.phero-bg .mesh { inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 80% 70% at 30% 0%, #000 10%, transparent 72%); }
-.phero-bg .grain { inset: 0; opacity: 0.22; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E"); }
+.phero-bg .o1 { width: 620px; height: 620px; left: -200px; top: -300px; background: #dbe8fb; opacity: 0.75; }
+.phero-bg .o2 { width: 520px; height: 520px; right: -180px; top: -60px; background: #f6e7b8; opacity: 0.4; }
+.phero-bg .o3 { width: 860px; height: 420px; left: 34%; bottom: -320px; background: #eef3f9; opacity: 0.8; }
+.phero-bg .mesh { inset: 0; background-image: linear-gradient(rgba(24, 53, 81, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(24, 53, 81, 0.055) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 80% 70% at 30% 0%, #000 10%, transparent 72%); }
+.phero-bg .grain { inset: 0; opacity: 0.08; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E"); }
 .phero-grid { display: grid; gap: clamp(32px, 5vw, 80px); align-items: end; }
 .phero-grid.has-aside { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); }
 .phero-main { min-width: 0; }
-.phero .eyebrow { color: var(--gold-light); }
-.phero h1 { color: #fff; margin-top: 22px; font-size: clamp(2.9rem, 7.2vw, 6.2rem); line-height: 0.98; max-width: 13ch; }
-.phero h1 em { font-style: italic; font-weight: 420; padding-right: 0.06em; background: linear-gradient(100deg, #f1d894 0%, #d8b452 45%, #b98d2c 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.phero .lede { color: #a9bacc; margin-top: 28px; max-width: 54ch; }
+.phero .eyebrow { color: #806414; }
+.phero h1 { color: var(--navy-700); margin-top: 22px; font-size: clamp(2.9rem, 7.2vw, 6.2rem); line-height: 0.98; max-width: 13ch; }
+.phero h1 em { font-style: italic; font-weight: 420; padding-right: 0.06em; background: linear-gradient(100deg, #c39a36 0%, #a07c1c 50%, #8a6c14 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.phero .lede { color: var(--slate); margin-top: 28px; max-width: 54ch; }
 .phero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .phero-aside { min-width: 0; }
 @media (prefers-reduced-motion: no-preference) {
@@ -34,10 +34,10 @@
 }
 @media (max-width: 900px) { .phero-grid.has-aside { grid-template-columns: 1fr; align-items: start; } }
 
-/* a glass panel that sits on the dark hero */
-.glass { border-radius: 20px; padding: clamp(22px, 2.6vw, 30px); background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 40px 80px -40px rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+/* a dark panel that sits on the white hero, the same way the console does on the homepage */
+.glass { border-radius: 20px; padding: clamp(22px, 2.6vw, 30px); color: #b3c3d4; background: linear-gradient(165deg, #122238, #08111e); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 44px 90px -44px rgba(8, 20, 36, 0.6), 0 12px 30px -14px rgba(8, 20, 36, 0.26); }
 .label { font-family: var(--font-head); font-size: 11px; font-weight: 650; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-light); }
-.on-dark .label, .phero .label { color: #8fa2b7; }
+.on-dark .label, .glass .label { color: #8fa2b7; }
 
 /* ---------- Sections ---------- */
 .sec { padding-block: clamp(72px, 10vw, 144px); }

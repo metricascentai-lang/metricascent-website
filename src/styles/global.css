@@ -102,6 +102,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .btn-navy:hover { background: var(--navy-600); transform: translateY(-1px); }
 .btn-ghost { border-color: rgba(255, 255, 255, 0.32); color: #fff; }
 .btn-ghost:hover { border-color: #fff; background: rgba(255, 255, 255, 0.07); }
+/* the heroes are white, so the ghost button reads as a navy outline there */
+.hero .btn-ghost, .phero .btn-ghost { border-color: rgba(24, 53, 81, 0.3); color: var(--navy-700); background: #fff; }
+.hero .btn-ghost:hover, .phero .btn-ghost:hover { border-color: var(--navy-700); background: #fff; }
 .btn-outline { border-color: #cfd7e1; color: var(--navy-700); background: #fff; }
 .btn-outline:hover { border-color: var(--navy-700); }
 .text-link {

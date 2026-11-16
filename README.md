@@ -24,8 +24,8 @@ Requires Node 22 or newer.
 | `src/components/` | Header, footer, product frames, the Lead Desk illustration |
 | `src/components/home/` | Homepage pieces: `LiveConsole` (animated hero), `WorkStack` (stacking case cards), `VerifyTerminal` (release check) |
 | `src/styles/global.css` | Design tokens (colours, type, spacing) and shared classes |
-| `src/styles/pages.css` | Inner-page building blocks: dark page hero, numbered rows, large figures |
-| `src/components/PageHero.astro` | The dark hero used on every inner page (title, lede and side panel are slots) |
+| `src/styles/pages.css` | Inner-page building blocks: white page hero, numbered rows, large figures |
+| `src/components/PageHero.astro` | The white hero used on every inner page (title, lede and side panel are slots) |
 | `src/assets/shots/` | Product screenshots. Astro converts them to responsive WebP at build time |
 | `public/` | Files copied as-is: `CNAME`, favicons, `robots.txt` |
 
