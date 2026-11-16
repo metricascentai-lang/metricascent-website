@@ -197,7 +197,18 @@ const scenarios: Scenario[] = [
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tab]'));
     const pauseBtn = root.querySelector<HTMLButtonElement>('[data-pause]');
     const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const STEP = 620;
+    // Pacing, in milliseconds. Each stage is held long enough for a first-time
+    // visitor to read it; one system takes about 17 seconds from start to finish.
+    const PACE = {
+      arrive: 300,          // the incoming item appears
+      readInput: 1900,      // time to read it before the system starts
+      step: 1500,           // each "system prepares" line: working, then ticked
+      beforeDecision: 700,  // a beat after the last tick
+      readDecision: 2500,   // time to read the decision card before the cursor moves
+      cursor: 1400,         // cursor travels to the button
+      press: 220,           // button held down
+      readResult: 4000,     // time to read the outcome and the log line
+    };
     let index = 0;
     let timers: number[] = [];
     let inView = false;
@@ -231,20 +242,20 @@ const scenarios: Scenario[] = [
       void tabs[i].offsetWidth;
       tabs[i].classList.add('run');
 
-      at(180, () => { s.classList.add('p-in'); rail(0.3); });
+      at(PACE.arrive, () => { s.classList.add('p-in'); rail(0.3); });
       steps.forEach((li, n) => {
-        at(n === 0 ? 820 : STEP, () => {
+        at(n === 0 ? PACE.readInput : PACE.step, () => {
           steps[n - 1]?.classList.replace('on', 'done');
           li.classList.add('on');
           rail(0.42 + (n / steps.length) * 0.4);
         });
       });
-      at(STEP, () => { steps[steps.length - 1].classList.replace('on', 'done'); rail(1); });
-      at(340, () => s.classList.add('p-dec'));
-      at(1150, () => s.classList.add('p-aim'));
-      at(980, () => s.classList.add('p-press'));
-      at(190, () => { s.classList.remove('p-press'); s.classList.add('p-ok'); });
-      at(2700, () => play((i + 1) % scns.length));
+      at(PACE.step, () => { steps[steps.length - 1].classList.replace('on', 'done'); rail(1); });
+      at(PACE.beforeDecision, () => s.classList.add('p-dec'));
+      at(PACE.readDecision, () => s.classList.add('p-aim'));
+      at(PACE.cursor, () => s.classList.add('p-press'));
+      at(PACE.press, () => { s.classList.remove('p-press'); s.classList.add('p-ok'); });
+      at(PACE.readResult, () => play((i + 1) % scns.length));
       root.style.setProperty('--dur', `${t}ms`);
     };
 
@@ -384,30 +395,31 @@ const scenarios: Scenario[] = [
   .c-tag { flex: none; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: #8fa2b7; padding: 4px 9px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; }
 
   /* Animated states, switched on only when the script decides motion is welcome */
-  .live .scn { transition: opacity 0.45s ease; }
+  .live .scn { transition: opacity 0.6s ease; }
+  .live .rail i { transition-duration: 1.2s; }
   .live .in-card { opacity: 0; transform: translateY(-10px) scale(0.98); }
-  .live .p-in .in-card { opacity: 1; transform: none; transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
-  .live .steps li { opacity: 0.3; transition: opacity 0.35s ease, background 0.35s ease; }
+  .live .p-in .in-card { opacity: 1; transform: none; transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .live .steps li { opacity: 0.3; transition: opacity 0.5s ease, background 0.5s ease; }
   .live .steps li .g :global(svg) { opacity: 0; transform: scale(0.4); transition: opacity 0.25s ease, transform 0.35s var(--ease); }
   .live .steps li .g { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.2); }
   .live .steps li .v { opacity: 0; transform: translateX(6px); transition: opacity 0.3s ease, transform 0.3s ease; }
   .live .steps li.on { opacity: 1; background: rgba(124, 196, 255, 0.07); }
-  .live .steps li.on .g { box-shadow: none; border: 1.5px solid rgba(124, 196, 255, 0.25); border-top-color: var(--sys); animation: turn 0.7s linear infinite; }
+  .live .steps li.on .g { box-shadow: none; border: 1.5px solid rgba(124, 196, 255, 0.25); border-top-color: var(--sys); animation: turn 0.9s linear infinite; }
   .live .steps li.done { opacity: 1; }
   .live .steps li.done .g { background: rgba(124, 196, 255, 0.16); box-shadow: none; }
   .live .steps li.done .g :global(svg) { opacity: 1; transform: none; }
   .live .steps li.done .v { opacity: 1; transform: none; }
   @keyframes turn { to { transform: rotate(360deg); } }
   .live .dec { opacity: 0; transform: translateY(16px) scale(0.97); }
-  .live .p-dec .dec { opacity: 1; transform: none; transition: opacity 0.55s var(--ease), transform 0.7s var(--ease); }
-  .live .p-dec .wait { opacity: 0; transition: opacity 0.3s ease; }
+  .live .p-dec .dec { opacity: 1; transform: none; transition: opacity 0.8s var(--ease), transform 1s var(--ease); }
+  .live .p-dec .wait { opacity: 0; transition: opacity 0.4s ease; }
   .live .dec dl div { opacity: 0; transform: translateY(6px); }
-  .live .p-dec .dec dl div { opacity: 1; transform: none; transition: opacity 0.4s ease, transform 0.4s ease; }
-  .live .p-dec .dec dl div:nth-child(1) { transition-delay: 0.22s; }
-  .live .p-dec .dec dl div:nth-child(2) { transition-delay: 0.34s; }
-  .live .p-dec .dec dl div:nth-child(3) { transition-delay: 0.46s; }
+  .live .p-dec .dec dl div { opacity: 1; transform: none; transition: opacity 0.5s ease, transform 0.5s ease; }
+  .live .p-dec .dec dl div:nth-child(1) { transition-delay: 0.4s; }
+  .live .p-dec .dec dl div:nth-child(2) { transition-delay: 0.65s; }
+  .live .p-dec .dec dl div:nth-child(3) { transition-delay: 0.9s; }
   .live .cursor { display: block; opacity: 0; transform: translate(-190px, -150px); }
-  .live .p-aim .cursor { opacity: 1; transform: none; transition: transform 0.95s var(--ease), opacity 0.3s ease; }
+  .live .p-aim .cursor { opacity: 1; transform: none; transition: transform 1.3s var(--ease), opacity 0.4s ease; }
   .live .p-press .cursor { transform: scale(0.86); transition: transform 0.12s ease; }
   .live .p-press .go { transform: scale(0.965); }
   .live .p-ok .go { background: rgba(225, 189, 99, 0.12); color: var(--gold-light); box-shadow: inset 0 0 0 1px rgba(225, 189, 99, 0.5); }
