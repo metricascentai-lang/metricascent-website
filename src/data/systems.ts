@@ -5,7 +5,7 @@ import astaPL from '../assets/shots/astaos-order-pl.png';
 import plantToday from '../assets/shots/plantos-today-dark.png';
 import plantMap from '../assets/shots/plantos-plant-map-dark.png';
 import plantPhone from '../assets/shots/plantos-phone-dark.png';
-import aastaDesk from '../assets/shots/aasta-login-desk.png';
+import aastaDesk from '../assets/shots/aasta-timeline-desk.png';
 import aastaHome from '../assets/shots/aasta-home-phone.png';
 import aastaProgress from '../assets/shots/aasta-progress-phone.png';
 import aastaApprovals from '../assets/shots/aasta-approvals-phone.png';
@@ -128,7 +128,7 @@ export const systems: System[] = [
     highlights: ['Homeowner app and staff portal', 'Role-based access in the database', 'Web, Android and iOS'],
     visual: 'screens',
     screens: [
-      { src: aastaDesk, alt: 'Aasta Lifespace sign-in screen on desktop, with a rendering of a modern home', caption: 'One sign-in for homeowners and staff.', kind: 'desktop', url: 'aasta-lifespace / sign-in' },
+      { src: aastaDesk, alt: 'Aasta Lifespace project screen on desktop, showing the construction timeline for a sample project with 15 stages, 7 completed', caption: 'Project timeline: every stage, its date and where it stands.', kind: 'desktop', url: 'aasta-lifespace / project / timeline' },
       { src: aastaHome, alt: 'Aasta Lifespace homeowner home screen on a phone, showing a sample project at 57% overall progress and on schedule', caption: 'My Home: where the build stands today.', kind: 'phone', url: '' },
       { src: aastaProgress, alt: 'Aasta Lifespace progress screen on a phone, showing 15 milestones for a sample project with 7 completed', caption: 'Progress: all 15 stages, with dates.', kind: 'phone', url: '' },
       { src: aastaApprovals, alt: 'Aasta Lifespace approvals screen on a phone, listing sample selections waiting for the homeowner', caption: 'Approvals: choices waiting for the homeowner.', kind: 'phone', url: '' },
