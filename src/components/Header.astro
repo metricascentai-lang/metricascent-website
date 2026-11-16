@@ -1,23 +1,23 @@
 ---
-import { Image } from 'astro:assets';
-import logo from '../assets/logo.webp';
+import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { nav, site } from '../data/site';
 const path = Astro.url.pathname;
 const isCurrent = (href: string) => path.startsWith(href);
+const mobileNav = [...nav, { href: '/contact/', label: 'Contact' }];
 ---
 <header class="site-header" data-header>
-  <div class="pill">
+  <div class="shell">
     <div class="bar">
       <a class="brand" href="/" aria-label="MetricAscent home">
-        <Image src={logo} alt="MetricAscent: Smarter Systems, Higher Gains" width={200} loading="eager" />
+        <Logo id="hdr-logo" />
       </a>
       <nav class="desktop-nav" aria-label="Main">
         {nav.map((item) => (
-          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}><span>{item.label}</span></a>
         ))}
       </nav>
-      <a class="btn btn-navy header-cta" href="/contact/">Book a call <Icon name="arrow-right" /></a>
+      <a class="btn btn-gold header-cta" href="/contact/">Book a call <Icon name="arrow-right" /></a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu">
         <span class="sr-only">Menu</span>
         <span class="open"><Icon name="menu" /></span>
@@ -25,10 +25,18 @@ const isCurrent = (href: string) => path.startsWith(href);
       </button>
     </div>
     <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile" hidden>
-      {nav.map((item) => (
-        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
-      ))}
-      <a class="btn btn-navy" href="/contact/">Book a call</a>
+      <ul>
+        {mobileNav.map((item, i) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              <i>{String(i + 1).padStart(2, '0')}</i>
+              <span>{item.label}</span>
+              <Icon name="arrow-up-right" />
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="btn btn-gold" href="/contact/">Book a call <Icon name="arrow-right" /></a>
       <a class="mobile-mail" href={`mailto:${site.email}`}>{site.email}</a>
     </nav>
   </div>
@@ -38,50 +46,73 @@ const isCurrent = (href: string) => path.startsWith(href);
   const header = document.querySelector<HTMLElement>('[data-header]');
   const burger = document.querySelector<HTMLButtonElement>('.burger');
   const menu = document.getElementById('mobile-menu');
-  burger?.addEventListener('click', () => {
-    const open = burger.getAttribute('aria-expanded') === 'true';
-    burger.setAttribute('aria-expanded', String(!open));
-    if (menu) menu.hidden = open;
+  const setOpen = (open: boolean) => {
+    burger?.setAttribute('aria-expanded', String(open));
+    if (menu) menu.hidden = !open;
+    header?.classList.toggle('open', open);
+  };
+  burger?.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && burger?.getAttribute('aria-expanded') === 'true') { setOpen(false); burger.focus(); }
   });
-  // Tighten the floating bar once the page has scrolled.
+  // Clear over the dark hero at the top of the page; a glass capsule once the page has scrolled.
   const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 24);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 </script>
 
 <style>
-  .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; padding: 14px var(--gutter) 0; pointer-events: none; transition: padding 0.35s var(--ease); }
-  .site-header.scrolled { padding-top: 8px; }
-  .pill {
-    pointer-events: auto; max-width: var(--wrap); margin-inline: auto; border-radius: 20px;
-    background: rgba(255, 255, 255, 0.92); backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 18px 44px -18px rgba(4, 9, 18, 0.55), 0 2px 8px rgba(4, 9, 18, 0.12);
+  /* Default state is the glass capsule, so the header stays readable over light sections without JavaScript. */
+  .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; padding: 10px var(--gutter) 0; pointer-events: none; color: #fff; transition: padding 0.45s var(--ease); }
+  .shell {
+    pointer-events: auto; max-width: var(--wrap); margin-inline: auto; border-radius: 18px;
+    background: rgba(6, 14, 26, 0.9); backdrop-filter: saturate(1.5) blur(20px); -webkit-backdrop-filter: saturate(1.5) blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.07) inset, 0 22px 48px -22px rgba(4, 9, 18, 0.75), 0 2px 10px rgba(4, 9, 18, 0.2);
+    transition: max-width 0.55s var(--ease), background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
   }
-  .bar { display: flex; align-items: center; gap: 28px; min-height: 64px; padding-inline: 22px 12px; }
-  .brand { display: block; flex: none; }
-  .brand :global(img) { width: clamp(138px, 14vw, 172px); height: auto; }
-  .desktop-nav { display: flex; gap: 6px; margin-left: auto; }
-  .desktop-nav a { position: relative; font-family: var(--font-head); font-size: 14.5px; font-weight: 560; color: var(--navy-700); text-decoration: none; padding: 9px 14px; border-radius: 10px; transition: background 0.2s ease; }
-  .desktop-nav a:hover { background: rgba(24, 53, 81, 0.07); }
-  .desktop-nav a[aria-current='page']::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--gold); }
-  .header-cta { min-height: 42px; padding: 8px 16px; border-radius: 12px; font-size: 14.5px; }
+  .bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; min-height: 62px; padding-inline: 20px 10px; transition: padding 0.45s var(--ease); }
+  .brand { justify-self: start; display: inline-flex; color: #fff; text-decoration: none; border-radius: 8px; --logo-size: 21px; }
+
+  .desktop-nav { display: flex; gap: 4px; }
+  .desktop-nav a { font-family: var(--font-head); font-size: 14.5px; font-weight: 540; letter-spacing: 0.005em; color: #b9c7d7; text-decoration: none; padding: 10px 16px; border-radius: 10px; transition: color 0.2s ease; }
+  .desktop-nav a span { position: relative; display: block; }
+  .desktop-nav a span::after { content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 1.5px; border-radius: 2px; background: var(--gold-light); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease); }
+  .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { color: #fff; }
+  .desktop-nav a:hover span::after, .desktop-nav a[aria-current='page'] span::after { transform: scaleX(1); }
+
+  .header-cta { justify-self: end; min-height: 42px; padding: 8px 16px 8px 18px; border-radius: 11px; font-size: 14.5px; box-shadow: none; }
   .header-cta :global(svg) { width: 16px; height: 16px; }
-  .burger { display: none; margin-left: auto; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--navy-700); cursor: pointer; place-items: center; }
+
+  .burger { display: none; justify-self: end; width: 44px; height: 44px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; background: rgba(255, 255, 255, 0.05); color: #fff; cursor: pointer; place-items: center; }
   .burger :global(svg) { width: 22px; height: 22px; }
   .burger .close { display: none; }
   .burger[aria-expanded='true'] .open { display: none; }
   .burger[aria-expanded='true'] .close { display: block; }
-  .mobile-menu { display: grid; gap: 2px; padding: 4px 22px 22px; border-top: 1px solid var(--line); }
+
+  /* At the top of the page the bar opens out and sits directly on the hero. */
+  :global(.js) .site-header:not(.scrolled):not(.open) { padding-top: 18px; }
+  :global(.js) .site-header:not(.scrolled):not(.open) .shell { max-width: 1260px; background: transparent; border-color: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  :global(.js) .site-header:not(.scrolled):not(.open) .bar { padding-inline: 0; }
+
+  .mobile-menu { display: grid; padding: 6px 20px 22px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
   .mobile-menu[hidden] { display: none; }
-  .mobile-menu a:not(.btn) { font-family: var(--font-head); font-size: 17px; font-weight: 600; color: var(--navy-700); text-decoration: none; padding: 14px 2px; border-bottom: 1px solid var(--line); }
-  .mobile-menu .btn { margin-top: 16px; }
-  .mobile-menu .mobile-mail { border-bottom: 0 !important; font-family: var(--font-body) !important; font-weight: 400 !important; font-size: 15px !important; color: var(--slate) !important; }
+  .mobile-menu li a { display: grid; grid-template-columns: 34px 1fr auto; align-items: baseline; padding: 15px 2px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #fff; text-decoration: none; }
+  .mobile-menu li i { font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--gold-light); font-variant-numeric: lining-nums; }
+  .mobile-menu li span { font-family: var(--font-display); font-size: 1.9rem; font-weight: 460; letter-spacing: -0.025em; line-height: 1.1; }
+  .mobile-menu li a[aria-current='page'] span { font-style: italic; color: var(--gold-light); }
+  .mobile-menu li :global(svg) { width: 20px; height: 20px; align-self: center; color: #7f93a9; }
+  .mobile-menu .btn { margin-top: 22px; }
+  .mobile-menu .mobile-mail { margin-top: 16px; text-align: center; font-size: 15px; color: #93a6ba; text-decoration: none; }
+
   @media (max-width: 820px) {
     .desktop-nav, .header-cta { display: none; }
     .burger { display: grid; }
-    .bar { min-height: 58px; padding-inline: 16px 8px; }
-    .site-header { padding-top: 10px; }
+    .bar { grid-template-columns: 1fr auto; min-height: 58px; padding-inline: 16px 7px; }
+    .brand { --logo-size: 19.5px; }
+    .site-header.open .shell { background: rgba(6, 14, 26, 0.96); }
+    :global(.js) .site-header:not(.scrolled):not(.open) { padding-top: 10px; }
+    :global(.js) .site-header:not(.scrolled):not(.open) .bar { padding-inline: 2px 0; }
   }
   @media (min-width: 821px) { .mobile-menu { display: none; } }
 </style>
