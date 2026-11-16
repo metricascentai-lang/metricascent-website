@@ -1,9 +1,15 @@
 ---
-// The MetricAscent logo, exactly as supplied (src/assets/logo.webp). Do not redraw or recolour it.
-// The artwork is navy and gold on a transparent background, so it must sit on a light surface.
+// The MetricAscent logo as supplied. Do not redraw it.
+// "light" is the original file (navy and gold on transparent) for light surfaces.
+// "dark" is the same artwork with only the navy parts turned white, for dark surfaces;
+// it was generated from logo.webp, so regenerate it if the original ever changes.
 // Size it with --logo-width on a parent.
 import { Image } from 'astro:assets';
-import logo from '../assets/logo.webp';
+import logoLight from '../assets/logo.webp';
+import logoDark from '../assets/logo-on-dark.webp';
+interface Props { on?: 'light' | 'dark'; }
+const { on = 'light' } = Astro.props;
+const logo = on === 'dark' ? logoDark : logoLight;
 ---
 <Image class="logo" src={logo} alt="MetricAscent: Smarter Systems, Higher Gains" widths={[240, 420, logo.width]} sizes="260px" loading="eager" />
 
