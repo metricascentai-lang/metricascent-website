@@ -343,6 +343,15 @@ const steps = [
   @media (min-width: 1000px) and (max-height: 569px) { .console-wrap { zoom: 0.66; } }
   @media (min-width: 1000px) and (max-height: 539px) { .console-wrap { zoom: 0.61; } }
 
+  /* Small laptops and landscape tablets: the two columns share the width evenly and the
+     headline scales with it, so its one-line rows never run under the console. */
+  @media (min-width: 1000px) and (max-width: 1180px) {
+    .hero-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 46%); gap: 32px; }
+    .hero h1 { font-size: clamp(2.2rem, min(4.5vw, 9.6vh), 3.3rem); }
+    .hero .lede { font-size: 1rem; }
+  }
+  @media (min-width: 1000px) and (max-width: 1180px) and (min-height: 760px) and (max-height: 880px) { .console-wrap { zoom: 0.88; } }
+
   /* ---------- Figures and marquee ---------- */
   .figures { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(40px, 5vw, 64px); border-top: 1px solid rgba(24, 53, 81, 0.12); }
   .figures li { padding: 22px 28px 0 0; display: grid; gap: 10px; align-content: start; }
