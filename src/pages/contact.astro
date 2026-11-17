@@ -5,7 +5,7 @@ import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
 
 const next = [
-  { title: 'A 20-minute call', text: 'You tell us how your business runs and where it hurts. We ask questions. No slides.' },
+  { title: 'A 30-minute call', text: 'You tell us how your business runs and where it hurts. We ask questions. No slides.' },
   { title: 'A clickable mock-up', text: 'If we can help, we build a mock-up of your system with sample data for you to click through.' },
   { title: 'Your decision', text: 'You decide whether to build, with the mock-up in front of you. No pressure either way.' },
 ];
@@ -17,15 +17,15 @@ const direct = [
 const num = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <Base
-  title="Contact MetricAscent: book a 20-minute call"
-  description="Book a 20-minute call with MetricAscent. Tell us how your business runs and we will show you what a custom system could look like."
+  title="Contact MetricAscent: book a 30-minute call"
+  description="Book a 30-minute call with MetricAscent. Tell us how your business runs and we will show you what a custom system could look like."
 >
   <PageHero eyebrow="Contact">
     <Fragment slot="title">Tell us how your <em>business runs.</em></Fragment>
-    <Fragment slot="lede">A 20-minute call is enough to know whether a custom system would help. If it would, we will show you one before you spend anything on a build.</Fragment>
+    <Fragment slot="lede">A 30-minute call is enough to know whether a custom system would help. If it would, we will show you one before you spend anything on a build.</Fragment>
     <div slot="aside" class="glass book">
       <p class="label">Book a call</p>
-      <p class="book-big">20 <span>minutes</span></p>
+      <p class="book-big">30 <span>minutes</span></p>
       <p class="book-text">Pick a time that suits you. The call is free.</p>
       <a class="btn btn-gold" href={site.bookingUrl} target="_blank" rel="noopener">Choose a time <Icon name="arrow-up-right" /></a>
       <p class="book-note">Opens our booking page on cal.com in a new tab.</p>
