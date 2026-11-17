@@ -162,16 +162,17 @@ const steps = [
       </div>
 
       <div class="split" data-reveal>
-        <div class="split-card">
+        <div class="split-side">
           <p class="split-h"><span class="split-ic"><Icon name="workflow" /></span>The system does</p>
           <ul>
             {systemDoes.map((t) => <li><Icon name="check" /><span>{t}</span></li>)}
           </ul>
         </div>
-        <div class="split-card you">
+        <div class="split-gate" aria-hidden="true"><span>Stops here</span></div>
+        <div class="split-side you">
           <p class="split-h"><span class="split-ic"><Icon name="user-check" /></span>Only a person can</p>
           <ul>
-            {personOnly.map((t) => <li><Icon name="user-check" /><span>{t}</span></li>)}
+            {personOnly.map((t) => <li><Icon name="check" /><span>{t}</span></li>)}
           </ul>
         </div>
       </div>
@@ -368,17 +369,20 @@ const steps = [
   .after .s-what { color: #a9bacc; }
 
   /* ---------- Software prepares, a person decides ---------- */
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 24px); }
-  .split-card { padding: clamp(22px, 2.6vw, 30px); border-radius: 20px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
-  .split-card.you { background: var(--gold-soft); border-color: #eadfbd; }
-  .split-h { display: flex; align-items: center; gap: 12px; font-family: var(--font-head); font-weight: 660; font-size: 1.0625rem; color: var(--navy-700); padding-bottom: 14px; }
-  .split-ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
+  /* one card, two halves: what the system does, the point where it stops, what only a person can do */
+  .split { display: grid; grid-template-columns: minmax(0, 1.25fr) auto minmax(0, 1fr); border-radius: 20px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .split-side { padding: clamp(18px, 2vw, 24px) clamp(18px, 2.2vw, 28px); }
+  .split-side.you { background: var(--gold-soft); }
+  .split-h { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 660; font-size: 1rem; color: var(--navy-700); }
+  .split-ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
   .you .split-ic { background: #f3e6bd; color: var(--gold-ink); }
-  .split-ic :global(svg) { width: 18px; height: 18px; }
-  .split-card li { display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: center; padding-block: 11px; border-top: 1px solid var(--line); color: var(--ink); }
-  .you li { border-top-color: #eadfbd; }
-  .split-card li :global(svg) { width: 18px; height: 18px; color: var(--blue); }
+  .split-ic :global(svg) { width: 16px; height: 16px; }
+  .split-side ul { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; margin-top: 14px; }
+  .split-side li { display: grid; grid-template-columns: 16px 1fr; gap: 9px; align-items: start; font-size: 14.5px; line-height: 1.4; color: var(--ink); }
+  .split-side li :global(svg) { width: 16px; height: 16px; margin-top: 2px; color: var(--blue); stroke-width: 2.6; }
   .you li :global(svg) { color: var(--gold-ink); }
+  .split-gate { position: relative; width: 1px; background: var(--gold); }
+  .split-gate span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); white-space: nowrap; padding: 4px 10px; border-radius: 999px; background: var(--gold); color: var(--navy-900); font-family: var(--font-head); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 
   .guards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 24px); margin-top: clamp(16px, 2vw, 24px); }
   .guards li { display: grid; gap: 8px; align-content: start; padding: clamp(20px, 2.2vw, 26px); border-radius: var(--radius); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
@@ -431,9 +435,12 @@ const steps = [
     .shift { grid-template-columns: 1fr; }
     .shift-arrow { justify-self: center; transform: rotate(90deg); }
     .split, .guards { grid-template-columns: 1fr; }
+    .split-gate { width: auto; height: 1px; }
+    .split-gate span { transform: translate(-50%, -50%); }
     .tested { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
+    .split-side ul { grid-template-columns: 1fr; }
     .actions .btn { width: 100%; }
     .live-pill { font-size: 12.5px; text-align: left; }
     .line > span { white-space: normal; }
