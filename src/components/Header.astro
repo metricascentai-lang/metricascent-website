@@ -72,7 +72,7 @@ const mobileNav = [...nav, { href: '/contact/', label: 'Contact' }];
 
   /* plain links in the middle of the bar; the current page and the hovered link get a gold underline */
   .desktop-nav { justify-self: center; display: flex; gap: clamp(20px, 2.6vw, 34px); }
-  .desktop-nav a { position: relative; padding: 10px 0; font-family: var(--font-head); font-size: 15px; font-weight: 560; line-height: 1.2; color: var(--slate); text-decoration: none; transition: color 0.2s ease; }
+  .desktop-nav a { position: relative; padding: 12px 0; font-family: var(--font-head); font-size: 15px; font-weight: 560; line-height: 1.2; color: var(--slate); text-decoration: none; transition: color 0.2s ease; }
   .desktop-nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 3px; height: 2px; border-radius: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.3s var(--ease); }
   .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { color: var(--navy-700); }
   .desktop-nav a:hover::after, .desktop-nav a[aria-current='page']::after { transform: scaleX(1); }
@@ -108,4 +108,10 @@ const mobileNav = [...nav, { href: '/contact/', label: 'Contact' }];
     .brand { --logo-width: 186px; }
   }
   @media (min-width: 821px) { .mobile-menu { display: none; } }
+  /* phones held sideways: a slimmer bar, and a menu that scrolls if it is taller than the screen */
+  @media (max-height: 480px) {
+    .bar { min-height: 56px; }
+    .brand { --logo-width: 168px; }
+    .mobile-menu { max-height: calc(100vh - 56px); overflow-y: auto; }
+  }
 </style>

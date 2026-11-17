@@ -98,6 +98,13 @@ const year = new Date().getFullYear();
   .up :global(svg) { width: 15px; height: 15px; transform: rotate(-45deg); color: #8a6c14; }
   .up:hover { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; }
 
+  /* touch screens: every link is a comfortable target */
+  @media (hover: none), (max-width: 980px) {
+    li { padding-block: 0; }
+    li a { display: inline-block; padding-block: 10px; }
+    .mail { min-height: 44px; }
+    .up { padding-block: 10px; }
+  }
   @media (max-width: 980px) {
     .about, .cols { grid-column: 1 / -1; }
     .blurb { max-width: 24ch; }

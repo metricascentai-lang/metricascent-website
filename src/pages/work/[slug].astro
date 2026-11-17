@@ -161,6 +161,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   :global(.case-hero h1) { max-width: none; font-size: clamp(2.6rem, 5.4vw, 4.2rem); letter-spacing: -0.03em; }
   :global(.case-hero .lede) { max-width: 40ch; }
   .back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 12.5px; font-weight: 680; letter-spacing: 0.1em; text-transform: uppercase; color: #a9bacc; text-decoration: none; }
+  .back { position: relative; padding-block: 11px; margin-block: -11px; }
   .back :global(svg) { width: 15px; height: 15px; transform: rotate(180deg); transition: transform 0.25s ease; }
   .back:hover { color: #fff; }
   .back:hover :global(svg) { transform: rotate(180deg) translateX(3px); }
