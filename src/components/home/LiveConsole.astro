@@ -163,12 +163,6 @@ const scenarios: Scenario[] = [
           <i class="node" aria-hidden="true"></i>
           <p class="lane-h">A person decides</p>
           <div class="dec-slot">
-            <div class="wait" aria-hidden="true">
-              <span class="w-top"><i></i><i></i></span>
-              <span class="w-row"><i></i><i></i><i></i></span>
-              <span class="w-btn"></span>
-              <span class="w-pill"><span class="w-dot"></span><Icon name="user" />Waiting for a person</span>
-            </div>
             <div class="dec">
               <div class="dec-top">
                 <p class="dec-title">{s.decTitle}</p>
@@ -206,13 +200,13 @@ const scenarios: Scenario[] = [
     // visitor to read it; one system takes about 17 seconds from start to finish.
     const PACE = {
       arrive: 200,          // the incoming item appears
-      readInput: 1000,      // time to read it before the system starts
-      step: 750,            // each "system prepares" line: working, then ticked
-      beforeDecision: 400,  // a beat after the last tick
-      readDecision: 1300,   // time to read the decision card before the cursor moves
-      cursor: 900,          // cursor travels to the button
-      press: 180,           // button held down
-      readResult: 2300,     // time to read the outcome and the log line
+      readInput: 800,       // time to read it before the system starts
+      step: 600,            // each "system prepares" line: working, then ticked
+      beforeDecision: 300,  // a beat after the last tick
+      readDecision: 700,    // time to read the decision card before the cursor moves
+      cursor: 650,          // cursor travels to the button
+      press: 160,           // button held down
+      readResult: 2000,     // time to read the outcome and the log line
     };
     let index = 0;
     let timers: number[] = [];
@@ -379,28 +373,6 @@ const scenarios: Scenario[] = [
   /* A person decides */
   .dec-slot { display: grid; }
   .dec-slot > * { grid-area: 1 / 1; }
-/* the empty decision card: a faint outline of what is coming, with a badge that says it is waiting for a person */
-  .wait { position: relative; display: grid; gap: 11px; align-content: space-between; padding: 14px 14px 16px; border: 1px dashed rgba(160, 124, 28, 0.5); background: rgba(255, 255, 255, 0.55); border-radius: 14px; overflow: hidden; }
-  .wait i, .w-btn { display: block; border-radius: 6px; background: rgba(160, 124, 28, 0.13); }
-  .w-top { display: flex; justify-content: space-between; align-items: center; }
-  .w-top i { height: 14px; width: 42%; }
-  .w-top i + i { width: 18%; }
-  .w-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-block: 10px; border-block: 1px solid rgba(160, 124, 28, 0.16); }
-  .w-row i { height: 26px; }
-  .w-btn { height: 40px; border-radius: 10px; }
-  .w-pill { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 999px; white-space: nowrap; background: #fff; border: 1px solid rgba(201, 162, 63, 0.7); box-shadow: 0 10px 24px -12px rgba(24, 53, 81, 0.45); font-family: var(--font-head); font-size: 13px; font-weight: 620; color: var(--navy-700); }
-  .w-pill :global(svg) { width: 15px; height: 15px; color: var(--gold-ink); }
-  .w-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
-  .w-dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--gold); }
-  @media (prefers-reduced-motion: no-preference) {
-    .live .w-dot::after { animation: w-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
-    .live .wait i, .live .w-btn { animation: w-breathe 2.4s ease-in-out infinite; }
-    .live .w-row i:nth-child(2) { animation-delay: 0.2s; }
-    .live .w-row i:nth-child(3) { animation-delay: 0.4s; }
-    .live .w-btn { animation-delay: 0.6s; }
-    @keyframes w-ping { 0% { transform: scale(1); opacity: 0.7; } 80%, 100% { transform: scale(3); opacity: 0; } }
-    @keyframes w-breathe { 50% { opacity: 0.45; } }
-  }
   .dec { position: relative; display: grid; gap: 11px; padding: 14px 14px 12px; border-radius: 14px; background: #fff; border: 1px solid rgba(201, 162, 63, 0.7); box-shadow: 0 0 0 4px rgba(201, 162, 63, 0.12), 0 20px 40px -24px rgba(24, 53, 81, 0.45); }
   .dec-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .dec-tag { flex: none; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #14202f; background: var(--gold-light); padding: 3px 8px; border-radius: 6px; }
@@ -437,19 +409,18 @@ const scenarios: Scenario[] = [
   .live .steps li.done .g :global(svg) { opacity: 1; transform: none; }
   .live .steps li.done .v { opacity: 1; transform: none; }
   @keyframes turn { to { transform: rotate(360deg); } }
-  .live .dec { opacity: 0; transform: translateY(16px) scale(0.97); }
-  .live .p-dec .dec { opacity: 1; transform: none; transition: opacity 0.5s var(--ease), transform 0.65s var(--ease); }
-  .live .p-dec .wait { opacity: 0; transition: opacity 0.4s ease; }
-  .live .dec dl div { opacity: 0; transform: translateY(6px); }
-  .live .p-dec .dec dl div { opacity: 1; transform: none; transition: opacity 0.5s ease, transform 0.5s ease; }
-  .live .p-dec .dec dl div:nth-child(1) { transition-delay: 0.2s; }
-  .live .p-dec .dec dl div:nth-child(2) { transition-delay: 0.35s; }
-  .live .p-dec .dec dl div:nth-child(3) { transition-delay: 0.5s; }
+  /* the decision card is on screen from the start, muted, and comes to life when the system has finished preparing */
+  .live .dec { opacity: 0.6; filter: saturate(0.5); box-shadow: none; border-color: rgba(201, 162, 63, 0.35); }
+  .live .dec .go { background: #efe6cb; color: var(--slate); box-shadow: none; }
+  .live .dec .dec-tag { background: #efe6cb; color: var(--slate); }
+  .live .p-dec .dec { opacity: 1; filter: none; border-color: rgba(201, 162, 63, 0.7); box-shadow: 0 0 0 4px rgba(201, 162, 63, 0.12), 0 20px 40px -24px rgba(24, 53, 81, 0.45); transition: opacity 0.5s ease, filter 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease; }
+  .live .p-dec .dec .go { background: linear-gradient(180deg, #e9c874, #c9a23f); color: #14202f; box-shadow: 0 10px 22px -10px rgba(225, 189, 99, 0.8); }
+  .live .p-dec .dec .dec-tag { background: var(--gold-light); color: #14202f; transition: background 0.4s ease, color 0.4s ease; }
   .live .cursor { display: block; opacity: 0; transform: translate(-190px, -150px); }
-  .live .p-aim .cursor { opacity: 1; transform: none; transition: transform 0.85s var(--ease), opacity 0.3s ease; }
+  .live .p-aim .cursor { opacity: 1; transform: none; transition: transform 0.6s var(--ease), opacity 0.25s ease; }
   .live .p-press .cursor { transform: scale(0.86); transition: transform 0.12s ease; }
   .live .p-press .go { transform: scale(0.965); }
-  .live .p-ok .go { background: var(--green-soft); color: var(--green); box-shadow: inset 0 0 0 1px rgba(26, 122, 80, 0.4); }
+  .live .p-ok .dec .go { background: var(--green-soft); color: var(--green); box-shadow: inset 0 0 0 1px rgba(26, 122, 80, 0.4); }
   .live .p-ok .l-do { opacity: 0; }
   .live .p-ok .l-done { opacity: 1; transition: opacity 0.3s ease 0.05s; }
   .live .p-ok .log { opacity: 1; transition: opacity 0.5s ease 0.2s; }
