@@ -68,16 +68,11 @@ const steps = [
           <span class="line"><span>AI system your</span></span>
           <span class="line"><span>business <em>runs on.</em></span></span>
         </h1>
-        <p class="lede">Custom operations software for owner-led companies. Enquiries, quotes, orders, projects and outreach in one system, built around how you already work.</p>
+        <p class="lede">Custom operations software for owner-led companies, built around how you already work.</p>
         <div class="actions">
           <a class="btn btn-gold" href="/contact/">See your system mocked up <Icon name="arrow-right" /></a>
           <a class="btn btn-ghost" href="#work">View our work</a>
         </div>
-        <ul class="by">
-          <li><Icon name="check" />Clickable mock-up first</li>
-          <li><Icon name="check" />A person makes every decision</li>
-          <li><Icon name="check" />15+ years running operations</li>
-        </ul>
       </div>
       <div class="console-stage">
         <div class="console-wrap">
@@ -266,11 +261,8 @@ const steps = [
   .hero h1 { color: #fff; margin-top: 22px; font-size: clamp(2.5rem, min(4.7vw, 10vh), 4.2rem); line-height: 1.02; }
   .line { display: block; overflow: hidden; padding-bottom: 0.16em; margin-bottom: -0.16em; }
   .line > span { display: block; white-space: nowrap; }
-  .hero .lede { max-width: 46ch; margin-top: 22px; color: #b7c6d6; }
+  .hero .lede { max-width: 34ch; margin-top: 22px; font-size: clamp(1.1rem, 1.5vw, 1.3rem); color: #b7c6d6; }
   .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-  .by { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 26px; font-size: 13.5px; color: #c5d2e0; }
-  .by li { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
-  .by :global(svg) { width: 15px; height: 15px; color: var(--gold-light); stroke-width: 2.6; }
   .console-wrap { position: relative; min-width: 0; border-radius: 22px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 40px 90px -40px rgba(0, 0, 0, 0.8); }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -281,7 +273,6 @@ const steps = [
     .line:nth-child(3) > span { animation-delay: 0.2s; }
     .hero .lede { animation: fade-up 0.9s var(--ease) 0.3s both; }
     .actions { animation: fade-up 0.9s var(--ease) 0.42s both; }
-    .by { animation: fade-up 0.9s var(--ease) 0.54s both; }
     .console-wrap { animation: console-in 1.3s var(--ease) 0.35s both; }
     @keyframes ping { 0% { transform: scale(1); opacity: 0.7; } 80%, 100% { transform: scale(3.2); opacity: 0; } }
     @keyframes fade-up { from { opacity: 0; transform: translateY(16px); } }
@@ -297,13 +288,11 @@ const steps = [
     .hero h1 { margin-top: 18px; font-size: clamp(2.3rem, min(4.7vw, 9.6vh), 4.2rem); }
     .hero .lede { margin-top: 16px; font-size: 1.05rem; }
     .actions { margin-top: 22px; }
-    .by { margin-top: 18px; }
   }
   @media (min-width: 1000px) and (max-height: 629px) {
     .hero h1 { margin-top: 12px; }
     .hero .lede { margin-top: 12px; }
     .actions { margin-top: 16px; }
-    .by { margin-top: 12px; }
   }
   @media (min-width: 1000px) and (max-height: 759px) { .console-wrap { zoom: 0.96; } }
   @media (min-width: 1000px) and (max-height: 719px) { .console-wrap { zoom: 0.91; } }
@@ -417,7 +406,6 @@ const steps = [
     .hero .lede { margin-inline: auto; }
     .actions { justify-content: center; }
     .console-stage { width: 100%; max-width: 600px; margin-inline: auto; }
-    .by { justify-content: center; }
   }
   @media (max-width: 860px) {
     .split, .guards { grid-template-columns: 1fr; }
