@@ -179,15 +179,17 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .page-hero p.lede { color: #b9c8d8; margin-top: 20px; max-width: 62ch; }
 
 /* Call-to-action band */
+.cta-sec { padding-block: clamp(36px, 4.4vw, 56px); }
 .cta-band {
-  position: relative; isolation: isolate; overflow: hidden; border-radius: 24px; padding: clamp(32px, 4.6vw, 60px);
-  display: grid; gap: 28px 40px; grid-template-columns: 1fr auto; align-items: center; color: #c8d5e3;
+  position: relative; isolation: isolate; overflow: hidden; border-radius: 20px; padding: clamp(22px, 2.8vw, 34px) clamp(22px, 3.2vw, 40px);
+  display: grid; gap: 20px 40px; grid-template-columns: 1fr auto; align-items: center; color: #c8d5e3;
   background: radial-gradient(560px 300px at 100% 100%, rgba(201, 162, 63, 0.22), transparent 62%), linear-gradient(160deg, var(--navy-800), var(--navy-900));
   box-shadow: 0 30px 60px -36px rgba(8, 20, 36, 0.6);
 }
-.cta-band h2 { color: #fff; max-width: 20ch; }
-.cta-band p { margin-top: 12px; color: #b9c8d8; font-size: var(--t-lg); max-width: 52ch; }
-.cta-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.cta-band h2 { color: #fff; font-size: clamp(1.45rem, 2.1vw, 1.8rem); }
+.cta-band p { margin-top: 8px; color: #b9c8d8; font-size: 15.5px; max-width: 60ch; }
+.cta-band .btn { min-height: 44px; padding: 10px 20px; font-size: 15px; }
+.cta-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 @media (max-width: 860px) { .cta-band { grid-template-columns: 1fr; align-items: start; } }
 
 /* Display accents */

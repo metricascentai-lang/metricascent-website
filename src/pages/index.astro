@@ -201,18 +201,17 @@ const steps = [
     </div>
   </section>
 
-  <section class="sec sec-soft">
+  <section class="sec sec-soft process">
     <div class="wrap">
       <div class="section-head" data-reveal>
         <p class="eyebrow">How we work</p>
         <h2>You see it before you commit to it.</h2>
         <p>Every project starts with a clickable version of your system, using sample data.</p>
       </div>
-      <ol class="steps" data-steps>
+      <ol class="steps" data-reveal>
         {steps.map((s, i) => (
           <li>
-            <span class="node"><b>{String(i + 1).padStart(2, '0')}</b></span>
-            <h3>{s.title}</h3>
+            <h3><span class="node">{i + 1}</span>{s.title}</h3>
             <p>{s.text}</p>
           </li>
         ))}
@@ -250,28 +249,6 @@ const steps = [
       });
     }, { threshold: 0.5 });
     io.observe(figures);
-  }
-
-  // Scroll-linked: the process line draws itself.
-  const stepsEl = document.querySelector<HTMLElement>('[data-steps]');
-  const stepItems = stepsEl ? Array.from(stepsEl.children) as HTMLElement[] : [];
-  if (motionOK) {
-    stepsEl?.classList.add('armed');
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      const vh = window.innerHeight;
-      if (stepsEl) {
-        const r = stepsEl.getBoundingClientRect();
-        const p = clamp((vh * 0.78 - r.top) / (vh * 0.42));
-        stepsEl.style.setProperty('--p', p.toFixed(3));
-        stepItems.forEach((li, i) => li.classList.toggle('on', p >= (i / (stepItems.length - 1)) * 0.96));
-      }
-    };
-    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
-    window.addEventListener('scroll', request, { passive: true });
-    window.addEventListener('resize', request);
-    update();
   }
 </script>
 
@@ -403,30 +380,23 @@ const steps = [
   .tested strong { font-family: var(--font-display); font-size: 1.4rem; font-weight: 480; letter-spacing: -0.02em; color: var(--gold-light); line-height: 1.1; font-variant-numeric: lining-nums; }
   .tested span { font-size: 13.5px; color: #b7c6d6; }
 
-  /* ---------- Process ---------- */
-  .steps { --p: 1; --ring: var(--bg-soft); position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
-  .steps::before, .steps::after { content: ''; position: absolute; left: 24px; right: calc((100% - 96px) / 5 - 24px); top: 23px; height: 2px; border-radius: 2px; }
-  .steps::before { background: #dde4ec; }
-  .steps::after { background: linear-gradient(90deg, var(--navy-700), var(--gold)); transform-origin: left; transform: scaleX(var(--p)); }
-  .steps li { position: relative; z-index: 1; display: grid; gap: 8px; align-content: start; }
-  .node { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--navy-700); color: var(--gold-light); box-shadow: 0 0 0 8px var(--ring); font-family: var(--font-head); font-weight: 600; font-size: 13.5px; font-variant-numeric: tabular-nums; transition: background 0.4s ease, color 0.4s ease, transform 0.5s var(--ease), box-shadow 0.4s ease; }
-  .node b { font-weight: 600; }
-  .steps h3 { margin-top: 14px; }
-  .steps p { color: var(--slate); font-size: 15.5px; max-width: 26ch; }
-  .steps.armed li:not(.on) .node { background: #fff; color: #9aa7b6; box-shadow: 0 0 0 8px var(--ring), inset 0 0 0 2px #dfe5ec; }
-  .steps.armed li.on .node { transform: scale(1.06); box-shadow: 0 0 0 8px var(--ring), 0 12px 24px -10px rgba(24, 53, 81, 0.6); }
-  .steps.armed li h3, .steps.armed li p { transition: opacity 0.5s ease; }
-  .steps.armed li:not(.on) h3, .steps.armed li:not(.on) p { opacity: 0.4; }
+  /* ---------- Process: five steps in one card, each handing on to the next ---------- */
+  .process { padding-block: clamp(44px, 5vw, 68px); }
+  .process .section-head { margin-bottom: clamp(20px, 2.4vw, 28px); }
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); border-radius: 20px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+  .steps li { position: relative; padding: clamp(16px, 1.7vw, 22px); }
+  .steps li + li { border-left: 1px solid var(--line); }
+  .steps h3 { display: flex; align-items: center; gap: 10px; font-size: 1rem; }
+  .node { width: 26px; height: 26px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--navy-700); color: var(--gold-light); font-size: 12.5px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  /* a small gold chevron sits on each dividing line */
+  .steps li:not(:last-child)::after { content: ''; position: absolute; z-index: 1; right: -5px; top: calc(clamp(16px, 1.7vw, 22px) + 9px); width: 8px; height: 8px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); transform: rotate(45deg); background: #fff; box-shadow: -3px 3px 0 3px #fff; }
+  .steps p { margin-top: 8px; color: var(--slate); font-size: 14.5px; line-height: 1.5; }
 
   /* ---------- Responsive ---------- */
   @media (max-width: 1020px) {
-    .steps { grid-template-columns: 1fr; gap: 0; }
-    .steps::before, .steps::after { left: 23px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
-    .steps::after { transform-origin: top; transform: scaleY(var(--p)); background: linear-gradient(180deg, var(--navy-700), var(--gold)); }
-    .steps li { grid-template-columns: 48px 1fr; column-gap: 20px; padding-bottom: 30px; }
-    .steps li:last-child { padding-bottom: 0; }
-    .steps h3 { margin-top: 12px; }
-    .steps p { grid-column: 2; max-width: none; }
+    .steps { grid-template-columns: 1fr; }
+    .steps li + li { border-left: 0; border-top: 1px solid var(--line); }
+    .steps li:not(:last-child)::after { display: none; }
   }
   @media (max-width: 999px) {
     .hero-grid { grid-template-columns: 1fr; }
