@@ -1,14 +1,17 @@
 /* Shared pieces for the inner pages: the page hero, section headings and the card blocks. */
 
 /* ---------- Page hero ---------- */
-.phero { position: relative; background: linear-gradient(180deg, #eef3f9 0%, #f7f9fc 55%, #fff 100%); color: var(--slate); padding-block: clamp(120px, 15vh, 156px) clamp(40px, 5vw, 64px); }
+/* Deep navy, the same surface as the homepage hero. Side panels stay white cards on top of it. */
+.phero { position: relative; isolation: isolate; background: linear-gradient(170deg, #0a1728 0%, #0e2238 55%, #102a45 100%); color: #b7c6d6; padding-block: clamp(120px, 15vh, 156px) clamp(40px, 5vw, 64px); }
+.phero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(720px 460px at 82% 0%, rgba(124, 196, 255, 0.12), transparent 62%), radial-gradient(640px 420px at 4% 100%, rgba(201, 162, 63, 0.12), transparent 62%); }
 .phero-bg { display: none; }
 .phero-grid { display: grid; gap: clamp(28px, 4vw, 64px); align-items: center; }
 .phero-grid.has-aside { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
 .phero-main { min-width: 0; }
-.phero h1 { color: var(--navy-700); margin-top: 14px; max-width: 18ch; }
-.phero h1 em { color: var(--gold-ink); }
-.phero .lede { margin-top: 18px; max-width: 54ch; }
+.phero .eyebrow { color: var(--gold-light); }
+.phero h1 { color: #fff; margin-top: 14px; max-width: 18ch; }
+.phero h1 em { color: var(--gold-light); }
+.phero .lede { margin-top: 18px; max-width: 54ch; color: #b7c6d6; }
 .phero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .phero-aside { min-width: 0; }
 @media (prefers-reduced-motion: no-preference) {
@@ -22,7 +25,7 @@
 @media (max-width: 900px) { .phero-grid.has-aside { grid-template-columns: 1fr; align-items: start; } }
 
 /* the white panel that sits beside a page title */
-.glass { border-radius: 20px; padding: clamp(20px, 2.4vw, 28px); color: var(--slate); background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(12, 30, 51, 0.04), 0 24px 48px -28px rgba(12, 30, 51, 0.28); }
+.glass { border-radius: 20px; padding: clamp(20px, 2.4vw, 28px); color: var(--slate); background: #fff; border: 1px solid var(--line); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6); }
 .label { font-family: var(--font-head); font-size: 11.5px; font-weight: 680; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate-light); }
 
 /* ---------- Sections ---------- */

@@ -12,7 +12,7 @@ import { site } from '../data/site';
 
 // darkTop: the page opens on a dark hero, so the header uses its light-on-dark state until the page scrolls.
 interface Props { title: string; description: string; darkTop?: boolean; }
-const { title, description, darkTop = false } = Astro.props;
+const { title, description, darkTop = true } = Astro.props;
 const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
