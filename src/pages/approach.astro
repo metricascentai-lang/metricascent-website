@@ -52,7 +52,7 @@ const slug = (t: string) => t.toLowerCase().replace(/[^a-z]+/g, '-');
     <div class="wrap proc">
       <div class="proc-side">
         <p class="eyebrow">The process</p>
-        <h2>Five steps, <em>in this order.</em></h2>
+        <h2>Five steps, in this order.</h2>
         <p class="proc-now" aria-hidden="true"><b data-now>01</b> / {num(steps.length - 1)}</p>
       </div>
       <ol class="psteps" data-psteps>
@@ -70,12 +70,12 @@ const slug = (t: string) => t.toLowerCase().replace(/[^a-z]+/g, '-');
     </div>
   </section>
 
-  <section class="sec sec-dark">
+  <section class="sec sec-soft">
     <div class="wrap">
       <div class="sec-top" data-reveal>
         <div>
           <p class="eyebrow">Principles</p>
-          <h2>How every system we build <em>behaves.</em></h2>
+          <h2>How every system we build behaves.</h2>
         </div>
         <p>Six rules we hold ourselves to. They are the reason an owner can trust the system with real work.</p>
       </div>
@@ -91,11 +91,11 @@ const slug = (t: string) => t.toLowerCase().replace(/[^a-z]+/g, '-');
     </div>
   </section>
 
-  <section class="sec sec-paper">
+  <section class="sec">
     <div class="wrap faq-wrap">
       <div class="faq-side" data-reveal>
         <p class="eyebrow">Questions</p>
-        <h2>Straight <em>answers.</em></h2>
+        <h2>Straight answers.</h2>
       </div>
       <div class="faqs" data-reveal>
         {faqs.map((f) => (
@@ -133,36 +133,36 @@ const slug = (t: string) => t.toLowerCase().replace(/[^a-z]+/g, '-');
 
 <style>
   .jump ol { display: grid; margin-top: 12px; }
-  .jump a { display: grid; grid-template-columns: 34px 1fr 18px; align-items: center; padding-block: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); text-decoration: none; color: #fff; font-family: var(--font-display); font-size: 1.35rem; letter-spacing: -0.015em; transition: padding 0.35s var(--ease), color 0.25s ease; }
-  .jump a span { font-family: var(--font-head); font-size: 12px; font-weight: 650; letter-spacing: 0.1em; color: var(--gold-light); font-variant-numeric: tabular-nums; }
-  .jump a :global(svg) { width: 16px; height: 16px; color: #8fa2b7; transition: transform 0.3s ease, color 0.25s ease; }
+  .jump a { display: grid; grid-template-columns: 34px 1fr 18px; align-items: center; padding-block: 11px; border-top: 1px solid var(--line); text-decoration: none; color: var(--navy-700); font-family: var(--font-head); font-weight: 600; font-size: 1.0625rem; transition: padding 0.35s var(--ease), color 0.25s ease; }
+  .jump a span { font-family: var(--font-head); font-size: 12px; font-weight: 650; letter-spacing: 0.06em; color: var(--gold-ink); font-variant-numeric: tabular-nums; }
+  .jump a :global(svg) { width: 16px; height: 16px; color: var(--slate-light); transition: transform 0.3s ease, color 0.25s ease; }
   .jump a:hover { padding-left: 8px; }
-  .jump a:hover :global(svg) { transform: translateX(3px); color: var(--gold-light); }
+  .jump a:hover :global(svg) { transform: translateX(3px); color: var(--gold-ink); }
 
   .proc, .faq-wrap { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 32px; align-items: start; }
   .proc-side, .faq-side { grid-column: 1 / 6; }
   .psteps, .faqs { grid-column: 7 / -1; }
   .proc-side { position: sticky; top: 128px; }
-  .proc-side h2 { margin-top: 18px; }
+  .proc-side h2 { margin-top: 12px; }
   .proc-now { margin-top: 28px; font-family: var(--font-head); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: var(--slate-light); font-variant-numeric: tabular-nums; }
-  .proc-now b { font-family: var(--font-display); font-style: italic; font-weight: 420; font-size: 2.4rem; letter-spacing: -0.03em; color: #8a6c14; margin-right: 6px; }
+  .proc-now b { font-family: var(--font-display); font-weight: 480; font-size: 2.2rem; letter-spacing: -0.03em; color: #8a6c14; margin-right: 6px; }
   .psteps { display: grid; border-top: 1px solid var(--line); }
   .psteps li { display: grid; grid-template-columns: clamp(56px, 5.6vw, 78px) minmax(0, 1fr); gap: clamp(14px, 1.8vw, 24px); padding-block: clamp(22px, 2.8vw, 36px); border-bottom: 1px solid var(--line); scroll-margin-top: 110px; }
-  .p-n { font-family: var(--font-display); font-size: clamp(2.3rem, 3.6vw, 3rem); font-weight: 400; line-height: 0.86; letter-spacing: -0.04em; color: #8a6c14; font-variant-numeric: lining-nums; transition: color 0.6s ease, opacity 0.6s ease; }
-  .p-body h3 { font-family: var(--font-display); font-weight: 480; font-size: var(--d-md); letter-spacing: -0.028em; line-height: 1.05; }
+  .p-n { font-family: var(--font-display); font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 440; line-height: 0.9; letter-spacing: -0.04em; color: #8a6c14; font-variant-numeric: lining-nums; transition: color 0.6s ease, opacity 0.6s ease; }
+  .p-body h3 { font-family: var(--font-display); font-weight: 480; font-size: var(--d-md); letter-spacing: -0.022em; line-height: 1.1; }
   .p-body > p { margin-top: 12px; color: var(--slate); max-width: 56ch; transition: opacity 0.6s ease; }
-  .p-out { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding-top: 16px; border-top: 1px dashed #d9dee5; color: var(--navy-700) !important; font-weight: 500; }
+  .p-out { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding-top: 16px; border-top: 1px dashed var(--line); color: var(--navy-700) !important; font-weight: 500; }
   .psteps.armed li:not(.on) .p-n { color: #d5dbe3; }
   .psteps.armed li:not(.on) .p-body { opacity: 0.45; }
   .psteps.armed .p-body { transition: opacity 0.6s ease; }
 
   .faq-side { position: sticky; top: 128px; }
-  .faq-side h2 { margin-top: 18px; }
-  .faqs { display: grid; border-top: 1px solid #e3ddcf; }
-  details { border-bottom: 1px solid #e3ddcf; }
-  summary { list-style: none; cursor: pointer; padding: 17px 0; font-family: var(--font-display); font-weight: 480; font-size: var(--d-sm); letter-spacing: -0.02em; line-height: 1.2; color: var(--navy-700); display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+  .faq-side h2 { margin-top: 12px; }
+  .faqs { display: grid; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { list-style: none; cursor: pointer; padding: 18px 0; font-family: var(--font-head); font-weight: 620; font-size: 1.0625rem; line-height: 1.35; color: var(--navy-700); display: flex; justify-content: space-between; gap: 20px; align-items: center; }
   summary::-webkit-details-marker { display: none; }
-  .plus { flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1px solid #cfc6b0; position: relative; transition: background 0.25s ease, border-color 0.25s ease; }
+  .plus { flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); position: relative; transition: background 0.25s ease, border-color 0.25s ease; }
   .plus::before, .plus::after { content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; background: var(--navy-700); transform: translate(-50%, -50%); transition: transform 0.3s var(--ease), background 0.25s ease; }
   .plus::after { transform: translate(-50%, -50%) rotate(90deg); }
   details[open] .plus { background: var(--navy-700); border-color: var(--navy-700); }

@@ -33,7 +33,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     <div class="wrap story">
       <div class="story-side" data-reveal>
         <p class="eyebrow">Why we exist</p>
-        <h2>Most business software is written by people who have <em>never done the job.</em></h2>
+        <h2>Most business software is written by people who have never done the job.</h2>
       </div>
       <div class="story-body" data-reveal>
         <p class="lead">Our founder spent more than 15 years running operations before building software for them, and knows first-hand what it costs when the work lives in spreadsheets, inboxes and one person’s memory.</p>
@@ -43,20 +43,20 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     </div>
   </section>
 
-  <section class="sec sec-dark fig-sec">
+  <section class="sec sec-soft fig-sec">
     <div class="wrap">
-      <ul class="bigfacts" data-reveal>
+      <ul class="stats" data-reveal>
         {figures.map((f) => <li><strong>{f.n}</strong><span>{f.l}</span></li>)}
       </ul>
     </div>
   </section>
 
-  <section class="sec sec-paper">
+  <section class="sec">
     <div class="wrap">
       <div class="sec-top" data-reveal>
         <div>
           <p class="eyebrow">What we believe</p>
-          <h2>Three things that <em>shape the work.</em></h2>
+          <h2>Three things that shape the work.</h2>
         </div>
       </div>
       <ol class="rows">
@@ -71,12 +71,12 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec sec-soft">
     <div class="wrap">
       <div class="sec-top" data-reveal>
         <div>
           <p class="eyebrow">What we have built</p>
-          <h2>Four systems <em>so far.</em></h2>
+          <h2>Four systems so far.</h2>
         </div>
         <p>Each one is labelled with exactly where it stands today.</p>
       </div>
@@ -103,25 +103,22 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .story-side { grid-column: 1 / 6; }
   .story-body { grid-column: 7 / -1; }
   .story-side { position: sticky; top: 128px; }
-  .story-side h2 { margin-top: 18px; }
-  .story-body { display: grid; gap: 22px; font-size: var(--t-lg); color: var(--slate); padding-top: 34px; }
-  .story-body .lead { font-family: var(--font-display); font-size: var(--d-sm); font-weight: 440; line-height: 1.24; letter-spacing: -0.018em; color: var(--navy-700); }
+  .story-side h2 { margin-top: 12px; }
+  .story-body { display: grid; gap: 20px; font-size: var(--t-lg); color: var(--slate); padding-top: 30px; }
+  .story-body .lead { font-family: var(--font-display); font-size: var(--d-sm); font-weight: 460; line-height: 1.32; letter-spacing: -0.018em; color: var(--navy-700); }
 
-  .fig-sec { padding-block: clamp(40px, 4.6vw, 60px); }
-  .fig-sec .bigfacts { --rule: rgba(255, 255, 255, 0.12); border-top: 0; }
-  .fig-sec .bigfacts li { padding-top: 0; }
-  .fig-sec .bigfacts strong { color: #fff; }
-  .fig-sec .bigfacts li:last-child strong { color: var(--gold-light); }
-  .fig-sec .bigfacts span { color: #a9bacc; }
+  .fig-sec { padding-block: clamp(36px, 4.4vw, 56px); }
+  .fig-sec .stats li:last-child strong { color: var(--gold-ink); }
 
-  .built-list { display: grid; border-top: 1px solid var(--line); }
-  .built-list a { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding-block: clamp(14px, 1.7vw, 20px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); }
+  .built-list { display: grid; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .built-list li:last-child a { border-bottom: 0; }
+  .built-list a { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding: clamp(14px, 1.7vw, 20px) clamp(18px, 2.2vw, 26px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); }
   .built-list .name { grid-column: 1 / 7; }
   .built-list .kind { grid-column: 7 / 10; }
   .built-list .status { grid-column: 10 / 12; justify-self: start; }
   .built-list .arrow { grid-column: 12; justify-self: end; }
-  .name { font-family: var(--font-display); font-weight: 470; font-size: var(--d-md); letter-spacing: -0.028em; line-height: 1.05; transition: transform 0.5s var(--ease); }
-  .built-list a:hover .name { transform: translateX(10px); }
+  .name { font-family: var(--font-display); font-weight: 480; font-size: 1.4rem; letter-spacing: -0.02em; line-height: 1.1; }
+  .built-list a:hover { background: #fafbfd; }
   .kind { color: var(--slate); }
 
   @media (max-width: 860px) {
@@ -133,7 +130,5 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     .built-list .kind { grid-column: 1; grid-row: 2; }
     .built-list .status { grid-column: 2; grid-row: 1; justify-self: end; }
     .built-list .arrow { display: none; }
-    .fig-sec .bigfacts li { padding-top: 22px; }
-    .fig-sec .bigfacts li:nth-child(-n + 2) { padding-top: 0; }
   }
 </style>

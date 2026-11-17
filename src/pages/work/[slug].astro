@@ -46,7 +46,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 
   <section class="facts">
     <div class="wrap">
-      <ul class="bigfacts">
+      <ul class="stats">
         {system.facts.map((f) => <li><strong>{f.n}</strong><span>{f.l}</span></li>)}
       </ul>
       {system.honesty && <p class="honesty"><Icon name="eye" /><span>{system.honesty}</span></p>}
@@ -54,9 +54,11 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   </section>
 
   <section class="sec problem">
-    <div class="wrap problem-grid">
-      <p class="eyebrow" data-reveal>The problem</p>
-      <p class="pull" data-reveal>{system.problem}</p>
+    <div class="wrap">
+      <div class="problem-card" data-reveal>
+        <p class="eyebrow">The problem</p>
+        <p class="pull">{system.problem}</p>
+      </div>
     </div>
   </section>
 
@@ -65,7 +67,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
       <div class="sec-top" data-reveal>
         <div>
           <p class="eyebrow">What we built</p>
-          <h2>{system.status === 'production' ? <>What the system <em>does.</em></> : <>What the system is <em>designed to do.</em></>}</h2>
+          <h2>{system.status === 'production' ? 'What the system does.' : 'What the system is designed to do.'}</h2>
         </div>
       </div>
       <ol class="rows">
@@ -86,7 +88,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
         <div class="sec-top" data-reveal>
           <div>
             <p class="eyebrow">Screens</p>
-            <h2>A closer <em>look.</em></h2>
+            <h2>A closer look.</h2>
           </div>
           <p>Real screens from the build. Sample data throughout.</p>
         </div>
@@ -108,7 +110,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
         <div class="sec-top" data-reveal>
           <div>
             <p class="eyebrow">Screens</p>
-            <h2>The app, <em>in the hand.</em></h2>
+            <h2>The app, in the hand.</h2>
           </div>
           <p>Real screens from the build. The homeowner, the project and every amount are sample data.</p>
         </div>
@@ -124,27 +126,22 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     </section>
   )}
 
-  <section class="sec sec-dark">
+  <section class="sec guard-sec">
     <div class="wrap">
       <div class="sec-top" data-reveal>
         <div>
           <p class="eyebrow">Guardrails</p>
-          <h2>Software prepares. <em>A person decides.</em></h2>
+          <h2>Software prepares. A person decides.</h2>
         </div>
         <p>The rules this system will not break, whatever anyone clicks.</p>
       </div>
-      <ol class="rows guard">
-        {system.guardrails.map((g, i) => (
-          <li data-reveal>
-            <span class="n">{num(i)}</span>
-            <h3>{g}</h3>
-          </li>
-        ))}
-      </ol>
+      <ul class="rules" data-reveal>
+        {system.guardrails.map((g) => <li><Icon name="check" /><span>{g}</span></li>)}
+      </ul>
     </div>
   </section>
 
-  <a class={`next tone-${next.slug}`} href={`/work/${next.slug}/`}>
+  <a class="next" href={`/work/${next.slug}/`}>
     <div class="wrap next-in">
       <div class="next-copy">
         <p class="label">Next system</p>
@@ -161,57 +158,49 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 
 <style>
   :global(.case-hero) { padding-bottom: 0; overflow: visible; display: flow-root; }
-  :global(.case-hero h1) { max-width: none; font-size: clamp(3.2rem, 9vw, 8rem); letter-spacing: -0.04em; }
-  :global(.case-hero .lede) { font-size: clamp(1.15rem, 1.8vw, 1.4rem); max-width: 34ch; color: var(--slate); }
-  .back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 12px; font-weight: 650; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-light); text-decoration: none; }
+  :global(.case-hero h1) { max-width: none; font-size: clamp(2.6rem, 5.4vw, 4.2rem); letter-spacing: -0.03em; }
+  :global(.case-hero .lede) { max-width: 40ch; }
+  .back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 12.5px; font-weight: 680; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-light); text-decoration: none; }
   .back :global(svg) { width: 15px; height: 15px; transform: rotate(180deg); transition: transform 0.25s ease; }
   .back:hover { color: var(--navy-700); }
   .back:hover :global(svg) { transform: rotate(180deg) translateX(3px); }
-  .back span { margin-left: 10px; padding-left: 14px; border-left: 1px solid rgba(24, 53, 81, 0.2); color: #8a6c14; font-variant-numeric: tabular-nums; }
+  .back span { margin-left: 10px; padding-left: 14px; border-left: 1px solid var(--line); color: var(--gold-ink); font-variant-numeric: tabular-nums; }
 
   .spec { margin: 0; display: grid; }
-  .spec div { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: baseline; padding-block: 14px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .spec div { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: baseline; padding-block: 13px; border-top: 1px solid var(--line); }
   .spec div:first-child { border-top: 0; padding-top: 0; }
   .spec div:last-child { padding-bottom: 0; }
-  .spec dd { margin: 0; color: #fff; font-size: 15.5px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-  .spec-note { color: #a9bacc; font-size: 14px; }
-  .spec-stack { color: #c5d2e0 !important; font-size: 14.5px !important; }
+  .spec dd { margin: 0; color: var(--navy-700); font-weight: 500; font-size: 15.5px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .spec-note { color: var(--slate); font-weight: 400; font-size: 14px; }
+  .spec-stack { color: var(--slate) !important; font-weight: 400 !important; font-size: 14.5px !important; }
 
-  .case-visual { max-width: 1040px; margin: clamp(48px, 7vw, 88px) auto -110px; position: relative; z-index: 2; }
+  .case-visual { max-width: 1040px; margin: clamp(40px, 5vw, 64px) auto -110px; position: relative; z-index: 2; }
 
-  .facts { padding-top: 174px; padding-bottom: clamp(20px, 3vw, 40px); }
-  .honesty { margin-top: 36px; display: grid; grid-template-columns: 22px 1fr; gap: 14px; padding: 18px 22px; border-radius: 14px; background: var(--blue-soft); color: #1f3f6e; font-size: 15.5px; max-width: 860px; }
+  .facts { padding-top: 158px; }
+  .honesty { margin-top: 20px; display: grid; grid-template-columns: 22px 1fr; gap: 14px; padding: 18px 22px; border-radius: 14px; background: var(--blue-soft); color: #1f3f6e; font-size: 15.5px; max-width: 860px; }
   .honesty :global(svg) { width: 20px; height: 20px; margin-top: 3px; }
 
-  .problem { padding-block: clamp(44px, 5.6vw, 80px); }
-  .problem-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 20px; align-items: start; }
-  .problem-grid .eyebrow { grid-column: 1 / 4; }
-  .problem-grid .pull { grid-column: 4 / -1; }
-  .problem-grid .eyebrow { margin-top: 1rem; }
-  .pull { font-family: var(--font-display); font-size: clamp(1.4rem, 2.4vw, 2rem); font-weight: 440; line-height: 1.16; letter-spacing: -0.022em; color: var(--navy-700); max-width: 30ch; text-wrap: pretty; }
+  .problem { padding-block: clamp(32px, 4vw, 48px) clamp(56px, 7vw, 96px); }
+  .problem-card { display: grid; gap: 14px; padding: clamp(24px, 3.2vw, 44px); border-radius: 20px; background: var(--bg-soft); border: 1px solid var(--line); }
+  .pull { font-family: var(--font-display); font-size: clamp(1.3rem, 2vw, 1.65rem); font-weight: 460; line-height: 1.3; letter-spacing: -0.018em; color: var(--navy-700); max-width: 46ch; text-wrap: pretty; }
 
   .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 3vw, 44px); }
   .phones { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3.4vw, 48px); align-items: start; }
   .phones figure:nth-child(even) { margin-top: clamp(0px, 3.6vw, 48px); }
   figure { margin: 0; display: grid; gap: 18px; align-content: start; }
   figcaption { display: grid; grid-template-columns: 36px 1fr; color: var(--slate); font-size: 15px; }
-  figcaption span { font-family: var(--font-display); font-style: italic; color: #8a6c14; }
+  figcaption span { font-family: var(--font-head); font-weight: 680; font-size: 13px; color: var(--gold-ink); font-variant-numeric: tabular-nums; }
 
-  .guard > li > h3 { grid-column: 2 / -1; text-wrap: pretty; color: #eef3f8; font-weight: 440; font-size: var(--d-sm); line-height: 1.22; }
+  .guard-sec { border-top: 1px solid var(--line); }
+  .guard-sec .rules li { background: var(--bg-soft); }
 
   /* next system: a full-width link */
-  .next { display: block; text-decoration: none; background: var(--n-bg); color: var(--n-text); transition: filter 0.4s ease; }
-  .next:hover { filter: brightness(1.04); }
-  .tone-asta-os { --n-bg: #ffffff; --n-text: var(--navy-700); --n-soft: var(--slate); --n-line: #e3e8ee; }
-  .tone-aasta-lifespace { --n-bg: linear-gradient(140deg, #f4eee2, #ece3d2); --n-text: #2a2a22; --n-soft: #5f5946; --n-line: #dfd5bf; }
-  .tone-plant-os { --n-bg: linear-gradient(160deg, #0a1524, #060d18); --n-text: #fff; --n-soft: #a9bacc; --n-line: rgba(255, 255, 255, 0.12); }
-  .tone-lead-engine { --n-bg: linear-gradient(160deg, #14365a, #0d2440); --n-text: #fff; --n-soft: #b9c8d8; --n-line: rgba(255, 255, 255, 0.14); }
-  .next-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 360px) 52px; gap: clamp(24px, 4vw, 64px); align-items: center; padding-block: clamp(40px, 5vw, 68px); }
+  .next { display: block; text-decoration: none; background: var(--bg-soft); color: var(--navy-700); border-top: 1px solid var(--line); --n-soft: var(--slate); --n-line: var(--line); }
+  .next-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px) 40px; gap: clamp(24px, 4vw, 56px); align-items: center; padding-block: clamp(32px, 4vw, 52px); }
   .next .label { color: var(--n-soft); }
-  .next-name { margin-top: 14px; font-family: var(--font-display); font-size: clamp(2.1rem, 3.8vw, 3.2rem); font-weight: 460; letter-spacing: -0.035em; line-height: 0.98; transition: transform 0.5s var(--ease); }
-  .next:hover .next-name { transform: translateX(12px); }
-  .next-tag { margin-top: 16px; color: var(--n-soft); max-width: 44ch; }
-  .next-thumb { display: block; aspect-ratio: 16 / 10.4; border-radius: 14px; overflow: hidden; border: 1px solid var(--n-line); background: rgba(127, 127, 127, 0.08); }
+  .next-name { margin-top: 10px; font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 480; letter-spacing: -0.025em; line-height: 1.1; }
+  .next-tag { margin-top: 10px; color: var(--n-soft); max-width: 44ch; }
+  .next-thumb { display: block; aspect-ratio: 16 / 10.4; border-radius: 14px; overflow: hidden; border: 1px solid var(--n-line); background: #fff; }
   .next-thumb > :global(*) { width: 132%; margin: 9% 0 0 9%; transform-origin: 0 0; transition: transform 0.7s var(--ease); }
   .next:hover .next-thumb > :global(*) { transform: scale(1.05); }
 
@@ -219,14 +208,12 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     .gallery { grid-template-columns: 1fr; }
     .phones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .phones figure:nth-child(even) { margin-top: 0; }
-    .problem-grid .eyebrow, .problem-grid .pull { grid-column: 1 / -1; }
-    .problem-grid .eyebrow { margin-top: 0; }
-    .next-in { grid-template-columns: 1fr 52px; }
+    .next-in { grid-template-columns: 1fr 40px; }
     .next-thumb { display: none; }
   }
   @media (max-width: 620px) {
     .case-visual { margin-bottom: -60px; }
-    .facts { padding-top: 104px; }
+    .facts { padding-top: 100px; }
     .spec div { grid-template-columns: 1fr; gap: 4px; }
   }
 </style>

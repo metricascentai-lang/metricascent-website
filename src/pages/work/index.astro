@@ -1,8 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Icon from '../../components/Icon.astro';
 import PageHero from '../../components/PageHero.astro';
-import SystemVisual from '../../components/SystemVisual.astro';
+import WorkGrid from '../../components/WorkGrid.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { systems, statusLabel, type Status } from '../../data/systems';
 
@@ -36,28 +35,9 @@ const count = (s: Status) => systems.filter((x) => x.status === s).length;
     </div>
   </PageHero>
 
-  <section class="sec sec-paper list-sec">
+  <section class="sec sec-soft list-sec">
     <div class="wrap">
-      <ol class="index">
-        {systems.map((s, i) => (
-          <li data-reveal>
-            <a class={`irow tone-${s.slug}`} href={`/work/${s.slug}/`}>
-              <span class="i-num">{String(i + 1).padStart(2, '0')}</span>
-              <span class="i-main">
-                <span class="i-name">{s.name}</span>
-                <span class="i-tag">{s.tagline}</span>
-              </span>
-              <span class="i-meta">
-                <span class={`status status-${s.status}`}>{statusLabel[s.status]}</span>
-                <span class="i-kind">{s.kind}</span>
-                <span class="i-for">Built for {s.builtFor.charAt(0).toLowerCase() + s.builtFor.slice(1)}</span>
-              </span>
-              <span class="i-thumb"><SystemVisual system={s} /></span>
-              <span class="arrow"><Icon name="arrow-up-right" /></span>
-            </a>
-          </li>
-        ))}
-      </ol>
+      <WorkGrid />
       <p class="note list-note">Every product screen on this site shows sample data.</p>
     </div>
   </section>
@@ -66,56 +46,14 @@ const count = (s: Status) => systems.filter((x) => x.status === s).length;
 </Base>
 
 <style>
-  .legend ul { display: grid; margin-top: 14px; }
-  .legend li { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding-block: 13px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .legend ul { display: grid; margin-top: 12px; }
+  .legend li { display: grid; grid-template-columns: 132px 1fr auto; gap: 14px; align-items: center; padding-block: 12px; border-top: 1px solid var(--line); }
   .legend .status { justify-self: start; }
-  .l-text { font-size: 14.5px; line-height: 1.4; color: #c5d2e0; }
-  .l-count { font-family: var(--font-display); font-size: 1.6rem; line-height: 1; color: #fff; font-variant-numeric: lining-nums; }
-
-  .list-sec { padding-top: clamp(40px, 6vw, 80px); }
-  .index { display: grid; }
-  .irow {
-    position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 18px; align-items: center;
-    padding-block: clamp(20px, 2.6vw, 32px); text-decoration: none; color: var(--navy-700); border-top: 1px solid #e3ddcf;
-  }
-  .index li:last-child .irow { border-bottom: 1px solid #e3ddcf; }
-  .i-num { grid-column: 1 / 2; }
-  .i-main { grid-column: 2 / 7; }
-  .i-meta { grid-column: 7 / 10; }
-  .i-thumb { grid-column: 10 / -1; grid-row: 1; align-self: stretch; }
-  .irow .arrow { grid-column: 10 / -1; grid-row: 1; align-self: end; justify-self: end; margin: 0 12px 12px 0; z-index: 1; width: 40px; height: 40px; background: #fff; border-color: rgba(12, 30, 51, 0.14); box-shadow: 0 6px 16px -8px rgba(12, 30, 51, 0.4); }
-  .i-num { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; color: #8a6c14; align-self: start; padding-top: 0.5rem; font-variant-numeric: lining-nums; }
-  .i-main { display: grid; gap: 14px; min-width: 0; }
-  .i-name { font-family: var(--font-display); font-size: var(--d-lg); font-weight: 470; letter-spacing: -0.032em; line-height: 1; transition: transform 0.5s var(--ease); }
-  .irow:hover .i-name { transform: translateX(10px); }
-  .i-tag { line-height: 1.5; color: var(--slate); max-width: 40ch; }
-  .i-meta { display: grid; gap: 10px; justify-items: start; min-width: 0; }
-  .i-kind { font-family: var(--font-head); font-size: 11.5px; font-weight: 650; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-light); }
-  .i-for { font-size: var(--t-sm); line-height: 1.45; color: var(--slate); }
-  .i-thumb { display: block; aspect-ratio: 16 / 10.4; border-radius: 14px; overflow: hidden; background: var(--t-bg, #e9eef4); border: 1px solid rgba(12, 30, 51, 0.1); }
-  .i-thumb > :global(*) { width: 132%; margin: 9% 0 0 9%; transition: transform 0.7s var(--ease); transform-origin: 0 0; }
-  .irow:hover .i-thumb > :global(*) { transform: scale(1.05); }
-  .tone-asta-os { --t-bg: linear-gradient(150deg, #e8eef5, #f4f6f9); }
-  .tone-aasta-lifespace { --t-bg: linear-gradient(150deg, #efe6d4, #f6f0e4); }
-  .tone-plant-os { --t-bg: linear-gradient(150deg, #0d1b2d, #060d18); }
-  .tone-lead-engine { --t-bg: linear-gradient(150deg, #173a5f, #0d2440); }
-  .irow .arrow { color: var(--navy-700); }
-  .list-note { margin-top: 26px; }
-
-  @media (max-width: 1060px) {
-    .irow { grid-template-columns: 48px minmax(0, 1fr) minmax(0, 300px); column-gap: 24px; }
-    .i-num { grid-column: 1; grid-row: 1; }
-    .i-main { grid-column: 2; grid-row: 1; }
-    .i-meta { grid-column: 2; grid-row: 2; }
-    .i-thumb { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
-    .irow .arrow { display: none; }
-  }
+  .l-text { font-size: 14.5px; line-height: 1.4; color: var(--slate); }
+  .l-count { font-family: var(--font-display); font-size: 1.4rem; line-height: 1; color: var(--navy-700); font-variant-numeric: lining-nums; }
+  .list-sec { padding-top: clamp(40px, 5vw, 64px); }
+  .list-note { margin-top: 24px; }
   @media (max-width: 720px) {
-    .irow { grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }
-    .i-thumb { grid-column: 1 / -1; grid-row: 1; }
-    .i-num { grid-column: 1; grid-row: 2; }
-    .i-main { grid-column: 2; grid-row: 2; }
-    .i-meta { grid-column: 2; grid-row: 3; }
     .legend li { grid-template-columns: 1fr auto; }
     .l-text { grid-column: 1 / -1; grid-row: 2; }
   }

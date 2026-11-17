@@ -22,10 +22,11 @@ Requires Node 22 or newer.
 | `src/data/site.ts` | Contact details, booking link and main navigation |
 | `src/pages/` | One file per page. `work/[slug].astro` renders every case study from `systems.ts` |
 | `src/components/` | Header, footer, product frames, the Lead Desk illustration |
-| `src/components/home/` | Homepage pieces: `LiveConsole` (animated hero), `WorkStack` (stacking case cards), `VerifyTerminal` (release check) |
+| `src/components/home/` | Homepage pieces: `LiveConsole` (animated hero) |
+| `src/components/WorkGrid.astro` | The four systems as one grid of identical cards, used on the homepage and the Work page |
 | `src/styles/global.css` | Design tokens (colours, type, spacing) and shared classes |
-| `src/styles/pages.css` | Inner-page building blocks: white page hero, numbered rows, large figures |
-| `src/components/PageHero.astro` | The white hero used on every inner page (title, lede and side panel are slots) |
+| `src/styles/pages.css` | Inner-page building blocks: page hero, section headings, numbered cards, rule lists |
+| `src/components/PageHero.astro` | The hero used on every inner page (title, lede and side panel are slots) |
 | `src/assets/shots/` | Product screenshots. Astro converts them to responsive WebP at build time |
 | `public/` | Files copied as-is: `CNAME`, favicons, `robots.txt` |
 
@@ -33,7 +34,7 @@ Requires Node 22 or newer.
 
 Display type is **Newsreader** (Production Type); text and interface type is **Libre Franklin**
 (a revival of Franklin Gothic). IBM Plex Mono is used only for code-like values in the hero
-console and the terminal. All three are self-hosted through Fontsource.
+console and the browser-frame address bars. All three are self-hosted through Fontsource.
 
 ## Rules for content
 

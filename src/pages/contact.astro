@@ -54,7 +54,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
       <div class="sec-top" data-reveal>
         <div>
           <p class="eyebrow">What happens next</p>
-          <h2>Three steps, and you are <em>in control of each.</em></h2>
+          <h2>Three steps, and you are in control of each.</h2>
         </div>
       </div>
       <ol class="rows">
@@ -71,24 +71,18 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 </Base>
 
 <style>
-  .book { display: grid; gap: 14px; justify-items: start; border-color: rgba(225, 189, 99, 0.4); box-shadow: 0 0 0 4px rgba(225, 189, 99, 0.06), 0 40px 80px -40px rgba(0, 0, 0, 0.7); }
-  .book-big { font-family: var(--font-display); font-size: clamp(4rem, 8vw, 6.4rem); font-weight: 420; line-height: 0.86; letter-spacing: -0.045em; color: #fff; font-variant-numeric: lining-nums; }
-  .book-big span { font-style: italic; font-size: 0.34em; letter-spacing: -0.01em; color: var(--gold-light); }
-  .book-text { color: #c5d2e0; }
+  .book { display: grid; gap: 12px; justify-items: start; }
+  .book-big { font-family: var(--font-display); font-size: clamp(3rem, 5vw, 4rem); font-weight: 460; line-height: 0.95; letter-spacing: -0.035em; color: var(--navy-700); font-variant-numeric: lining-nums; }
+  .book-big span { font-size: 0.36em; letter-spacing: -0.01em; color: var(--gold-ink); }
+  .book-text { color: var(--slate); }
   .book .btn { margin-top: 6px; border-radius: 12px; }
-  .book-note { font-size: 13px; color: #8fa2b7; }
+  .book-note { font-size: 13px; color: var(--slate-light); }
 
-  .direct-sec { padding-block: clamp(44px, 5.6vw, 76px); }
-  .direct { display: grid; margin-top: 26px; border-top: 1px solid var(--line); }
-  .direct a { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: 6px; align-items: center; padding-block: clamp(14px, 1.8vw, 22px); border-bottom: 1px solid var(--line); text-decoration: none; color: var(--navy-700); }
-  .direct .label { grid-column: 1 / 3; }
-  .direct .d-text { grid-column: 3 / 12; }
-  .direct .arrow { grid-column: 12; justify-self: end; }
-  .d-text { font-family: var(--font-display); font-weight: 460; font-size: var(--d-md); letter-spacing: -0.028em; line-height: 1.05; overflow-wrap: anywhere; font-variant-numeric: lining-nums; transition: transform 0.5s var(--ease); }
-  .direct a:hover .d-text { transform: translateX(10px); }
-
-  @media (max-width: 640px) {
-    .direct .label, .direct .d-text { grid-column: 1 / -1; }
-    .direct .arrow { display: none; }
-  }
+  .direct-sec { padding-block: clamp(40px, 5vw, 64px); }
+  .direct { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+  .direct a { position: relative; display: grid; gap: 8px; height: 100%; padding: clamp(20px, 2.2vw, 26px); padding-right: 68px; border-radius: var(--radius); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); text-decoration: none; color: var(--navy-700); transition: border-color 0.25s ease, transform 0.35s var(--ease); }
+  .direct a:hover { border-color: #cfd8e3; transform: translateY(-2px); }
+  .direct .arrow { position: absolute; right: 18px; top: 18px; }
+  .d-text { font-family: var(--font-display); font-weight: 480; font-size: clamp(1.2rem, 1.7vw, 1.4rem); letter-spacing: -0.02em; line-height: 1.15; overflow-wrap: anywhere; font-variant-numeric: lining-nums; }
+  @media (max-width: 860px) { .direct { grid-template-columns: 1fr; } }
 </style>
