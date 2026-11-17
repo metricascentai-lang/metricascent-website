@@ -205,14 +205,14 @@ const scenarios: Scenario[] = [
     // Pacing, in milliseconds. Each stage is held long enough for a first-time
     // visitor to read it; one system takes about 17 seconds from start to finish.
     const PACE = {
-      arrive: 300,          // the incoming item appears
-      readInput: 1900,      // time to read it before the system starts
-      step: 1500,           // each "system prepares" line: working, then ticked
-      beforeDecision: 700,  // a beat after the last tick
-      readDecision: 2500,   // time to read the decision card before the cursor moves
-      cursor: 1400,         // cursor travels to the button
-      press: 220,           // button held down
-      readResult: 4000,     // time to read the outcome and the log line
+      arrive: 200,          // the incoming item appears
+      readInput: 1000,      // time to read it before the system starts
+      step: 750,            // each "system prepares" line: working, then ticked
+      beforeDecision: 400,  // a beat after the last tick
+      readDecision: 1300,   // time to read the decision card before the cursor moves
+      cursor: 900,          // cursor travels to the button
+      press: 180,           // button held down
+      readResult: 2300,     // time to read the outcome and the log line
     };
     let index = 0;
     let timers: number[] = [];
@@ -423,30 +423,30 @@ const scenarios: Scenario[] = [
 
   /* Animated states, switched on only when the script decides motion is welcome */
   .live .scn { transition: opacity 0.6s ease; }
-  .live .rail i { transition-duration: 1.2s; }
+  .live .rail i { transition-duration: 0.7s; }
   .live .in-card { opacity: 0; transform: translateY(-10px) scale(0.98); }
-  .live .p-in .in-card { opacity: 1; transform: none; transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .live .p-in .in-card { opacity: 1; transform: none; transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
   .live .steps li { opacity: 0.42; transition: opacity 0.5s ease, background 0.5s ease; }
   .live .steps li .g :global(svg) { opacity: 0; transform: scale(0.4); transition: opacity 0.25s ease, transform 0.35s var(--ease); }
   .live .steps li .g { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(24, 53, 81, 0.22); }
   .live .steps li .v { opacity: 0; transform: translateX(6px); transition: opacity 0.3s ease, transform 0.3s ease; }
   .live .steps li.on { opacity: 1; background: rgba(44, 95, 168, 0.07); }
-  .live .steps li.on .g { box-shadow: none; border: 1.5px solid rgba(44, 95, 168, 0.22); border-top-color: var(--blue); animation: turn 0.9s linear infinite; }
+  .live .steps li.on .g { box-shadow: none; border: 1.5px solid rgba(44, 95, 168, 0.22); border-top-color: var(--blue); animation: turn 0.6s linear infinite; }
   .live .steps li.done { opacity: 1; }
   .live .steps li.done .g { background: var(--blue-soft); box-shadow: none; }
   .live .steps li.done .g :global(svg) { opacity: 1; transform: none; }
   .live .steps li.done .v { opacity: 1; transform: none; }
   @keyframes turn { to { transform: rotate(360deg); } }
   .live .dec { opacity: 0; transform: translateY(16px) scale(0.97); }
-  .live .p-dec .dec { opacity: 1; transform: none; transition: opacity 0.8s var(--ease), transform 1s var(--ease); }
+  .live .p-dec .dec { opacity: 1; transform: none; transition: opacity 0.5s var(--ease), transform 0.65s var(--ease); }
   .live .p-dec .wait { opacity: 0; transition: opacity 0.4s ease; }
   .live .dec dl div { opacity: 0; transform: translateY(6px); }
   .live .p-dec .dec dl div { opacity: 1; transform: none; transition: opacity 0.5s ease, transform 0.5s ease; }
-  .live .p-dec .dec dl div:nth-child(1) { transition-delay: 0.4s; }
-  .live .p-dec .dec dl div:nth-child(2) { transition-delay: 0.65s; }
-  .live .p-dec .dec dl div:nth-child(3) { transition-delay: 0.9s; }
+  .live .p-dec .dec dl div:nth-child(1) { transition-delay: 0.2s; }
+  .live .p-dec .dec dl div:nth-child(2) { transition-delay: 0.35s; }
+  .live .p-dec .dec dl div:nth-child(3) { transition-delay: 0.5s; }
   .live .cursor { display: block; opacity: 0; transform: translate(-190px, -150px); }
-  .live .p-aim .cursor { opacity: 1; transform: none; transition: transform 1.3s var(--ease), opacity 0.4s ease; }
+  .live .p-aim .cursor { opacity: 1; transform: none; transition: transform 0.85s var(--ease), opacity 0.3s ease; }
   .live .p-press .cursor { transform: scale(0.86); transition: transform 0.12s ease; }
   .live .p-press .go { transform: scale(0.965); }
   .live .p-ok .go { background: var(--green-soft); color: var(--green); box-shadow: inset 0 0 0 1px rgba(26, 122, 80, 0.4); }
