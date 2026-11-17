@@ -163,7 +163,12 @@ const scenarios: Scenario[] = [
           <i class="node" aria-hidden="true"></i>
           <p class="lane-h">A person decides</p>
           <div class="dec-slot">
-            <p class="wait" aria-hidden="true">Waiting for a person</p>
+            <div class="wait" aria-hidden="true">
+              <span class="w-top"><i></i><i></i></span>
+              <span class="w-row"><i></i><i></i><i></i></span>
+              <span class="w-btn"></span>
+              <span class="w-pill"><span class="w-dot"></span><Icon name="user" />Waiting for a person</span>
+            </div>
             <div class="dec">
               <div class="dec-top">
                 <p class="dec-title">{s.decTitle}</p>
@@ -374,7 +379,28 @@ const scenarios: Scenario[] = [
   /* A person decides */
   .dec-slot { display: grid; }
   .dec-slot > * { grid-area: 1 / 1; }
-  .wait { display: grid; place-items: center; border: 1px dashed rgba(160, 124, 28, 0.5); background: rgba(255, 255, 255, 0.55); border-radius: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-ink); }
+/* the empty decision card: a faint outline of what is coming, with a badge that says it is waiting for a person */
+  .wait { position: relative; display: grid; gap: 11px; align-content: space-between; padding: 14px 14px 16px; border: 1px dashed rgba(160, 124, 28, 0.5); background: rgba(255, 255, 255, 0.55); border-radius: 14px; overflow: hidden; }
+  .wait i, .w-btn { display: block; border-radius: 6px; background: rgba(160, 124, 28, 0.13); }
+  .w-top { display: flex; justify-content: space-between; align-items: center; }
+  .w-top i { height: 14px; width: 42%; }
+  .w-top i + i { width: 18%; }
+  .w-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-block: 10px; border-block: 1px solid rgba(160, 124, 28, 0.16); }
+  .w-row i { height: 26px; }
+  .w-btn { height: 40px; border-radius: 10px; }
+  .w-pill { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 999px; white-space: nowrap; background: #fff; border: 1px solid rgba(201, 162, 63, 0.7); box-shadow: 0 10px 24px -12px rgba(24, 53, 81, 0.45); font-family: var(--font-head); font-size: 13px; font-weight: 620; color: var(--navy-700); }
+  .w-pill :global(svg) { width: 15px; height: 15px; color: var(--gold-ink); }
+  .w-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+  .w-dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--gold); }
+  @media (prefers-reduced-motion: no-preference) {
+    .live .w-dot::after { animation: w-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+    .live .wait i, .live .w-btn { animation: w-breathe 2.4s ease-in-out infinite; }
+    .live .w-row i:nth-child(2) { animation-delay: 0.2s; }
+    .live .w-row i:nth-child(3) { animation-delay: 0.4s; }
+    .live .w-btn { animation-delay: 0.6s; }
+    @keyframes w-ping { 0% { transform: scale(1); opacity: 0.7; } 80%, 100% { transform: scale(3); opacity: 0; } }
+    @keyframes w-breathe { 50% { opacity: 0.45; } }
+  }
   .dec { position: relative; display: grid; gap: 11px; padding: 14px 14px 12px; border-radius: 14px; background: #fff; border: 1px solid rgba(201, 162, 63, 0.7); box-shadow: 0 0 0 4px rgba(201, 162, 63, 0.12), 0 20px 40px -24px rgba(24, 53, 81, 0.45); }
   .dec-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .dec-tag { flex: none; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #14202f; background: var(--gold-light); padding: 3px 8px; border-radius: 6px; }
