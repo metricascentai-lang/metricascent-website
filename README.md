@@ -60,6 +60,4 @@ The earlier plain-HTML site is the commit `e6852fe` on `main`.
 
 ## To do
 
-- Replace `bookingUrl` in `src/data/site.ts` once a new cal.com event exists. The current link
-  still points at the old "free revenue recovery audit" event.
 - Add staff-portal screenshots for Aasta Lifespace. The homeowner app screens are in; the staff side is not shown yet.

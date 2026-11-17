@@ -3,7 +3,8 @@ export const site = {
   name: 'MetricAscent',
   tagline: 'Smarter Systems | Higher Gains',
   url: 'https://metricascent.com',
-  // TODO(owner): replace with a new cal.com event once created; this slug still names the old offer.
+  // The event behind this link is the 30-minute strategy call (checked on cal.com). Only the address still
+  // carries the old offer's name; renaming the event's URL on cal.com is optional, and this line must follow it.
   bookingUrl: 'https://cal.com/metric-ascent/free-revenue-recovery-audit',
   email: 'hello@metricascent.com',
   phoneDisplay: '+1 832 941 1879',
