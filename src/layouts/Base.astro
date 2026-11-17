@@ -10,9 +10,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 
-// darkTop: the page opens on a dark hero, so the header uses its light-on-dark state until the page scrolls.
-interface Props { title: string; description: string; darkTop?: boolean; }
-const { title, description, darkTop = true } = Astro.props;
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
 const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
@@ -40,7 +39,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header onDark={darkTop} />
+    <Header />
     <main id="main">
       <slot />
     </main>
