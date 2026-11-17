@@ -166,7 +166,7 @@ const steps = [
         <div class="split-side you">
           <p class="split-h"><span class="split-ic"><Icon name="user-check" /></span>Only a person can</p>
           <ul>
-            {personOnly.map((t) => <li><Icon name="check" /><span>{t}</span></li>)}
+            {personOnly.map((t) => <li><Icon name="user-check" /><span>{t}</span></li>)}
           </ul>
         </div>
       </div>
@@ -357,20 +357,23 @@ const steps = [
   .s-arrow { position: absolute; left: 50%; top: 50%; z-index: 1; width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: var(--navy-900); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 8px 18px -8px rgba(8, 20, 36, 0.6); }
   .s-arrow :global(svg) { width: 16px; height: 16px; }
 
-  /* one card, two halves: what the system does, the point where it stops, what only a person can do */
-  .split { display: grid; grid-template-columns: minmax(0, 1.25fr) auto minmax(0, 1fr); border-radius: 20px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); overflow: hidden; }
-  .split-side { padding: clamp(18px, 2vw, 24px) clamp(18px, 2.2vw, 28px); }
-  .split-side.you { background: var(--gold-soft); }
-  .split-h { display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-weight: 660; font-size: 1rem; color: var(--navy-700); }
-  .split-ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
-  .you .split-ic { background: #f3e6bd; color: var(--gold-ink); }
-  .split-ic :global(svg) { width: 16px; height: 16px; }
-  .split-side ul { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; margin-top: 14px; }
-  .split-side li { display: grid; grid-template-columns: 16px 1fr; gap: 9px; align-items: start; font-size: 14.5px; line-height: 1.4; color: var(--ink); }
-  .split-side li :global(svg) { width: 16px; height: 16px; margin-top: 2px; color: var(--blue); stroke-width: 2.6; }
-  .you li :global(svg) { color: var(--gold-ink); }
-  .split-gate { position: relative; width: 1px; background: var(--gold); }
-  .split-gate span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); white-space: nowrap; padding: 4px 10px; border-radius: 999px; background: var(--gold); color: var(--navy-900); font-family: var(--font-head); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  /* one card, two halves: what the system does (white, blue tags), the point where it stops,
+     and what only a person can do (navy, gold tags). Tags flow, so no line breaks awkwardly. */
+  .split { display: grid; grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr); border-radius: 20px; background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .split-side { padding: clamp(20px, 2.2vw, 28px) clamp(20px, 2.6vw, 32px); }
+  .split-side.you { padding-left: clamp(30px, 3.2vw, 44px); background: linear-gradient(160deg, var(--navy-800), var(--navy-900)); }
+  .split-h { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-weight: 480; font-size: clamp(1.25rem, 1.7vw, 1.45rem); letter-spacing: -0.02em; line-height: 1.2; color: var(--navy-700); }
+  .you .split-h { color: #fff; }
+  .split-ic { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--blue-soft); color: var(--blue); }
+  .you .split-ic { background: rgba(225, 189, 99, 0.16); color: var(--gold-light); }
+  .split-ic :global(svg) { width: 17px; height: 17px; }
+  .split-side ul { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .split-side li { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px 7px 10px; border-radius: 999px; font-size: 14px; line-height: 1.3; color: var(--navy-700); background: #f1f5fb; border: 1px solid #dfe8f4; }
+  .split-side li :global(svg) { width: 15px; height: 15px; flex: none; color: var(--blue); stroke-width: 2.6; }
+  .you li { color: #fff; background: rgba(255, 255, 255, 0.06); border-color: rgba(225, 189, 99, 0.35); }
+  .you li :global(svg) { color: var(--gold-light); stroke-width: 2; }
+  .split-gate { position: relative; width: 0; }
+  .split-gate span { position: absolute; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); white-space: nowrap; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: var(--navy-900); box-shadow: 0 0 0 4px #fff; font-family: var(--font-head); font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 
   /* three guards in one card, side by side, with the release standard as its dark footer */
   .guards { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(14px, 1.6vw, 20px); border-radius: 20px 20px 0 0; background: #fff; border: 1px solid var(--line); border-bottom: 0; }
@@ -419,8 +422,10 @@ const steps = [
   @media (max-width: 860px) {
     .split, .guards { grid-template-columns: 1fr; }
     .guards li + li { border-left: 0; border-top: 1px solid var(--line); }
-    .split-gate { width: auto; height: 1px; }
+    .split-gate { width: auto; height: 0; }
     .split-gate span { transform: translate(-50%, -50%); }
+    .split-side.you { padding-left: clamp(20px, 2.6vw, 32px); padding-top: 28px; }
+    .split-side:first-child { padding-bottom: 28px; }
     .tested { grid-template-columns: 1fr; }
   }
   /* phones: each pair becomes its own small card, before on top and after underneath */
@@ -440,7 +445,8 @@ const steps = [
     .s-arrow { left: auto; right: 18px; margin-left: 0; transform: rotate(90deg); }
   }
   @media (max-width: 560px) {
-    .split-side ul { grid-template-columns: 1fr; }
+    .split-side ul { gap: 6px; }
+    .split-side li { padding: 6px 11px 6px 9px; border-radius: 14px; font-size: 13.5px; }
     .actions .btn { width: 100%; }
     .live-pill { font-size: 12.5px; text-align: left; }
     .line > span { white-space: normal; }
