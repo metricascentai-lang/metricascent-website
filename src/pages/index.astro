@@ -31,12 +31,6 @@ const systemDoes = [
 ];
 const personOnly = ['Approves a price', 'Sends a message', 'Releases a batch', 'Confirms a receipt or payment', 'Overrides a credit limit', 'Changes a rule'];
 
-const guards = [
-  { icon: 'database', title: 'Rules cannot be bypassed', text: 'Business rules are enforced in the database, where no screen or shortcut can route around them.' },
-  { icon: 'lock', title: 'Locked by role', text: 'Each person sees what their job needs, and nothing more.' },
-  { icon: 'eye', title: 'Every action leaves a record', text: 'Sensitive actions are logged with who, what and when. The log cannot be edited.' },
-];
-
 const shipFacts = [
   { n: '2,808', l: 'automated tests' },
   { n: '54', l: 'database migrations' },
@@ -165,18 +159,6 @@ const steps = [
           </ul>
         </div>
       </div>
-
-      <ul class="guards" data-reveal>
-        {guards.map((g) => (
-          <li>
-            <span class="g-icon"><Icon name={g.icon} /></span>
-            <div>
-              <h3>{g.title}</h3>
-              <p>{g.text}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
 
       <div class="tested" data-reveal>
         <div>
@@ -393,16 +375,8 @@ const steps = [
   .split-gate { position: relative; width: 0; }
   .split-gate span { position: absolute; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); white-space: nowrap; padding: 5px 12px; border-radius: 999px; background: var(--gold); color: var(--navy-900); box-shadow: 0 0 0 4px #fff; font-family: var(--font-head); font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 
-  /* three guards in one card, side by side, with the release standard as its dark footer */
-  .guards { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(14px, 1.6vw, 20px); border-radius: 20px 20px 0 0; background: #fff; border: 1px solid var(--line); border-bottom: 0; }
-  .guards li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; align-items: start; padding: clamp(16px, 1.8vw, 22px); }
-  .guards li + li { border-left: 1px solid var(--line); }
-  .g-icon { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--gold-soft); color: var(--gold-ink); }
-  .g-icon :global(svg) { width: 17px; height: 17px; }
-  .guards h3 { font-size: 1rem; line-height: 1.3; }
-  .guards p { margin-top: 4px; font-size: 14.5px; line-height: 1.5; color: var(--slate); }
-
-  .tested { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 40px; align-items: center; padding: clamp(14px, 1.6vw, 18px) clamp(16px, 1.8vw, 22px); border-radius: 0 0 20px 20px; color: #b7c6d6; background: linear-gradient(160deg, var(--navy-800), var(--navy-900)); box-shadow: 0 24px 44px -30px rgba(8, 20, 36, 0.6); }
+  /* the release standard: a navy strip under the card */
+  .tested { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 40px; align-items: center; margin-top: clamp(14px, 1.6vw, 20px); padding: clamp(16px, 1.8vw, 22px) clamp(18px, 2.2vw, 28px); border-radius: 20px; color: #b7c6d6; background: linear-gradient(160deg, var(--navy-800), var(--navy-900)); box-shadow: 0 24px 44px -30px rgba(8, 20, 36, 0.6); }
   .tested h3 { font-size: 1rem; line-height: 1.3; color: #fff; }
   .tested p { margin-top: 3px; font-size: 14px; line-height: 1.5; max-width: 60ch; }
   .tested ul { display: flex; flex-wrap: wrap; gap: 10px 28px; }
@@ -437,8 +411,7 @@ const steps = [
     .console-stage { width: 100%; max-width: 600px; margin-inline: auto; }
   }
   @media (max-width: 860px) {
-    .split, .guards { grid-template-columns: 1fr; }
-    .guards li + li { border-left: 0; border-top: 1px solid var(--line); }
+    .split { grid-template-columns: 1fr; }
     .split-gate { width: auto; height: 0; }
     .split-gate span { transform: translate(-50%, -50%); }
     .split-side.you { padding-left: clamp(20px, 2.6vw, 32px); padding-top: 28px; }

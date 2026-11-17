@@ -210,13 +210,13 @@ h1 em, h2 em, h3 em { font-style: normal; }
   .js li[data-reveal]:nth-child(6) { transition-delay: 0.4s; }
 
   /* 3. Lists inside one revealed block: each item follows the last */
-  .js [data-reveal]:is(.stats, .rules, .steps, .guards) > li,
+  .js [data-reveal]:is(.stats, .rules, .steps) > li,
   .js [data-reveal] :is(.split-side, .shift) > ul > li {
     opacity: 0; translate: 0 12px;
     transition: opacity 0.5s ease, translate 0.6s var(--ease), transform 0.35s var(--ease), box-shadow 0.35s ease, border-color 0.25s ease;
     transition-delay: calc(0.12s + var(--i, 0) * 0.07s), calc(0.12s + var(--i, 0) * 0.07s), 0s, 0s, 0s;
   }
-  .js [data-reveal].in:is(.stats, .rules, .steps, .guards) > li,
+  .js [data-reveal].in:is(.stats, .rules, .steps) > li,
   .js [data-reveal].in :is(.split-side, .shift) > ul > li { opacity: 1; translate: none; }
   li:nth-child(2) { --i: 1; } li:nth-child(3) { --i: 2; } li:nth-child(4) { --i: 3; }
   li:nth-child(5) { --i: 4; } li:nth-child(6) { --i: 5; }
