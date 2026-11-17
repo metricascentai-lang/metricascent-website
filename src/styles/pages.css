@@ -20,6 +20,7 @@
   .phero-main > :nth-child(3) { animation-delay: 0.12s; }
   .phero-main > :nth-child(4) { animation-delay: 0.18s; }
   .phero-aside { animation-delay: 0.2s; }
+  .case-visual { animation: ph-up 1s var(--ease) 0.3s both; }
   @keyframes ph-up { from { opacity: 0; transform: translateY(14px); } }
 }
 @media (max-width: 900px) { .phero-grid.has-aside { grid-template-columns: 1fr; align-items: start; } }

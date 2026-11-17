@@ -82,7 +82,7 @@ const steps = [
     </div>
 
     <div class="wrap">
-      <ul class="stats figures" data-figures>
+      <ul class="stats figures" data-figures data-reveal>
         {figures.map((f) => (
           <li>
             <strong data-count={f.value} data-prefix={f.prefix} data-suffix={f.suffix}>{f.prefix}{f.value.toLocaleString('en-US')}{f.suffix}</strong>
