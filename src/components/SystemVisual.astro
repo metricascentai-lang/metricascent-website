@@ -5,8 +5,9 @@ import Shot from './Shot.astro';
 import LeadDeskMock from './LeadDeskMock.astro';
 import type { System } from '../data/systems';
 
-interface Props { system: System; eager?: boolean; }
-const { system, eager = false } = Astro.props;
+// sizes: how wide the desktop screen is shown, so the browser picks a sharp enough copy.
+interface Props { system: System; eager?: boolean; sizes?: string; }
+const { system, eager = false, sizes } = Astro.props;
 const desktop = system.screens.find((s) => s.kind === 'desktop');
 const phone = system.screens.find((s) => s.kind === 'phone');
 ---
@@ -14,7 +15,7 @@ const phone = system.screens.find((s) => s.kind === 'phone');
   <LeadDeskMock />
 ) : (
   <div class:list={['visual', { 'has-phone': !!phone }]}>
-    {desktop && <div class="desk"><Shot screen={desktop} eager={eager} /></div>}
+    {desktop && <div class="desk"><Shot screen={desktop} eager={eager} sizes={sizes} /></div>}
     {phone && <div class="handset"><Shot screen={phone} eager={eager} /></div>}
   </div>
 )}

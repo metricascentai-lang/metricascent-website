@@ -11,7 +11,7 @@ import { systems, statusLabel } from '../data/systems';
   {systems.map((s) => (
     <li data-reveal>
       <a class={`wcard tone-${s.slug}`} href={`/work/${s.slug}/`}>
-        <span class="thumb"><SystemVisual system={s} /></span>
+        <span class="thumb"><SystemVisual system={s} sizes="(max-width: 820px) 92vw, 600px" /></span>
         <span class="body">
           <span class="top">
             <span class="kind">{s.kind}</span>
