@@ -51,18 +51,15 @@ console and the browser-frame address bars. All three are self-hosted through Fo
 
 The site is served by GitHub Pages at **metricascent.com**.
 
-The earlier version was plain HTML served straight from the `main` branch. This version needs
-a build step, so before it can go live two things must be in place:
+`.github/workflows/deploy.yml` builds the site with `npm ci && npm run build` and publishes
+`dist/` to Pages. Every push to `main` goes live; pushes to `revamp/custom-ai-systems` are built
+only, as a check. Pages must stay on **Settings → Pages → Source = GitHub Actions**: with the old
+"deploy from branch" setting, `main` has no `index.html` at its root and the live site would break.
 
-1. A GitHub Actions workflow that runs `npm ci && npm run build` and publishes `dist/` to Pages.
-2. **Settings → Pages → Build and deployment → Source = GitHub Actions.**
-
-Do not merge this branch into `main` until both are done: with the old "deploy from branch"
-setting, `main` would have no `index.html` at its root and the live site would break.
+The earlier plain-HTML site is the commit `e6852fe` on `main`.
 
 ## To do
 
-- Add the Pages deploy workflow (see above).
 - Replace `bookingUrl` in `src/data/site.ts` once a new cal.com event exists. The current link
   still points at the old "free revenue recovery audit" event.
 - Add staff-portal screenshots for Aasta Lifespace. The homeowner app screens are in; the staff side is not shown yet.
