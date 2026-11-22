@@ -7,8 +7,8 @@ export const site = {
   // carries the old offer's name; renaming the event's URL on cal.com is optional, and this line must follow it.
   bookingUrl: 'https://cal.com/metric-ascent/free-revenue-recovery-audit',
   email: 'hello@metricascent.com',
-  phoneDisplay: '+1 832 941 1879',
-  phoneHref: 'tel:+18329411879',
+  phoneDisplay: '+91 81058 62871',
+  phoneHref: 'tel:+918105862871',
   linkedin: 'https://www.linkedin.com/company/metricascent',
   instagram: 'https://www.instagram.com/metricascent/',
 };
