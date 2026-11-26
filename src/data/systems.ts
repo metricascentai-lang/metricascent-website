@@ -183,7 +183,7 @@ export const systems: System[] = [
     status: 'build',
     statusNote: 'Pilot in build',
     tagline: 'Type a product and a country. Get buyers worth contacting, with the evidence and a first message ready.',
-    builtFor: 'A specialty chemicals group selling into Europe',
+    builtFor: 'A specialty chemicals group selling into the United States',
     problem:
       'New customers came mostly from trade shows. Between shows, finding the right buyer at the right company was slow manual research, and most lists were never followed up.',
     built: [
