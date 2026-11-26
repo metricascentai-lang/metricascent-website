@@ -44,7 +44,7 @@ console and the browser-frame address bars. All three are self-hosted through Fo
   In build or Demo build. Update `status` and `statusNote` in `systems.ts` when that changes.
 - **Motion is optional.** Every animation has a finished static state for visitors with reduced
   motion or no JavaScript, and the hero loop has a pause button.
-- **Numbers must be checkable.** Facts on the ASTA OS page come from its repository
+- **Numbers must be checkable.** Facts on the Trade OS page come from its repository
   (test count from `vitest list`, migration count from `supabase/migrations`).
 
 ## Deploying
@@ -60,4 +60,4 @@ The earlier plain-HTML site is the commit `e6852fe` on `main`.
 
 ## To do
 
-- Add staff-portal screenshots for Aasta Lifespace. The homeowner app screens are in; the staff side is not shown yet.
+- Add staff-portal screenshots for Build Portal. The homeowner app screens are in; the staff side is not shown yet.

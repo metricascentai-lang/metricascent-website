@@ -5,12 +5,12 @@ import CtaBand from '../components/CtaBand.astro';
 import LiveConsole from '../components/home/LiveConsole.astro';
 import WorkGrid from '../components/WorkGrid.astro';
 
-// Each figure is checkable: the test count comes from the ASTA OS repository,
+// Each figure is checkable: the test count comes from the Trade OS repository,
 // the other two are the owner's own stated figures for that system and its builder.
 const figures = [
   { value: 2808, prefix: '', suffix: '', label: 'automated tests guard our first production system' },
   { value: 15, prefix: '', suffix: '+', label: 'years of running operations before writing software' },
-  { value: 9000, prefix: '$', suffix: '+', label: 'in operating cost avoided by ASTA OS' },
+  { value: 9000, prefix: '$', suffix: '+', label: 'in operating cost avoided by Trade OS' },
   { value: 0, prefix: '', suffix: '', label: 'messages, approvals or payments made without a person' },
 ];
 
@@ -52,9 +52,9 @@ const steps = [
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <a class="live-pill" href="/work/asta-os/">
+        <a class="live-pill" href="/work/trade-os/">
           <span class="dot" aria-hidden="true"></span>
-          <span>ASTA OS is live in production</span>
+          <span>Trade OS is live in production</span>
           <Icon name="arrow-right" />
         </a>
         <h1>
@@ -163,7 +163,7 @@ const steps = [
       <div class="tested" data-reveal>
         <div>
           <h3>Nothing goes live until every check passes.</h3>
-          <p>ASTA OS cannot be released unless all of its automated checks pass. We build every system to that standard.</p>
+          <p>Trade OS cannot be released unless all of its automated checks pass. We build every system to that standard.</p>
         </div>
         <ul>
           {shipFacts.map((f) => <li><strong>{f.n}</strong><span>{f.l}</span></li>)}

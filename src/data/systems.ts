@@ -1,15 +1,15 @@
 import type { ImageMetadata } from 'astro';
-import astaCommand from '../assets/shots/astaos-command-centre.png';
-import astaProcess from '../assets/shots/astaos-process-map.png';
-import astaPL from '../assets/shots/astaos-order-pl.png';
+import tradeCommand from '../assets/shots/tradeos-command-centre.png';
+import tradeProcess from '../assets/shots/tradeos-process-map.png';
+import tradePL from '../assets/shots/tradeos-order-pl.png';
 import plantToday from '../assets/shots/plantos-today-dark.png';
 import plantMap from '../assets/shots/plantos-plant-map-dark.png';
 import plantPhone from '../assets/shots/plantos-phone-dark.png';
-import aastaDesk from '../assets/shots/aasta-timeline-desk.png';
-import aastaHome from '../assets/shots/aasta-home-phone.png';
-import aastaProgress from '../assets/shots/aasta-progress-phone.png';
-import aastaApprovals from '../assets/shots/aasta-approvals-phone.png';
-import aastaPayments from '../assets/shots/aasta-payments-phone.png';
+import buildDesk from '../assets/shots/buildportal-timeline-desk.png';
+import buildHome from '../assets/shots/buildportal-home-phone.png';
+import buildProgress from '../assets/shots/buildportal-progress-phone.png';
+import buildApprovals from '../assets/shots/buildportal-approvals-phone.png';
+import buildPayments from '../assets/shots/buildportal-payments-phone.png';
 
 export type Status = 'production' | 'launching' | 'build' | 'demo';
 
@@ -53,14 +53,14 @@ export interface System {
 
 export const systems: System[] = [
   {
-    slug: 'asta-os',
-    name: 'ASTA OS',
+    slug: 'trade-os',
+    name: 'Trade OS',
     kind: 'Operations system',
     icon: 'workflow',
     status: 'production',
     statusNote: 'Live in production',
     tagline: 'One commercial cycle, from customer enquiry to order profit, in a single system.',
-    builtFor: 'A biochemicals trading company in Bengaluru',
+    builtFor: 'A biochemicals trading company in India',
     problem:
       'Enquiries arrived by email and PDF. Vendor quotes lived in spreadsheets. Landed cost was worked out by hand, and the profit on an order was only known long after it closed.',
     built: [
@@ -87,15 +87,14 @@ export const systems: System[] = [
     highlights: ['Enquiry to profit in one flow', 'Rules enforced in the database', 'A person approves every send'],
     visual: 'screens',
     screens: [
-      { src: astaCommand, alt: 'ASTA OS Command Centre showing enquiries, quotations, purchase orders and the enquiry pipeline with sample data', caption: 'Command Centre: the owner’s view of the whole pipeline.', kind: 'desktop', url: 'asta-os / command-centre' },
-      { src: astaProcess, alt: 'ASTA OS process map showing the six steps from enquiry to vendor purchase order, with approval points marked', caption: 'Process map: every step, and every point where a person must approve.', kind: 'desktop', url: 'asta-os / process-map' },
-      { src: astaPL, alt: 'ASTA OS order profitability screen listing sample orders with sales value, actual cost and gross margin', caption: 'Order P&L: margin per order against actual cost.', kind: 'desktop', url: 'asta-os / order-pl' },
+      { src: tradeCommand, alt: 'Trade OS Command Centre showing enquiries, quotations, purchase orders and the enquiry pipeline with sample data', caption: 'Command Centre: the owner’s view of the whole pipeline.', kind: 'desktop', url: 'trade-os / command-centre' },
+      { src: tradeProcess, alt: 'Trade OS process map showing the six steps from enquiry to vendor purchase order, with approval points marked', caption: 'Process map: every step, and every point where a person must approve.', kind: 'desktop', url: 'trade-os / process-map' },
+      { src: tradePL, alt: 'Trade OS order profitability screen listing sample orders with sales value, actual cost and gross margin', caption: 'Order P&L: margin per order against actual cost.', kind: 'desktop', url: 'trade-os / order-pl' },
     ],
-    demo: { href: 'https://asta-os-prototype.vercel.app/', label: 'Open the design prototype' },
   },
   {
-    slug: 'aasta-lifespace',
-    name: 'Aasta Lifespace',
+    slug: 'build-portal',
+    name: 'Build Portal',
     kind: 'Client app and staff portal',
     icon: 'smartphone',
     status: 'launching',
@@ -128,11 +127,11 @@ export const systems: System[] = [
     highlights: ['Homeowner app and staff portal', 'Role-based access in the database', 'Web, Android and iOS'],
     visual: 'screens',
     screens: [
-      { src: aastaDesk, alt: 'Aasta Lifespace project screen on desktop, showing the construction timeline for a sample project with 15 stages, 7 completed', caption: 'Project timeline: every stage, its date and where it stands.', kind: 'desktop', url: 'aasta-lifespace / project / timeline' },
-      { src: aastaHome, alt: 'Aasta Lifespace homeowner home screen on a phone, showing a sample project at 57% overall progress and on schedule', caption: 'My Home: where the build stands today.', kind: 'phone', url: '' },
-      { src: aastaProgress, alt: 'Aasta Lifespace progress screen on a phone, showing 15 milestones for a sample project with 7 completed', caption: 'Progress: all 15 stages, with dates.', kind: 'phone', url: '' },
-      { src: aastaApprovals, alt: 'Aasta Lifespace approvals screen on a phone, listing sample selections waiting for the homeowner', caption: 'Approvals: choices waiting for the homeowner.', kind: 'phone', url: '' },
-      { src: aastaPayments, alt: 'Aasta Lifespace payments screen on a phone, showing sample contract value, amount paid and amount outstanding', caption: 'Payments: paid, outstanding and what is due next.', kind: 'phone', url: '' },
+      { src: buildDesk, alt: 'Build Portal project screen on desktop, showing the construction timeline for a sample project with 15 stages, 7 completed', caption: 'Project timeline: every stage, its date and where it stands.', kind: 'desktop', url: 'build-portal / project / timeline' },
+      { src: buildHome, alt: 'Build Portal homeowner home screen on a phone, showing a sample project at 57% overall progress and on schedule', caption: 'My Home: where the build stands today.', kind: 'phone', url: '' },
+      { src: buildProgress, alt: 'Build Portal progress screen on a phone, showing 15 milestones for a sample project with 7 completed', caption: 'Progress: all 15 stages, with dates.', kind: 'phone', url: '' },
+      { src: buildApprovals, alt: 'Build Portal approvals screen on a phone, listing sample selections waiting for the homeowner', caption: 'Approvals: choices waiting for the homeowner.', kind: 'phone', url: '' },
+      { src: buildPayments, alt: 'Build Portal payments screen on a phone, showing sample contract value, amount paid and amount outstanding', caption: 'Payments: paid, outstanding and what is due next.', kind: 'phone', url: '' },
     ],
   },
   {
